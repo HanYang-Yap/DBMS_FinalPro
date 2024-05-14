@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dbmaG6_admin1</title>
+    <link rel="stylesheet" href="./admin2.css" />
+  </head>
+  <!-- start of body -->
+  <body>
+    <!-- header is here -->
+    <header>
+      <!-- user_icon is here -->
+      <div class="user_icon">
+        <a href="#"
+          ><img src="../home&loginpage/Image/NCCU_logo.png" alt="admin頭貼"
+        /></a>
+        <h3>Hi! 123456 (admin)</h3>
+      </div>
+
+      <div class="login_time">
+        <!-- <p id="current_date"></p>接上current time -->
+        <div id="current_date" style="font-weight: bold; font-size: smaller">
+          <script>
+            // Get the current date
+            var currentDate = new Date().toLocaleString();
+
+            // Concatenate "Login time:" with the date string
+            var dateTimeString = "(登入時間) " + currentDate;
+
+            // Set the concatenated string as the inner HTML of the div
+            document.getElementById("current_date").innerHTML = dateTimeString;
+          </script>
+        </div>
+      </div>
+    </header>
+    <!-- main section is here -->
+    <div class="main_sec">
+      <div class="container">
+        <!-- 場地dropdown -->
+        <div class="dropdown">
+          <label for="anc_venue">欲公告場地：</label>
+          <select id="venue">
+            <option value="venue1">羽球場</option>
+            <option value="venue2">籃球場</option>
+            <option value="venue3">排球場</option>
+            <!--<option value="venue4">場地4</option>
+                    <option value="venue5">綜合球類練習區</option>
+                    <option value="venue6">六期運動場</option>-->
+          </select>
+        </div>
+        <!-- 欲公告日期dropdown -->
+        <div class="dropdown">
+          <label for="date">欲公告日期：</label>
+          <input type="date" id="date" />
+        </div>
+        <!-- 欲公告時間dropdown -->
+        <div class="dropdown">
+          <label for="time">欲公告時間：</label>
+          <input type="time" id="time" />
+        </div>
+        <!-- 欲公告文字input box -->
+        <div class="dropdown">
+          <label for="date">欲公告文字：</label>
+          <textarea
+            id="textarea"
+            name="textarea"
+            rows="10"
+            cols="50"
+          ></textarea>
+        </div>
+        <div class="dropdown">
+          <input type="checkbox" id="checkbox" name="checkbox" />
+          <label for="checkbox">置頂此公告</label>
+        </div>
+      </div>
+      <div class="btns">
+        <button class="abandon">abandon</button>
+        <button class="post">post</button>
+      </div>
+    </div>
+  </body>
+</html>
