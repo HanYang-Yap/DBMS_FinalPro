@@ -36,13 +36,13 @@ public class SecurityConfig {
         http
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users").permitAll()
+                        .requestMatchers("/userInterface").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .anyRequest().permitAll())
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .usernameParameter("email")
-                        .defaultSuccessUrl("/users", true)
+                        .loginPage("/loginpage")
+                        .usernameParameter("ID")
+                        .defaultSuccessUrl("/userInterface", true)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/api/user/logout")

@@ -7,26 +7,61 @@ import org.springframework.web.bind.annotation.*;
 public class WebPageController {
     @GetMapping("/")
     public String defaultUrl() {
-        return "redirect:/login";
+        return "redirect:/home&loginpage/index";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/home&loginpage/loginpage")
     public String login() {
-        return "login";
+        return "home&loginpage/loginpage";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "registration";
+    @GetMapping("/home&loginpage/signup")
+    public String signup() {
+        return "home&loginpage/signup";
     }
 
-    @GetMapping("/buyerhome")
-    public String home() {
-        return "buyerHome";
+    @GetMapping("/adminPages/admin1")
+    public String admin1() {
+        return "admin1";
     }
 
-    @GetMapping("/sellerhome")
-    public String sellerHome() {
-        return "sellerHome";
+    @GetMapping("/adminPages/admin2")
+    public String admin2() {
+        return "admin2";
+    }
+
+    @GetMapping("/reservation1")
+    public String resevation() {
+        return "reservation1";
+    }
+
+    @GetMapping("/userInterface")
+    public String user() {
+        return "userInterface";
+    }
+
+    @GetMapping("/venues/badminton")
+    public String badminton() {
+        return "badminton";
+    }
+
+    @GetMapping("/venues/basketball")
+    public String basketball() {
+        return "basketball";
+    }
+
+    @GetMapping("/venues/gym")
+    public String gym() {
+        return "gym";
+    }
+
+    @GetMapping("/venues/swimmingPool")
+    public String swimmingPool() {
+        return "swimmingPool";
+    }
+
+    @GetMapping("/venues/tennis")
+    public String tennis() {
+        return "tennis";
     }
 }
