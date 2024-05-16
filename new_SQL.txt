@@ -1,0 +1,95 @@
+CREATE SCHEMA `1122dbms` ;
+
+CREATE TABLE `1122dbms`.`user` (
+  `User_id` INT UNSIGNED NOT NULL,
+  `User_Name` VARCHAR(45) NOT NULL,
+  `identity` VARCHAR(5) NOT NULL,
+  `Department` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`User_id`),
+  UNIQUE INDEX `user_id_UNIQUE` (`User_id` ASC) VISIBLE);
+
+CREATE TABLE `1122dbms`.`membership` (
+  `User_id` INT UNSIGNED NOT NULL,
+  `Type` VARCHAR(5) NULL,
+  `Start_date` DATE NULL,
+  `Expired_date` DATE NULL,
+  PRIMARY KEY (`User_id`),
+  UNIQUE INDEX `User_id_UNIQUE` (`User_id` ASC) VISIBLE,
+  CONSTRAINT `User_id`
+    FOREIGN KEY (`User_id`)
+    REFERENCES `1122dbms`.`user` (`User_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `1122dbms`.`admin` (
+  `Adm_id` INT UNSIGNED NOT NULL,
+  `Adm_name` VARCHAR(15) NOT NULL,
+  `Authority` VARCHAR(10) NOT NULL,
+  `Contact_number` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`Adm_id`),
+  UNIQUE INDEX `Adm_id_UNIQUE` (`Adm_id` ASC) VISIBLE);
+
+CREATE TABLE `1122dbms`.`venue` (
+  `Venue_id` INT NOT NULL,
+  `Venue_name` VARCHAR(10) NOT NULL,
+  `Fee_type` VARCHAR(10) NOT NULL,
+  `Fee_amount` INT NOT NULL,
+  `RTQuantity` INT UNSIGNED NOT NULL,
+  `AQauntity` INT UNSIGNED NOT NULL,
+  `Adm_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`Venue_id`),
+  UNIQUE INDEX `venue_id_UNIQUE` (`Venue_id` ASC) VISIBLE,
+  UNIQUE INDEX `Venue_name_UNIQUE` (`Venue_name` ASC) VISIBLE,
+  UNIQUE INDEX `ResUnit_id_UNIQUE` (`Adm_id` ASC) VISIBLE,
+  CONSTRAINT `Adm_id`
+    FOREIGN KEY (`Adm_id`)
+    REFERENCES `1122dbms`.`admin` (`Adm_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `1122dbms`.`application` (
+  `App_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `User_id` INT UNSIGNED NOT NULL,
+  `Venue_id` INT NOT NULL,
+  `Reserve_time` DATETIME NOT NULL,
+  `Purpose` VARCHAR(50) NOT NULL,
+  `NumberOfUser` INT UNSIGNED NOT NULL,
+  `OtherUser` VARCHAR(60) NULL,
+  `App_status` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`App_id`),
+  UNIQUE INDEX `App_id_UNIQUE` (`App_id` ASC) VISIBLE,
+  UNIQUE INDEX `Venue_id_UNIQUE` (`Venue_id` ASC) VISIBLE,
+  UNIQUE INDEX `User_id_UNIQUE` (`User_id` ASC) VISIBLE,
+  CONSTRAINT `User_id_app`
+    FOREIGN KEY (`User_id`)
+    REFERENCES `1122dbms`.`user` (`User_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `Venue_id_app`
+    FOREIGN KEY (`Venue_id`)
+    REFERENCES `1122dbms`.`venue` (`Venue_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `1122dbms`.`notification` (
+  `Noti_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Adm_id` INT UNSIGNED NOT NULL,
+  `Venue_id` INT NOT NULL,
+  `Sent_date` DATE NOT NULL,
+  `Context` VARCHAR(100) NOT NULL,
+  `Pin` BINARY NOT NULL,
+  PRIMARY KEY (`Noti_id`),
+  UNIQUE INDEX `Noti_id_UNIQUE` (`Noti_id` ASC) VISIBLE,
+  UNIQUE INDEX `Adm_id_UNIQUE` (`Adm_id` ASC) VISIBLE,
+  UNIQUE INDEX `Venue_id_UNIQUE` (`Venue_id` ASC) VISIBLE,
+  CONSTRAINT `Venue_id_noti`
+    FOREIGN KEY (`Venue_id`)
+    REFERENCES `1122dbms`.`venue` (`Venue_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `Adm_id_noti`
+    FOREIGN KEY (`Adm_id`)
+    REFERENCES `1122dbms`.`admin` (`Adm_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
