@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface VenueRepository extends JpaRepository<Venue, Long> {
     List<Venue> findAll();
-
+    List<Venue> findByVenueId(Long venueId);
     List<Venue> findByVenueName(String venueName);
 }
