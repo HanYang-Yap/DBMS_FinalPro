@@ -14,7 +14,7 @@ $(document).ready(function () {
                 alert('Welcome, ' + response.nickname);
                 localStorage.setItem('nickname', response.nickname);
                 localStorage.setItem('userId', response.id);
-                window.location.href = '/buyerhome';
+                window.location.href = '/homepage';
             },
             error: function (response) {
                 alert('Error: ' + response.responseText);
