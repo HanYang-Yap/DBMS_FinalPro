@@ -23,7 +23,7 @@
                 contentType: 'application/json',
                 // If success, alert user and redirect to login page
                 success: function (response) {
-                    alert(response.username + ' registered successfully');
+                    alert(response.username + ' Sign Up successfully');
                     window.location.href = '/loginpage';
                 },
                 // If error, alert user
