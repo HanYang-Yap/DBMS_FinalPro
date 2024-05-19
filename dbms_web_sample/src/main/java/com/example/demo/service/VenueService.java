@@ -15,6 +15,10 @@ public class VenueService {
         this.venueRepository = venueRepository;
     }
 
+    public List<Venue> getAllVenues() {
+        return venueRepository.findAll();
+    }
+
     public List<Venue> getUsers() {
         return venueRepository.findAll();
     }
