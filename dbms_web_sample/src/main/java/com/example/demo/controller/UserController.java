@@ -28,7 +28,7 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         Optional<User> existingUser = userService.getUserByEmail(user.getEmail());
         if (existingUser.isPresent()) {
-            return new ResponseEntity<>("There is already a user registered with the provided username.",
+            return new ResponseEntity<>("This ID had been used.",
                    HttpStatus.CONFLICT);
         }
 
