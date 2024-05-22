@@ -50,7 +50,9 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
+    /*                                     temporary 
     public String getNickname() {
         return user.getNickname();
     }
+    */
 }

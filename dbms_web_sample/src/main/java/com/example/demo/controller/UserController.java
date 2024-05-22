@@ -54,7 +54,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/logout")            // I didnt use the logout
     public ResponseEntity<String> logoutUser(HttpServletRequest request) {
         SecurityContextHolder.getContext().setAuthentication(null);
         request.getSession().invalidate();

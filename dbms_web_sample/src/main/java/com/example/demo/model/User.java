@@ -12,6 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //I didnt use the email 
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
@@ -19,7 +20,7 @@ public class User {
     private String password;
 
     @Column(nullable = false, length = 20)
-    private String nickname;
+    private String username;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Product> products;
@@ -28,11 +29,11 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String email, String password, String nickname) {
+    public User(Long id, String email, String password, String username) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
+        this.username = username;
     }
 
     // Getters and Setters
@@ -60,11 +61,11 @@ public class User {
         this.password = password;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
