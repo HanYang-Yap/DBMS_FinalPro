@@ -1,3 +1,4 @@
+/* 
 package com.example.demo.controller;
 
 import com.example.demo.model.Product;
@@ -6,6 +7,7 @@ import com.example.demo.service.ProductService;
 import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +33,9 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
+
+    @GetMapping("/api/products/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
@@ -55,3 +58,5 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 }
+
+*/

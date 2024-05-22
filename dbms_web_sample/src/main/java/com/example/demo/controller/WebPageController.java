@@ -1,3 +1,4 @@
+/*
 package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
@@ -64,4 +65,43 @@ public class WebPageController {
     public String tennis() {
         return "tennis";
     }
+
+    @GetMapping("/home&loginpage/style.css")
+    public String style() {
+        return "style.css";
+    }
+
+    @GetMapping("/home&loginpage/style1.css")
+    public String style1() {
+        return "style1.css";
+    }
+
+    @GetMapping("/home&loginpage/NCCU_Gymnasium.jpg")
+    public String NCCU_Gymnasium() {
+        return "NCCU_Gymnasium.jpg";
+    }
+
+    @GetMapping("/home&loginpage/NCCU_logo.jpg")
+    public String NCCU_logo() {
+        return "NCCU_logo.jpg";
+    }
+
+    @GetMapping("/home&loginpage/NCCU_SportVenue.jpg")
+    public String NCCU_SportVenue() {
+        return "NCCU_SportVenue.jpg";
+    }
+
+    @GetMapping("/home&loginpage/NCCU_LiuQi.jpg")
+    public String NCCU_LiuQi() {
+        return "NCCU_LiuQi.jpg";
+    }
+
+    @GetMapping("/home&loginpage/Sport_Day_Banner.jpg")
+    public String Sport_Day_Banner() {
+        return "Sport_Day_Banner.jpg";
+    }
+    
+
 }
+
+*/

@@ -1,3 +1,4 @@
+/*
 package com.example.demo.controller;
 
 import com.example.demo.model.Product;
@@ -55,3 +56,5 @@ public class VenueController {
         productService.deleteProduct(id);
     }
 }
+
+*/
