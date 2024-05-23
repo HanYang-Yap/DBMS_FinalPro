@@ -88,3 +88,4 @@ public class Notification {
         this.pin = pin;
     }
 }
+

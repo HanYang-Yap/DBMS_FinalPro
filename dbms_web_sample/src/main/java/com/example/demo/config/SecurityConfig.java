@@ -13,6 +13,8 @@ import com.example.demo.service.CustomUserDetailsService;
 
 @Configuration
 public class SecurityConfig {
+
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
@@ -54,4 +56,5 @@ public class SecurityConfig {
         http.cors(cors -> cors.disable());
         return http.build();
     }
+
 }

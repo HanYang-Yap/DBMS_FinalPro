@@ -6,6 +6,7 @@ import com.example.demo.service.ProductService;
 import com.example.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,10 +32,11 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
-        return productService.getProductById(id);
-    }
+
+    // @GetMapping("/api/products/{id}")
+    // public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    //     return productService.getProductById(id);
+    // }
 
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
