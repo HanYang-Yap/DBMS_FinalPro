@@ -19,10 +19,6 @@ public class VenueService {
         return venueRepository.findAll();
     }
 
-    public List<Venue> getUsers() {
-        return venueRepository.findAll();
-    }
-
     public List<Venue> findByVenueId(Long venueId) {
         return venueRepository.findByVenueId(venueId);
     }
@@ -31,12 +27,17 @@ public class VenueService {
         return venueRepository.findByVenueName(venueName);
     }
 
-    public Venue createUser(Venue user) {
-        return venueRepository.save(user);
+    public Venue getVenueById(Long id) {
+        return venueRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Venue not found with id " + id));
     }
 
-    public Venue updateUser(Venue user) {
-        return venueRepository.save(user);
+    public Venue createVenue(Venue venue) {
+        return venueRepository.save(venue);
+    }
+
+    public Venue updateVenue(Venue venue) {
+        return venueRepository.save(venue);
     }
 
     public void deleteVenue(Long id) {
