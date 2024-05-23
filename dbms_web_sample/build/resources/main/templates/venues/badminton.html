@@ -57,6 +57,20 @@
         .contentNoti p {
             line-height: 0.9;
         }
+        
+        .notice {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .notice span {
+            margin-right: 10px;
+        }
+
+        .notice span:last-child {
+            margin-left: auto;
+        }
         </style>
     </head>
     <body>
@@ -77,8 +91,11 @@
             <div class="container">
                 <h2 class="title2">最新通知</h2>
                 <div class="contentNoti">
-                    <p>通知1</p>
-                    <p>通知2</p>
+                    <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <span style="margin-right: 10px;"></span>
+                        <span style="flex-grow: 1;">通知一啦啦啦</span>
+                        <span style="margin-left: 10px;"><small>2024-05-23</small></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -93,5 +110,6 @@
                 calendar.render();
             });
         </script>
+         <script src="../../static/badminton.js"></script>
     </body>
 </html>
