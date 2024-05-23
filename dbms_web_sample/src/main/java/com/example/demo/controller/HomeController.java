@@ -14,10 +14,23 @@ public class HomeController implements WebMvcConfigurer {
         return "home&loginpage/index"; // Return the name of your HTML or Thymeleaf template
     }
 
-    @GetMapping("/home&loginpage/index")
-    public String homeLoginPage() {
-        return "home&loginpage/index"; // Return the name of your HTML or Thymeleaf template
+    // @GetMapping("/home&loginpage/index")
+    // public String homeLoginPage() {
+    //     return "home&loginpage/index"; // Return the name of your HTML or Thymeleaf template
+    // }
+
+    @GetMapping("/loginpage")
+    public String loginPage() {
+        return "home&loginpage/loginpage"; // Assuming "loginpage" is the name of your login HTML file
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "home&loginpage/signup"; // Assuming "loginpage" is the name of your login HTML file
+    }
+
+
+
 
     @SuppressWarnings("null")
     @Override
