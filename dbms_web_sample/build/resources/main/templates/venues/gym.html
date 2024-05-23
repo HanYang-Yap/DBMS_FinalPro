@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>健身房</title> 
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            margin-top: 20px;
+            padding: 0;
+        }
+        .title1 {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        .wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 230px;
+        }
+        .container {
+            flex-basis: calc(60% - 10px);
+            background-color: #b0d6e5;
+            box-sizing: border-box;
+            justify-content: center;
+            margin: 0 30px;
+            height: 220px
+        }
+        .title2 {
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            color: white;
+        }
+        .calendar {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .contentRTQ {
+            text-align: center;
+            height: 210px;
+            margin-top: 40px;
+            overflow: auto;
+            font-size: 70px;
+            color: white;
+        }
+        .contentNoti {
+            height: 210px;
+            overflow: auto;
+            float: left;
+            margin: 0 25px;
+        }
+        .contentNoti p {
+            line-height: 0.9;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="title1">
+            <h1>健身房</h1><!-- 換成場地的名字 -->
+        </div>
+        <div class="wrapper">
+            <div class="container">
+                <h2 class="title2">實時人數</h2>
+                <div class="contentRTQ">
+                    <div class="current">5
+                    <span>/</span>
+                    <span class="total">10</span>
+                    </div>
+                    <!-- 讀取各自數字 -->
+                </div>
+            </div>
+            <div class="container">
+                <h2 class="title2">最新通知</h2>
+                <div class="contentNoti">
+                    <p>通知1</p>
+                    <p>通知2</p>
+                </div>
+            </div>
+        </div>
+        <div id='gymCalendar' class="calendar"></div>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('gymCalendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+                });
+                calendar.render();
+            });
+        </script>
+    </body>
+</html>
