@@ -1,49 +1,90 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String message;
-    private String type;
-    // Add other fields as needed
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Noti_id")
+    private Long Noti_id;
 
-    // Default constructor
+    @ManyToOne
+    @JoinColumn(name = "Admin_id", referencedColumnName = "Admin_id", nullable = false)
+    private Admin admin_id;
+
+    @ManyToOne
+    @JoinColumn(name = "Venue_id", referencedColumnName = "Venue_id", nullable = false)
+    private Venue venue_id;
+
+    @Column(name = "Sent_date", nullable = false)
+    private LocalDate sent_date;
+
+    @Column(name = "Context", nullable = false, length = 100)
+    private String context;
+
+    @Column(name = "Pin", nullable = false)
+    private boolean pin;
+
     public Notification() {
     }
 
-    // Constructor with fields
-    public Notification(String message, String type) {
-        this.message = message;
-        this.type = type;
+    public Notification(Long Noti_id, Admin admin_id, Venue venue_id, LocalDate sent_date, String context, boolean pin) {
+        this.Noti_id = Noti_id;
+        this.admin_id = admin_id;
+        this.venue_id = venue_id;
+        this.sent_date = sent_date;
+        this.context = context;
+        this.pin = pin;
     }
 
-    // Getters and setters
-    public Long getId() {
-        return id;
+    public Long getNoti_id() {
+        return Noti_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNoti_id(Long Noti_id) {
+        this.Noti_id = Noti_id;
     }
 
-    public String getMessage() {
-        return message;
+    public Admin getAdmin_id() {
+        return admin_id;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setAdmin_id(Admin admin_id) {
+        this.admin_id = admin_id;
     }
 
-    public String getType() {
-        return type;
+    public Venue getVenue_id() {
+        return venue_id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setVenue_id(Venue venue_id) {
+        this.venue_id = venue_id;
+    }
+
+    public LocalDate getSent_date() {
+        return sent_date;
+    }
+
+    public void setSent_date(LocalDate sent_date) {
+        this.sent_date = sent_date;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
+    public boolean isPin() {
+        return pin;
+    }
+
+    public void setPin(boolean pin) {
+        this.pin = pin;
     }
 }
