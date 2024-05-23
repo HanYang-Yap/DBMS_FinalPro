@@ -15,7 +15,7 @@ public class NotiService {
         this.notiRepository = notiRepository;
     }
 
-    public List<Notification> getUsers() {
+    public List<Notification> getNotis() {
         return notiRepository.findAll();
     }
 
@@ -23,15 +23,19 @@ public class NotiService {
         return notiRepository.findByNotiId(noti_Id);
     }
 
-    public Notification createUser(Notification user) {
-        return notiRepository.save(user);
+    public Notification getNotiById(Long id) {
+        return notiRepository.findById(id).orElseThrow(() -> new RuntimeException("Notification not found with id " + id));
     }
 
-    public Notification updateUser(Notification user) {
-        return notiRepository.save(user);
+    public Notification createNoti(Notification noti) {
+        return notiRepository.save(noti);
     }
 
-    public void deleteVenue(Long id) {
+    public Notification updateNoti(Notification noti) {
+        return notiRepository.save(noti);
+    }
+
+    public void deleteNoti(Long id) {
         notiRepository.deleteById(id);
     }
 }

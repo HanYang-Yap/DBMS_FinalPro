@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Venue;
-import com.example.demo.model.Notification;
 import com.example.demo.service.VenueService;
-import com.example.demo.service.NotiService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +13,6 @@ import java.util.List;
 public class VenueController {
     @Autowired
     private VenueService venueService;
-    @Autowired
-    private NotiService notiService;
 
     @GetMapping
     public List<Venue> listAllVenues(@RequestParam(required = false, name = "venueName") String venueName) {
