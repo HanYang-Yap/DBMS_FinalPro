@@ -16,18 +16,14 @@ public class Admin{
     @Column(name = "Authority",nullable = false, length = 10)
     private String authority;
 
-    @Column(name = "contact_number",nullable = false, length = 45)
-    private String number;
-
     // Constructors
     public Admin() {
     }
 
-    public Admin(Long Adm_id, String Adm_name, String authority, String number) {
+    public Admin(Long Adm_id, String Adm_name, String authority) {
         this.Adm_id = Adm_id;
         this.Adm_name = Adm_name;
         this.authority = authority;
-        this.number = number;
     }
 
     // Getters and Setters
@@ -53,13 +49,5 @@ public class Admin{
 
     public void setAuthority(String authority) {
         this.authority = authority;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
     }
 }
