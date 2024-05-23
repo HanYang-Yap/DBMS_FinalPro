@@ -1,4 +1,3 @@
-/* 
 package com.example.demo.controller;
 
 import com.example.demo.model.Product;
@@ -34,10 +33,10 @@ public class ProductController {
     }
 
 
-    @GetMapping("/api/products/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
-    }
+    // @GetMapping("/api/products/{id}")
+    // public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+    //     return productService.getProductById(id);
+    // }
 
     @PostMapping
     public Product createProduct(@RequestBody Product product) {
@@ -58,5 +57,3 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 }
-
-*/

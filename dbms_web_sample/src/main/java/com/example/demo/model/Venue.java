@@ -1,4 +1,4 @@
-/*
+
 package com.example.demo.model;
 import jakarta.persistence.*;
 
@@ -23,5 +23,3 @@ public class Venue {
         this.name = name;
     }
 }
-
-*/

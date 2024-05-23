@@ -1,4 +1,4 @@
-/*
+
 package com.example.demo.repository;
 
 import java.util.List;
@@ -11,4 +11,3 @@ public interface VenueRepository extends JpaRepository<Venue, Long> {
     List<Venue> findByVenueName(String venueName);
 }
 
-*/
