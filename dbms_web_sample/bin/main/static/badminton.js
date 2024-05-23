@@ -13,9 +13,9 @@ $(document).ready(function () {
                 notices.forEach(function (notice) {
                     $('.contentNoti').append(`
                         <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <span style="margin-right: 10px;">${notice.pinned ? '📌' : ''}</span>
-                        <span style="flex-grow: 1;">${notice.content}</span>
-                        <span style="margin-left: 10px;"><small>${notice.date}</small></span>
+                        <span style="margin-right: 10px;">${notice.pin ? '📌' : ''}</span>
+                        <span style="flex-grow: 1;">${notice.context}</span>
+                        <span style="margin-left: 10px;"><small>${notice.sent_date}</small></span>
                         </div>
                     `);
                 });
