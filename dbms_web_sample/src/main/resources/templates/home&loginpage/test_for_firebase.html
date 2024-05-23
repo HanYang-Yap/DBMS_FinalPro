@@ -32,14 +32,14 @@
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCpo-BEgg7aBIHFiyux6okmfCB-YUpD8og",
-            authDomain: "fir-testing-24c54.firebaseapp.com",
-            databaseURL: "https://fir-testing-24c54-default-rtdb.firebaseio.com",
-            projectId: "fir-testing-24c54",
-            storageBucket: "fir-testing-24c54.appspot.com",
-            messagingSenderId: "212451716919",
-            appId: "1:212451716919:web:ca1d18732abf599a6674b2",
-        };
+            apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+            authDomain: "db-github-11ca8.firebaseapp.com",
+            databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "db-github-11ca8",
+            storageBucket: "db-github-11ca8.appspot.com",
+            messagingSenderId: "236802727820",
+            appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+  };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
@@ -70,4 +70,76 @@
         });
     </script>
 </body>
+
+<style>
+    *
+{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+}
+body
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url(../firebase_testing2/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.box
+{
+    padding: 20px 30px;
+    width: 300px;
+    height: 400px;
+    backdrop-filter: blur(50px);
+    border-radius: 5px;
+    background: rgba(49, 49, 49, .2);
+    border: 1px solid rgba(255, 255, 255, .5);
+}
+.box .form
+{
+    padding: 10px 20px;
+}
+.box .form h2
+{
+    text-align: center;
+    color: #fff;
+}
+.box .form form
+{
+    margin-top: 50px;
+    align-items: center;
+}
+.box .form form .inputbox input
+{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: 1px solid #12151e;
+    margin-bottom: 30px;
+    color: #fff;
+}
+.box .form form .inputbox span
+{
+    position: absolute;
+    transform: translateY(-80px);
+    font-size: 14px;
+    color: #fff;
+}
+.box .form form .sub
+{
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    outline: none;
+    background: #0cc0df;
+    cursor: pointer;
+    font-size: 16px;
+}
+</style>
+
 </html>
