@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Login Form</h2>
+            <form id="loginForm">
+                <div class="inputbox">
+                    <input type="text" id="username" required>
+                    <span>Username</span>
+                </div>
+                <div class="inputbox">
+                    <input type="email" id="email" required>
+                    <span>E-mail</span>
+                </div>
+                <div class="inputbox">
+                    <input type="text" id="phone" required>
+                    <span>Phone Number</span>
+                </div>
+                <button type="submit" class="sub">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCpo-BEgg7aBIHFiyux6okmfCB-YUpD8og",
+            authDomain: "fir-testing-24c54.firebaseapp.com",
+            databaseURL: "https://fir-testing-24c54-default-rtdb.firebaseio.com",
+            projectId: "fir-testing-24c54",
+            storageBucket: "fir-testing-24c54.appspot.com",
+            messagingSenderId: "212451716919",
+            appId: "1:212451716919:web:ca1d18732abf599a6674b2",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Get reference to database service
+        const db = getDatabase(app);
+
+        // Handle form submission
+        document.getElementById("loginForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const phone = document.getElementById("phone").value;
+
+            // Write data to Firebase Realtime Database
+            set(ref(db, 'users/' + username), {
+                username: username,
+                email: email,
+                phone: phone
+            })
+            .then(() => {
+                alert("Login Successfully!");
+            })
+            .catch((error) => {
+                console.error("Error saving data:", error);
+            });
+        });
+    </script>
+</body>
+</html>
