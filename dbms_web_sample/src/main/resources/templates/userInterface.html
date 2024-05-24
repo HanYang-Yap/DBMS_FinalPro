@@ -4,159 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>校園場地預約與線上付費系統</title>
-    <style>
-        body {
-            background-color: white;
-            color: black;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: rgb(225, 239, 243);
-            width: 98%;
-            height: 50px;
-            padding: 0 20px;
-        }
-        .user-icon {
-            width: 25px;
-            height: 25px;
-            margin-left: 20px;
-        }
-        .notification-icon {
-            float: right;
-            width: 25px;
-            height: 25px;
-            margin-right: 10px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .button-container {
-            width: 400px;
-            height: 100px;
-            background-color: rgb(192, 226, 238);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .button-container:hover {
-            background-color: rgb(177, 215, 230);
-        }
-        .button-text {
-            font-size: 25px;
-            margin-left: 10px;
-        }
-        .button-icon {
-            width: 50px;
-            height: 50px;
-            margin-left: 10px;
-        }
-        .user-details {
-            margin-left: 40px;
-            margin-top: 0px;
-        }
-
-        .content {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start; /* 將子元素上對齊 */
-        margin-top: 20px; /* 可以根據需要調整上邊距 */
-        }
-
-        .rights-history {
-            margin-top: 20px;
-            height: 200px; /* 設定表格區域的高度，使其可以滾動 */
-            overflow-y: auto; /* 允許垂直滾動 */
-            margin: 0 auto; /* 使用 margin 屬性來水平置中 */
-            width: 50%; /* 設置表格寬度，可以根據需要進行調整 */
-        }
-        .notification-button {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .reservation-history {
-            margin-top: 20px;
-            height: 200px; /* 設定表格區域的高度，使其可以滾動 */
-            overflow-y: auto; /* 允許垂直滾動 */
-            margin: 0 auto; /* 使用 margin 屬性來水平置中 */
-            width: 95%; /* 設置表格寬度，可以根據需要進行調整 */
-        }
-        table {
-            width: 90%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: rgb(200, 233, 244);
-        }
-        .pay-button {
-            background-color: green;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        .cancel-button {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-    </style>
+    <link rel="stylesheet" href="userInterface.css">
 </head>
 <body>
     <header>
@@ -197,13 +45,12 @@
         </div>
 
         <div class="content">
-                <div class="user-details">
-                    <h2>使用者資料 User Information</h2>
-                    <p>使用者名稱：Chien Starry</p>
-                    <p>學號或教職員號碼：111306031</p>
-                    <p>系級：資管二甲</p>
-                    <p>本學期逾期次數：0</p>
-                </div>
+            <div class="user-details">
+                <h2>使用者資料 User Information</h2>
+                <p>名稱：Chien Starry</p>
+                <p>學號：111306031</p>
+                <p>系所：資管二甲</p>
+            </div>
 
             <div class="rights-history">
                 <h2>權利瀏覽 User Rights</h2>
@@ -212,7 +59,7 @@
                         <tr>
                             <th>地點</th>
                             <th>性質</th>
-                            <th>申請學期</th>
+                            <th>通過時間</th>
                             <th>有效期間</th>
                             <th>通知</th>
                         </tr>
@@ -221,8 +68,8 @@
                         <tr>
                             <td>游泳館</td>
                             <td>月票</td>
-                            <td>112-2</td>
-                            <td>直至2024/05/31</td>
+                            <td>2024/02/01</td>
+                            <td>2024/05/31</td>
                             <td><button class="notification-button" onclick="toggleNotification(this)">Announce</button></td>
                         </tr>
                         <!-- 其他權利項目 -->
@@ -231,7 +78,6 @@
             </div>
         </div>
 
-        
         <div class="reservation-history">
             <h2>歷史資料 History Records</h2>
             <table>
@@ -255,7 +101,7 @@
                         <td>1566VCOU8545J</td>
                         <td style="color: red;">Unpaid</td>
                         <td>NT$ 1,000</td>
-                        <td><button class="pay-button" onclick="openPayment()">Pay</button></td>
+                        <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
                     </tr>
                     <!-- 其他預約記錄 -->
                 </tbody>
@@ -263,35 +109,50 @@
         </div>
 
         <!-- 繳費彈出視窗 -->
-<div id="paymentModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>繳費</h2>
-        <div>
-            <p>申請序號: <span id="modalReservationNumber"></span></p>
-            <p>金額: <span id="modalAmount"></span></p>
-            <label>繳費方式：</label><br>
-            <input type="radio" id="cash" name="paymentMethod" value="cash">
-            <label for="cash">現金支付</label><br>
-            <input type="radio" id="linePay" name="paymentMethod" value="linePay">
-            <label for="linePay">Line Pay</label><br>
-            <input type="radio" id="visa" name="paymentMethod" value="visa">
-            <label for="visa">Visa 信用卡</label><br><br>
-            <button id="completePayment" style="background-color: green; color: white;">完成繳費</button>
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>繳費</h2>
+                <div>
+                    <p>申請序號: <span id="modalReservationNumber"></span></p>
+                    <p>金額: <span id="modalAmount"></span></p>
+                    <label>繳費方式：</label><br>
+                    <input type="radio" id="cash" name="paymentMethod" value="cash">
+                    <label for="cash">現金支付</label><br>
+                    <input type="radio" id="linePay" name="paymentMethod" value="linePay">
+                    <label for="linePay">Line Pay</label><br>
+                    <input type="radio" id="visa" name="paymentMethod" value="visa">
+                    <label for="visa">Visa 信用卡</label><br><br>
+                    <button id="completePayment" style="background-color: green; color: white;">完成繳費</button>
+                    <button id="applyRefund" style="background-color: red; color: white; display: none;">申請退費</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-
     </main>
     
     <script>
-        function openPayment() {
-            // 取得彈出視窗元素
-            var modal = document.getElementById("paymentModal");
+var currentPayButton; // 用於追蹤當前的支付按鈕
 
-            // 顯示彈出視窗
-            modal.style.display = "block";
-        }
+        function openPayment(button) {
+    currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
+    var modal = document.getElementById("paymentModal");
+    modal.style.display = "block";
+    
+     // 根據按鈕的顏色和狀態來決定顯示的按鈕
+     if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
+        document.getElementById("completePayment").style.display = "block";
+        document.getElementById("applyRefund").style.display = "none";
+        document.getElementById("cancelRefund").style.display = "none";
+    } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
+        document.getElementById("completePayment").style.display = "none";
+        document.getElementById("applyRefund").style.display = "block";
+        document.getElementById("cancelRefund").style.display = "none";
+    } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
+        document.getElementById("completePayment").style.display = "none";
+        document.getElementById("applyRefund").style.display = "none";
+        document.getElementById("cancelRefund").style.display = "block";
+    }
+}
 
         // 取得關閉按鈕元素
         var closeBtn = document.getElementsByClassName("close")[0];
@@ -310,7 +171,59 @@
             }
         }
 
+        // 綁定完成繳費和申請退費按鈕的點擊事件
+document.getElementById("completePayment").onclick = completePayment;
+document.getElementById("applyRefund").onclick = applyRefund;
+document.getElementById("cancelRefund").onclick = cancelRefund;
 
+function completePayment() {
+    currentPayButton.textContent = "Pay";
+    currentPayButton.style.backgroundColor = "gray";
+
+    var modal = document.getElementById("paymentModal");
+    modal.style.display = "none";
+
+    // 更新表格中的狀態
+    var row = currentPayButton.closest('tr');
+    var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
+    statusCell.textContent = "Paid";
+    statusCell.style.color = "green";
+}
+
+function applyRefund() {
+    currentPayButton.textContent = "Pay";
+    currentPayButton.style.backgroundColor = "green";
+
+    var modal = document.getElementById("paymentModal");
+    modal.style.display = "none";
+
+    // 更新表格中的狀態
+    var row = currentPayButton.closest('tr');
+    var statusCell = row.cells[4];
+    statusCell.textContent = "Applying";
+    statusCell.style.color = "gray";
+}
+
+// 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+document.querySelectorAll('.pay-button').forEach(button => {
+    button.addEventListener('click', function() {
+        openPayment(this);
+    });
+});
+
+function cancelRefund() {
+    currentPayButton.textContent = "申請退費";
+    currentPayButton.style.backgroundColor = "gray";
+
+    var modal = document.getElementById("paymentModal");
+    modal.style.display = "none";
+
+    // 更新表格中的狀態
+    var row = currentPayButton.closest('tr');
+    var statusCell = row.cells[4];
+    statusCell.textContent = "Paid";
+    statusCell.style.color = "green";
+}
         function goToReservation() {
             // 跳轉至預約頁面的代碼
         }
@@ -328,15 +241,14 @@
         }
 
         function toggleNotification(button) {
-        if (button.style.backgroundColor === 'green') {
-            alert('已完成設定');
-            button.style.backgroundColor = 'gray';
-        } else {
-            alert('已取消通知');
-            button.style.backgroundColor = 'green';
+            if (button.style.backgroundColor === 'green') {
+                alert('已完成設定');
+                button.style.backgroundColor = 'gray';
+            } else {
+                alert('已取消通知');
+                button.style.backgroundColor = 'green';
+            }
         }
-        }
-</script>
     </script>
 </body>
 </html>

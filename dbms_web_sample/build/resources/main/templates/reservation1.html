@@ -209,6 +209,12 @@
             </div>
             <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
                 <div class="dropdown">
+                    <label for="date">預約日期：</label>
+                    <input type="date" id="date">
+                </div>
+            </div>
+            <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
+                <div class="dropdown">
                     <label for="time">預約時間：</label>
                     <select id="time">
                         <option value="time1">9:00 - 12:00</option>
@@ -229,6 +235,7 @@
             </div>
         </div>
 
+        <br><br>
 
         <div id='calendar' class="calendar"></div>
             <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
@@ -267,15 +274,17 @@
                 event.preventDefault();
 
                 // 獲取表單字段值
-                const date = document.getElementById('date').value;
+                const venue = document.getElementById('venue').value;
                 const people = document.getElementById('people').value;
-                const location = document.getElementById('location').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
 
                 // 將數據存儲到 Firestore
                 db.collection('reservations').add({
-                    date: date,
+                    venue: venue,
                     people: people,
-                    location: location
+                    date: date,
+                    time: time
                 }).then(function () {
                     alert('預約已成功保存！');
                 }).catch(function (error) {
