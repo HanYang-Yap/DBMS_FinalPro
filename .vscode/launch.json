@@ -1,31 +1,18 @@
-// {
-//     "configurations": [
-        
-//         {
-//             "type": "java",
-//             "name": "Spring Boot-DbmsWebSampleApplication<dbms_web_sample>",
-//             "request": "launch",
-//             "cwd": "${workspaceFolder}",
-//             "mainClass": "com.example.demo.DbmsWebSampleApplication",
-//             "projectName": "dbms_web_sample",
-//             "args": "",
-//             "envFile": "${workspaceFolder}/.env"
-//         }
-//     ]
-// }
-
-//replace with the service account info in firebase
 {
-    "type": "service_account",
-    "project_id": "db-github-11ca8",
-    "private_key_id": "3c35f5dcc066a1aedd289785870e1a667078eaf4",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGvo2p0wuQWFq8\noZf5BybZaWBZnEFH1tPaKtZF6DeUsn7WlPH7UoE8RImU+uIsmm5OQ1BnQg7HqWqH\n8gK69DyMZNe7bCNbjYCU424VjUG8Xbi8dlA1DMF4+EPkJ5dzE9kDfNOZEomZcY1j\nGsr2CkcuHOl7XQN8JOexiS7rRYFfhtU8QrFGaCx7hwuCMtG7IjY+TFjs7RIhhRHW\nUX3T+nH3yZ3PnF9Yafc9vGpk6rB8Ruy+hmZnaHPGcaV2nTBhhQEuD7auu9gDo8Xd\nH1ffbMv1+3CrvhE8Mwp3v9bx8Gr2Ha5UcRhkptdgdfAMAY4mPnA2RSybKM7SpyPm\ncsCYSa/VAgMBAAECggEAWhxa2dWNKDDPTziLUcdq12eeXnLo7FwcqQ4EIiUkUkDO\nHpfg0X06iGtg4BISi3unqMd/hJngXqnTWfkiQMbtTxCH+fwRWfjiBF/L8WyfEfuC\nf7y7KBp0/FbAXYmP8wbcPecSf5R2nAJuwzEKNh054dANErh9FIQdIxNamSTmADuy\n4TUHyxvbVPDcyxeGoIMeA8Pn6yFnRHSPCV1oRn/IVK5fgib6ufdAsta6MeF+eXQl\nYn8ucgHTy+IlnHIUOaaNX3nyseIR0xq9U9jHjsyQzmDx3jv0yQmdf24jFmDn5otj\nZt81WfX9RhUqLdrpyhBALe4Yxtqs+bw8KIwq/XxEPwKBgQDsAdkofekAgf5t0Vmj\nnqZUt7kNHusEZMwBFQy+ZHOzw9jg4GD/iekrbyt4EKwZpVNzk8ZS3e+pTyHDPFMt\nPSuz3En8IToQr9kUctO5vp2eIbGbkPgujaijJIGmn+6fEzmHafRU9iwzGbwdBrzS\nIdYs4pxvfQwb3cy4cUKO45JR1wKBgQDXlJtZHQiH2sZ404SaA3ebhva4O4gm68bp\nDC7+Lo2qtyDiFElaiNgW5s0+tRDwGEevZ01yFZAxGTzOHDCZk5MWz147O5B4Y06y\nlPQGym08HSrloaxYXf4XAQ5PFv8VokYYhHw8ZvNdvw5+UaEuDvXwnAnTzEIiU9bx\nw48c969uMwKBgQCLFTPC1yDfObyVP1DSSga/2l3ly5i4yCYpZRxTf6NoBzzimZjQ\nP5f4DtXRNhIWMwYREL9Jyp0YbBf7lKt395qvrlyzh2lOuDL4CAuaZSlCLZ0bjr2T\nwcvmCPeXGJ1phczbbqedAk5d9waTHIteUq6DWTDTyx+9tGKXN7f/uUFblQKBgEr8\nefzJSIpY4uhsSpd31UbX70GuE3HWWV3+yunHL6fOAzYgcFN5fhCZP5MsUDPzfhvZ\nButD7N/nM2tOCumgl207vD9GPL5jbKBZh3hFOTHLw3wUfGpQZ22BBIUmLpxL0a39\nh2lLNiPJrTTrF/F5arrCy/hL+EUQfJejukgNL4xZAoGBAKsW2mPsseqDez962y5V\nXG+upp42ZQSdrovkc/f+Y0+2dDwFBH2IQzfLnhKa4dubc0hSoXh7uM3FbvQZmPZS\n2ViBTwBY/l0oJuxLBHRqDNV6zmgu5DWEZAe6OE0lMEGXdD7YI2TAQaWEODdTxBDR\nMbIs8/mM4EqFD5WLxuoeM165\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-1i1f8@db-github-11ca8.iam.gserviceaccount.com",
-    "client_id": "114238046409170474628",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-1i1f8%40db-github-11ca8.iam.gserviceaccount.com",
-    "universe_domain": "googleapis.com"
-  }
+    "configurations": [
+        
+        {
+            "type": "java",
+            "name": "Spring Boot-DbmsWebSampleApplication<dbms_web_sample>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.demo.DbmsWebSampleApplication",
+            "projectName": "dbms_web_sample",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
+
+
   
