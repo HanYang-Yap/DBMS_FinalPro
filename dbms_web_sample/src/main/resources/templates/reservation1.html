@@ -175,64 +175,66 @@
             </div>
         </nav>
         
-
+        <!--設置form跟改最底下的firebase設定，成功連接firebase realtime db-->
         <div class="container">
-            <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
-                <div class="dropdown">
-                    <label for="venue">預約場地：</label>
-                    <select id="venue">
-                        <option value="venue1">羽球場</option>
-                        <option value="venue2">籃球場</option>
-                        <option value="venue3">排球場</option>
-                        <!--<option value="venue4">場地4</option>
-                        <option value="venue5">綜合球類練習區</option>
-                        <option value="venue6">六期運動場</option>-->
-                    </select>
+            <form id="reservation-form">
+                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->                    
+                    <div class="dropdown">
+                        <label for="venue">預約場地：</label>
+                        <select id="venue" required>
+                            <option value="羽球場">羽球場</option>
+                            <option value="籃球場">籃球場</option>
+                            <option value="排球場">排球場</option>
+                            <!--<option value="venue4">場地4</option>
+                            <option value="venue5">綜合球類練習區</option>
+                            <option value="venue6">六期運動場</option>-->
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="dropdown-container" > <!-- 使用 margin-left:auto; 使其置右 /  style="margin-right:auto;"-->
-                <div class="dropdown">
-                    <label for="people">預約人數：</label>
-                    <select id="people">
-                        <option value="1">1人</option>
-                        <option value="2">2人</option>
-                        <option value="3">3人</option>
-                        <option value="4">4人</option>
-                        <option value="5">5人</option>
-                        <option value="6">6人</option>
-                        <option value="7">7人</option>
-                        <option value="8">8人</option>
-                        <option value="9">9人</option>
-                        <option value="10">10人</option>
-                    </select>
+                <div class="dropdown-container" > <!-- 使用 margin-left:auto; 使其置右 /  style="margin-right:auto;"-->               
+                    <div class="dropdown">
+                        <label for="people">預約人數：</label>
+                        <select id="people" required>
+                            <option value="1人">1人</option>
+                            <option value="2人">2人</option>
+                            <option value="3人">3人</option>
+                            <option value="4人">4人</option>
+                            <option value="5人">5人</option>
+                            <option value="6人">6人</option>
+                            <option value="7人">7人</option>
+                            <option value="8人">8人</option>
+                            <option value="9人">9人</option>
+                            <option value="10人">10人</option>
+                        </select>
+                    </div>               
                 </div>
-            </div>
-            <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
-                <div class="dropdown">
-                    <label for="date">預約日期：</label>
-                    <input type="date" id="date">
+                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
+                    <div class="dropdown">
+                        <label for="date">預約日期：</label>
+                        <input type="date" id="date">
+                    </div>
                 </div>
-            </div>
-            <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
-                <div class="dropdown">
-                    <label for="time">預約時間：</label>
-                    <select id="time">
-                        <option value="time1">9:00 - 12:00</option>
-                        <option value="time2">12:00 - 15:00</option>
-                        <option value="time3">15:00 - 18:00</option>
-                        <option value="time4">18:00 - 21:00</option>
-                        <!--<option value="venue4">場地4</option>
-                        <option value="venue5">綜合球類練習區</option>
-                        <option value="venue6">六期運動場</option>-->
-                    </select>
+                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->              
+                    <div class="dropdown">
+                        <label for="time">預約時間：</label>
+                        <select id="time"  required>
+                            <option value="9:00 - 12:00">9:00 - 12:00</option>
+                            <option value="12:00 - 15:00">12:00 - 15:00</option>
+                            <option value="15:00 - 18:00">15:00 - 18:00</option>
+                            <option value="18:00 - 21:00">18:00 - 21:00</option>
+                            <!--<option value="venue4">場地4</option>
+                            <option value="venue5">綜合球類練習區</option>
+                            <option value="venue6">六期運動場</option>-->
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <!--<img src="venue.png" alt="Combined Venue Image" class="venue-image"> -->
-            </div>
-            <div class="button-container">
-                <button class="button button-secondary">空位查看</button>
-                <button class="button button-primary">確認預約</button>
-            </div>
+                <!--<img src="venue.png" alt="Combined Venue Image" class="venue-image"> -->
+                </div>
+                <div class="button-container">
+                    <button type="check" class="button button-secondary">空位查看</button>
+                    <button type="reservation" class="button button-primary">確認預約</button>
+                </div>
+            </form>
         </div>
 
         <br><br>
@@ -251,45 +253,69 @@
         </div>
 
 
-        <script>
+        <script type="module">
             // 從 Firebase 控制台獲取的配置對象
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
             const firebaseConfig = {
-              apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-              authDomain: "db-github-11ca8.firebaseapp.com",
-              projectId: "db-github-11ca8",
-              storageBucket: "db-github-11ca8.appspot.com",
-              messagingSenderId: "236802727820",
-              appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
-              //measurementId: "G-CYR5VZ24PX"
-            };
-          
+                apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+                authDomain: "db-github-11ca8.firebaseapp.com",
+                databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "db-github-11ca8",
+                storageBucket: "db-github-11ca8.appspot.com",
+                messagingSenderId: "236802727820",
+                appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+        };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+
+            // Get reference to database service
+            const db = getDatabase(app);            
             // 初始化 Firebase
-            firebase.initializeApp(firebaseConfig);
+            //firebase.initializeApp(firebaseConfig);
             
             // 初始化 Firestore
-            const db = firebase.firestore();
+            //const db = firebase.firestore();
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
                 event.preventDefault();
 
                 // 獲取表單字段值
-                const venue = document.getElementById('venue').value;
-                const people = document.getElementById('people').value;
-                const date = document.getElementById('date').value;
-                const time = document.getElementById('time').value;
+                var venue = document.getElementById('venue').value;
+                var people = document.getElementById('people').value;
+                var date = document.getElementById('date').value;
+                var time = document.getElementById('time').value;
+
+                
 
                 // 將數據存儲到 Firestore
-                db.collection('reservations').add({
+                // Write data to Firebase Realtime Database
+                console.log("Attempting..");
+                console.log({
+                    venue: venue,
+                    people: people,
+                    date: date,
+                    time: time                    
+                });
+
+
+
+                set(ref(db, 'reservations/' + venue), {
                     venue: venue,
                     people: people,
                     date: date,
                     time: time
-                }).then(function () {
-                    alert('預約已成功保存！');
-                }).catch(function (error) {
-                    console.error('Error adding document: ', error);
-                    alert('預約保存失敗，請重試。');
+                })
+                .then(() => {
+                    alert("Reserve Successfully!");
+                })
+                .catch((error) => {
+                    console.error("Error saving data:", error);
+                    alert("Error saving data: " + error.message);
                 });
             });
         </script>
