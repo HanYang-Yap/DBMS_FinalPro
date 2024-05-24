@@ -1,9 +1,8 @@
+
 package com.example.demo.controller;
 
-import com.example.demo.model.Product;
-import com.example.demo.model.User;
-import com.example.demo.service.ProductService;
-import com.example.demo.service.UserService;
+import com.example.demo.model.Venue;
+import com.example.demo.service.VenueService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,47 +10,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/venues")
 public class VenueController {
     @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private UserService userService;
+    private VenueService venueService;
 
     @GetMapping
-    public List<Product> listAllProducts(@RequestParam(required = false, name = "userId") Long userId,
-            @RequestParam(required = false, name = "keyword") String keyword) {
-        if (keyword != null) {
-            return productService.getProductByKeyword(keyword);
-        } else if (userId != null) {
-            return productService.getProductByUserId(userId);
+    public List<Venue> listAllVenues(@RequestParam(required = false, name = "venueName") String venueName) {
+        if (venueName != null) {
+            return venueService.findByVenueName(venueName);
         } else {
-            return productService.getAllProducts();
+            return venueService.getAllVenues();
         }
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id) {
-        return productService.getProductById(id);
+    public Venue getVenueById(@PathVariable("id") Long id) {
+        return venueService.getVenueById(id);
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
-        System.out.println(product.getUser().getId());
-        User user = userService.getUserById(product.getUser().getId())
-                .orElseThrow(() -> new RuntimeException("User not found with id " + product.getUser().getId()));
-        product.setUser(user);
-        return productService.createProduct(product);
+    public Venue createProduct(@RequestBody Venue venue) {
+        System.out.println(venue.getVenue_name());
+        return venueService.createVenue(venue);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public Venue updateVenue( @RequestBody Venue venue) {
+        return venueService.updateVenue(venue);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable("id") Long id) {
-        productService.deleteProduct(id);
+    public void deleteVenue(@PathVariable("id") Long id) {
+        venueService.deleteVenue(id);
     }
 }

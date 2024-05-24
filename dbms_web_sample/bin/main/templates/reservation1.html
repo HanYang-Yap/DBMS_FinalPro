@@ -20,6 +20,15 @@
             crossorigin="anonymous"></script>
 
 
+            
+         <!-- Firebase App (必要) -->
+         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+         <!-- 包含其他 Firebase 服務的 SDK，例如 Authentication -->
+         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+
+
+
         <style>
             /* Add your CSS styles here */
             body {
@@ -207,7 +216,15 @@
             <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
                 <div class="dropdown">
                     <label for="time">預約時間：</label>
-                    <input type="time" id="time">
+                    <select id="time">
+                        <option value="time1">9:00 - 12:00</option>
+                        <option value="time2">12:00 - 15:00</option>
+                        <option value="time3">15:00 - 18:00</option>
+                        <option value="time4">18:00 - 21:00</option>
+                        <!--<option value="venue4">場地4</option>
+                        <option value="venue5">綜合球類練習區</option>
+                        <option value="venue6">六期運動場</option>-->
+                    </select>
                 </div>
             </div>
             <!--<img src="venue.png" alt="Combined Venue Image" class="venue-image"> -->
@@ -218,6 +235,7 @@
             </div>
         </div>
 
+        <br><br>
 
         <div id='calendar' class="calendar"></div>
             <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
@@ -233,5 +251,49 @@
         </div>
 
 
+        <script>
+            // 從 Firebase 控制台獲取的配置對象
+            const firebaseConfig = {
+              apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+              authDomain: "db-github-11ca8.firebaseapp.com",
+              projectId: "db-github-11ca8",
+              storageBucket: "db-github-11ca8.appspot.com",
+              messagingSenderId: "236802727820",
+              appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
+              //measurementId: "G-CYR5VZ24PX"
+            };
+          
+            // 初始化 Firebase
+            firebase.initializeApp(firebaseConfig);
+            
+            // 初始化 Firestore
+            const db = firebase.firestore();
+
+            // 預約表單提交事件
+            document.getElementById('reservation-form').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // 獲取表單字段值
+                const venue = document.getElementById('venue').value;
+                const people = document.getElementById('people').value;
+                const date = document.getElementById('date').value;
+                const time = document.getElementById('time').value;
+
+                // 將數據存儲到 Firestore
+                db.collection('reservations').add({
+                    venue: venue,
+                    people: people,
+                    date: date,
+                    time: time
+                }).then(function () {
+                    alert('預約已成功保存！');
+                }).catch(function (error) {
+                    console.error('Error adding document: ', error);
+                    alert('預約保存失敗，請重試。');
+                });
+            });
+        </script>
+
+        
     </body>
 </html>
