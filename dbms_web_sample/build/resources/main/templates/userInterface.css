@@ -25,19 +25,13 @@ body {
     height: 25px;
     margin-right: 10px;
 }
-
-.meme-image {
-    width: 250px;  /* 設置圖片寬度 */
-    height: auto;  /* 讓高度自動調整，保持圖片比例 */
-}
-
 .buttons {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
 }
 .button-container {
-    width: 250px;
+    width: 400px;
     height: 100px;
     background-color: rgb(192, 226, 238);
     display: flex;
