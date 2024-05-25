@@ -139,23 +139,38 @@
                 .then((snapshot) => {
                     if (snapshot.exists()) {
                         console.log("have snapshot");
+                        const notifications = [];
                         snapshot.forEach((childSnapshot) => {
                             const notification = childSnapshot.val();
                             if (notification.Venue_id === 1) {
-                                console.log("have snapshot1");
-                                const context = notification.Context;
-                                const sentDate = notification.Sent_date;
-                                const pin = notification.Pin;
-
-                                // 將資訊添加到通知區域
-                                contentNoti.innerHTML += `
-                                    <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
-                                        <span style="margin-right: 10px;">${pin ? '📌' : ''}</span>
-                                        <span style="flex-grow: 1;">${context}</span>
-                                        <span style="margin-left: 10px;"><small>${sentDate}</small></span>
-                                    </div>
-                                `;
+                                notifications.push(notification);
                             }
+                         });
+
+                        // 將通知按照 Pin 排序，true 的排在前面
+                        notifications.sort((a, b) => {
+                            if (a.Pin === b.Pin) {
+                                return 0;
+                            } else if (a.Pin === true) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        });
+
+                        // 將排序後的通知添加到通知區域
+                        notifications.forEach((notification) => {
+                            const context = notification.Context;
+                            const sentDate = notification.Sent_date;
+                            const pin = notification.Pin;
+
+                            contentNoti.innerHTML += `
+                                <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <span style="margin-right: 10px;">${pin ? '📌' : ''}</span>
+                                    <span style="flex-grow: 1;">${context}</span>
+                                    <span style="margin-left: 10px;"><small>${sentDate}</small></span>
+                                </div>
+                            `;
                         });
                     } else {
                         console.log("No notifications found.");
