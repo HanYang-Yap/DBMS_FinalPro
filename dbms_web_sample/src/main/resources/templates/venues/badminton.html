@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>羽球場</title> 
+        
         <style>
         body {
             font-family: Arial, sans-serif;
@@ -90,7 +91,7 @@
             </div>
             <div class="container">
                 <h2 class="title2">最新通知</h2>
-                <div class="contentNoti">
+                <div class="contentNoti" id = "contentNoti">
                     <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
                         <span style="margin-right: 10px;"></span>
                         <span style="flex-grow: 1;">預設通知</span>
@@ -110,7 +111,77 @@
                 calendar.render();
             });
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script type="module" src="../../static/badminton.js"></script>
+        <script type="module">
+
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+            import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+            // Your web app's Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+                authDomain: "db-github-11ca8.firebaseapp.com",
+                databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+                projectId: "db-github-11ca8",
+                storageBucket: "db-github-11ca8.appspot.com",
+                messagingSenderId: "236802727820",
+                appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+
+            function findNoti() {
+                const contentNoti = document.getElementById('contentNoti');
+                contentNoti.innerHTML = '';
+
+                const dbref = ref(db);
+                get(child(dbref, "notifications/"))
+                .then((snapshot) => {
+                    if (snapshot.exists()) {
+                        console.log("have snapshot");
+                        const notifications = [];
+                        snapshot.forEach((childSnapshot) => {
+                            const notification = childSnapshot.val();
+                            if (notification.Venue_id === 1) {
+                                notifications.push(notification);
+                            }
+                         });
+
+                        // 將通知按照 Pin 排序，true 的排在前面
+                        notifications.sort((a, b) => {
+                            if (a.Pin === b.Pin) {
+                                return 0;
+                            } else if (a.Pin === true) {
+                                return -1;
+                            } else {
+                                return 1;
+                            }
+                        });
+
+                        // 將排序後的通知添加到通知區域
+                        notifications.forEach((notification) => {
+                            const context = notification.Context;
+                            const sentDate = notification.Sent_date;
+                            const pin = notification.Pin;
+
+                            contentNoti.innerHTML += `
+                                <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <span style="margin-right: 10px;">${pin ? '📌' : ''}</span>
+                                    <span style="flex-grow: 1;">${context}</span>
+                                    <span style="margin-left: 10px;"><small>${sentDate}</small></span>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        console.log("No notifications found.");
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+            }
+
+            findNoti();  // 呼叫函數以便於頁面加載時顯示通知
+        </script>
     </body>
 </html>
