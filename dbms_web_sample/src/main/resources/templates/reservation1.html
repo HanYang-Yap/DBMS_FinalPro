@@ -231,12 +231,20 @@
                 <!--<img src="venue.png" alt="Combined Venue Image" class="venue-image"> -->
                 </div>
                 <div class="button-container">
-                    <button type="check" class="button button-secondary">空位查看</button>
+                    <!--<button type="check" class="button button-secondary">空位查看</button>-->
                     <button type="reservation" class="button button-primary">確認預約</button>
                 </div>
             </form>
         </div>
 
+        <br><br>
+
+        <div class="button-container">
+            <div id="reservation-container">
+                <label for="firebase00">預約情況rrrrr</label>
+            </div>
+        </div>
+        
         <br><br>
 
         <div id='calendar' class="calendar"></div>
@@ -249,6 +257,9 @@
                     });
                     calendar.render();
                 });
+                    
+
+
             </script>
         </div>
 
@@ -279,6 +290,51 @@
             
             // 初始化 Firestore
             //const db = firebase.firestore();
+
+
+
+
+            
+            // Reference to your reservations node in Firebase
+            const reservationsRef = db.ref('reservations');
+
+            // Function to display reservations in the HTML
+            function displayReservations() {
+                const reservationContainer = document.getElementById('reservation-container');
+                reservationContainer.innerHTML = ''; // Clear previous content
+
+                reservationsRef.once('value', (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        const reservationData = childSnapshot.val();
+                        const reservationKey = childSnapshot.key;
+
+                        // Create HTML elements to display reservation data
+                        const reservationDiv = document.createElement('div');
+                        reservationDiv.innerHTML = `
+                            <p><strong>Venue:</strong> ${reservationData.venue}</p>
+                            <p><strong>People:</strong> ${reservationData.people}</p>
+                            <p><strong>Date:</strong> ${reservationData.date}</p>
+                            <p><strong>Time:</strong> ${reservationData.time}</p>
+                            <hr>
+                        `;
+
+                        reservationContainer.appendChild(reservationDiv);
+                    });
+                });
+            }
+
+            // Call the function to display reservations when the page loads
+            window.onload = displayReservations;
+
+
+
+
+
+
+
+
+
+
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
