@@ -68,7 +68,7 @@
                 <div class="d-grid gap-2">
                   <button class="btn button login_button-color" type="submit" id="signUp">Submit</button>
                 </div>
-              </form>
+              </form> 
 
               <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -171,8 +171,6 @@
     import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    //import { getDatabase } from "firebase/database";
-  
     // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
@@ -204,11 +202,36 @@
           return;
       }
 
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      if (id.length ==9){
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+          const user = userCredential.user;
+
+          set(ref(db, 'Student/' + id), {
+            username: username,
+            email: email,
+            id: id,
+            department: department,
+            password: password,             //if command pw & confirmpw, we wont see it in the realtime database
+            confirmpassword: confirmpassword
+          })
+
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+          successModal.show();
+          })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert('Sign Up failed!');
+      });
+
+      } else {
+
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
         const user = userCredential.user;
 
-        set(ref(db, 'users_testing123/' + id), {
+        set(ref(db, 'Admin/' + id), {
           username: username,
           email: email,
           id: id,
@@ -217,14 +240,17 @@
           confirmpassword: confirmpassword
         })
 
-        var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-      successModal.show();
-    })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert('Sign Up failed!');
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+          successModal.show();
+      })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert('Sign Up failed!');
       });
+      
+      }
+
     });
 
     document.getElementById("redirectToLogin").addEventListener('click', function() {
