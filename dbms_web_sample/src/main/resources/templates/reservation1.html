@@ -268,7 +268,7 @@
         <script type="module">
             // 從 Firebase 控制台獲取的配置對象
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-            import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+            import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
     
             const firebaseConfig = {
                 apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
@@ -333,58 +333,6 @@
                 // Fetch and display reservations when the page loads
                 fetchAndDisplayReservations();
             });
-                // Function to display reservations in the HTML
-            //     function displayReservations() {
-            //         const reservationContainer = document.getElementById('reservation-container');
-    
-            //         const reservationsRef = ref(db, 'reservations');
-            //         onValue(reservationsRef, (snapshot) => {
-            //             const data = snapshot.val();
-            //             console.log(data);
-    
-            //             reservationContainer.innerHTML = ''; // 清空現有的內容
-    
-            //             if (data) {
-            //                 const events = [];
-            //                 for (const key in data) {
-            //                     if (data.hasOwnProperty(key)) {
-            //                         const reservation = data[key];
-            //                         const reservationDiv = document.createElement('div');
-            //                         reservationDiv.innerHTML = `
-            //                             <p><strong>Venue:</strong> ${reservation.venue}</p>
-            //                             <p><strong>People:</strong> ${reservation.people}</p>
-            //                             <p><strong>Date:</strong> ${reservation.date}</p>
-            //                             <p><strong>Time:</strong> ${reservation.time}</p>
-            //                             <hr>
-            //                         `;
-            //                         reservationContainer.appendChild(reservationDiv);
-    
-            //                         // Add to calendar events
-            //                         events.push({
-            //                             title: `${reservation.venue} ${reservation.people}`,
-            //                             start: reservation.date,
-            //                             description: reservation.time
-            //                         });
-            //                     }
-            //                 }
-            //                 calendar.addEventSource(events);
-            //             } else {
-            //                 reservationContainer.innerHTML = '<p>目前沒有預約。</p>';
-            //             }
-            //         }, (error) => {
-            //             console.error('Error fetching data:', error);
-            //             reservationContainer.innerHTML = '<p>無法獲取預約資料。</p>';
-            //         });
-            //     }
-    
-            //     // Call the function to display reservations when the page loads
-            //     displayReservations();
-            // });
-
-
-
-            // Call the function to display reservations when the page loads
-            //window.onload = displayReservations;
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
