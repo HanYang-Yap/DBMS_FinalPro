@@ -27,7 +27,8 @@
          <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
          <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 
-
+         <!-- FullCalendar -->
+         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 
         <style>
             /* Add your CSS styles here */
@@ -239,17 +240,19 @@
 
         <br><br>
 
+
+        <!--testtt
         <div class="button-container">
             <div id="reservation-container">
-                <label for="firebase00">預約情況rrrrr</label>
+                <label for="firebase00">小測：這裡應該顯示預約情況</label>
             </div>
-        </div>
+        </div>-->
         
         <br><br>
 
         <div id='calendar' class="calendar"></div>
-            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-            <script>
+            
+            <!-- <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -257,19 +260,16 @@
                     });
                     calendar.render();
                 });
-                    
+            </script> -->
+        <!-- </div> -->
 
-
-            </script>
-        </div>
 
 
         <script type="module">
             // 從 Firebase 控制台獲取的配置對象
-            // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-
+            import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    
             const firebaseConfig = {
                 apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
                 authDomain: "db-github-11ca8.firebaseapp.com",
@@ -278,63 +278,113 @@
                 storageBucket: "db-github-11ca8.appspot.com",
                 messagingSenderId: "236802727820",
                 appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-        };
-
+            };
+    
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-
-            // Get reference to database service
-            const db = getDatabase(app);            
-            // 初始化 Firebase
-            //firebase.initializeApp(firebaseConfig);
-            
-            // 初始化 Firestore
-            //const db = firebase.firestore();
-
-
-
-
-            
-            // Reference to your reservations node in Firebase
-            const reservationsRef = db.ref('reservations');
-
-            // Function to display reservations in the HTML
-            function displayReservations() {
-                const reservationContainer = document.getElementById('reservation-container');
-                reservationContainer.innerHTML = ''; // Clear previous content
-
-                reservationsRef.once('value', (snapshot) => {
-                    snapshot.forEach((childSnapshot) => {
-                        const reservationData = childSnapshot.val();
-                        const reservationKey = childSnapshot.key;
-
-                        // Create HTML elements to display reservation data
-                        const reservationDiv = document.createElement('div');
-                        reservationDiv.innerHTML = `
-                            <p><strong>Venue:</strong> ${reservationData.venue}</p>
-                            <p><strong>People:</strong> ${reservationData.people}</p>
-                            <p><strong>Date:</strong> ${reservationData.date}</p>
-                            <p><strong>Time:</strong> ${reservationData.time}</p>
-                            <hr>
-                        `;
-
-                        reservationContainer.appendChild(reservationDiv);
-                    });
+            const db = getDatabase(app);
+    
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: []
                 });
-            }
+                calendar.render();
+
+                // Reference to your reservations node in Firebase
+                const reservationsRef = ref(db, 'reservations');
+
+                const venueColors = {
+                    "羽球場": "#89eb71", 
+                    "籃球場": "#007bff",
+                    "排球場": "#ffc107"
+                };
+
+                // Function to fetch and display reservations on the calendar
+                function fetchAndDisplayReservations() {
+                    onValue(reservationsRef, (snapshot) => {
+                        const data = snapshot.val();
+                        console.log(data);
+
+                        if (data) {
+                            const events = [];
+                            for (const key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    const reservation = data[key];
+                                    const color = venueColors[reservation.venue];
+                                    events.push({
+                                        title: `${reservation.venue} ${reservation.people} ${reservation.time}`,
+                                        start: reservation.date,
+                                        //description: reservation.time
+                                        backgroundColor: color,
+                                        borderColor: color
+                                    });
+                                }
+                            }
+                            // Add events to the calendar
+                            calendar.addEventSource(events);
+                        }
+                    }, (error) => {
+                        console.error('Error fetching data:', error);
+                    });
+                }
+
+                // Fetch and display reservations when the page loads
+                fetchAndDisplayReservations();
+            });
+                // Function to display reservations in the HTML
+            //     function displayReservations() {
+            //         const reservationContainer = document.getElementById('reservation-container');
+    
+            //         const reservationsRef = ref(db, 'reservations');
+            //         onValue(reservationsRef, (snapshot) => {
+            //             const data = snapshot.val();
+            //             console.log(data);
+    
+            //             reservationContainer.innerHTML = ''; // 清空現有的內容
+    
+            //             if (data) {
+            //                 const events = [];
+            //                 for (const key in data) {
+            //                     if (data.hasOwnProperty(key)) {
+            //                         const reservation = data[key];
+            //                         const reservationDiv = document.createElement('div');
+            //                         reservationDiv.innerHTML = `
+            //                             <p><strong>Venue:</strong> ${reservation.venue}</p>
+            //                             <p><strong>People:</strong> ${reservation.people}</p>
+            //                             <p><strong>Date:</strong> ${reservation.date}</p>
+            //                             <p><strong>Time:</strong> ${reservation.time}</p>
+            //                             <hr>
+            //                         `;
+            //                         reservationContainer.appendChild(reservationDiv);
+    
+            //                         // Add to calendar events
+            //                         events.push({
+            //                             title: `${reservation.venue} ${reservation.people}`,
+            //                             start: reservation.date,
+            //                             description: reservation.time
+            //                         });
+            //                     }
+            //                 }
+            //                 calendar.addEventSource(events);
+            //             } else {
+            //                 reservationContainer.innerHTML = '<p>目前沒有預約。</p>';
+            //             }
+            //         }, (error) => {
+            //             console.error('Error fetching data:', error);
+            //             reservationContainer.innerHTML = '<p>無法獲取預約資料。</p>';
+            //         });
+            //     }
+    
+            //     // Call the function to display reservations when the page loads
+            //     displayReservations();
+            // });
+
+
 
             // Call the function to display reservations when the page loads
-            window.onload = displayReservations;
-
-
-
-
-
-
-
-
-
-
+            //window.onload = displayReservations;
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
@@ -377,5 +427,5 @@
         </script>
 
         
-    </body>
+</body>
 </html>

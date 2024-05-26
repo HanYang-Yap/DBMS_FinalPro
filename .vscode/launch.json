@@ -1,6 +1,5 @@
 {
-    "configurations": [
-        
+    "configurations": [       
         {
             "type": "java",
             "name": "Spring Boot-DbmsWebSampleApplication<dbms_web_sample>",
@@ -13,6 +12,3 @@
         }
     ]
 }
-
-
-  
