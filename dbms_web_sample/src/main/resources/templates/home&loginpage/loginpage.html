@@ -163,7 +163,41 @@
 
       });
 
+<<<<<<< HEAD
+
+      login.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    fetch('/api/user/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+        return response.json();
+    })
+    .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        window.location.href = 'userInterface.html';
+    })
+    .catch(error => {
+        alert('Login failed: ' + error.message);
+    });
+});
+
+
+</script>
+=======
   </script>
+>>>>>>> 5d3ea81da9d4921b194ce34bfb45e7184ba4b28d
 
   <style>
 
