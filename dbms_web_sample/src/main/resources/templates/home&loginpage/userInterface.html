@@ -120,7 +120,26 @@
         </div>
     </main>
     
-    <script>
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+          authDomain: "db-github-11ca8.firebaseapp.com",
+          databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "db-github-11ca8",
+          storageBucket: "db-github-11ca8.appspot.com",
+          messagingSenderId: "236802727820",
+          appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+
     var currentPayButton; // 用於追蹤當前的支付按鈕
 
 function openPayment(button) {
