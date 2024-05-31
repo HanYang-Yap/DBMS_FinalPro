@@ -113,7 +113,12 @@
           </div>
           <div class="dropdown">
             <label for="textarea">欲公告文字：</label>
-            <textarea id="textarea" name="textarea" rows="10" cols="50"></textarea>
+            <textarea
+              id="textarea"
+              name="textarea"
+              rows="10"
+              cols="50"
+            ></textarea>
           </div>
           <div class="dropdown">
             <input type="checkbox" id="checkbox" name="checkbox" />
@@ -121,32 +126,41 @@
           </div>
         </div>
         <div class="btns">
-          <button type="button" class="abandon"><a href="./admin1.html">abandon</a></button>
+          <button type="button" class="abandon">
+            <a href="./admin1.html">abandon</a>
+          </button>
           <button type="submit" class="post">post</button>
         </div>
       </form>
     </div>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-    
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
       const firebaseConfig = {
-          apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-          authDomain: "db-github-11ca8.firebaseapp.com",
-          databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "db-github-11ca8",
-          storageBucket: "db-github-11ca8.appspot.com",
-          messagingSenderId: "236802727820",
-          appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-       };
-    
+        apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+        authDomain: "db-github-11ca8.firebaseapp.com",
+        databaseURL:
+          "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "db-github-11ca8",
+        storageBucket: "db-github-11ca8.appspot.com",
+        messagingSenderId: "236802727820",
+        appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+      };
+
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      document.getElementById('adminpost').addEventListener('submit', function (event) {
+      document
+        .getElementById("adminpost")
+        .addEventListener("submit", function (event) {
           event.preventDefault();
 
-          var venue = document.getElementById('venue').value;
+          var venue = document.getElementById("venue").value;
           var venue_id = 0;
           if (venue === "羽球場") venue_id = 1;
           else if (venue === "籃球場") venue_id = 2;
@@ -154,8 +168,8 @@
           else if (venue === "游泳池") venue_id = 4;
           else if (venue === "排球場") venue_id = 5;
 
-          var date = document.getElementById('date').value;
-          var textarea = document.getElementById('textarea').value;
+          var date = document.getElementById("date").value;
+          var textarea = document.getElementById("textarea").value;
           var pin = document.getElementById("checkbox").checked;
           var currentDate = new Date().toISOString(); // Use ISO string to avoid special characters
           var noti_id = venue_id + currentDate.replace(/[:.-]/g, ""); // Simplify the ID
@@ -168,14 +182,14 @@
             Pin: pin,
             Noti_id: noti_id,
           })
-          .then(() => {
-            alert("Post Successfully!");
-            window.location.href = "./admin1.html"; // Redirect to another page
-          })
-          .catch((error) => {
-            console.error("Error saving data:", error);
-          });
-      });
+            .then(() => {
+              alert("Post Successfully!");
+              window.location.href = "./admin1.html"; // Redirect to another page
+            })
+            .catch((error) => {
+              console.error("Error saving data:", error);
+            });
+        });
     </script>
   </body>
 </html>
