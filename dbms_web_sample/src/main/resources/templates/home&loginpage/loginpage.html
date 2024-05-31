@@ -99,23 +99,33 @@
     const db = getDatabase(app);
     const auth = getAuth();
 
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', function() {
         const loginBtn = document.getElementById('login');
         loginBtn.addEventListener('click', function(e) {
             e.preventDefault();
+=======
+    login.addEventListener('click', (e) => {
+        e.preventDefault();
+>>>>>>> 351b464f7062505e2de79528a6db0a5f2b201d1b
 
-            var id = document.getElementById("id").value;
-            var email = document.getElementById('email').value;
-            var password = document.getElementById("password").value;
+        //var username = document.getElementById("username").value;
+        var id = document.getElementById("id").value;
+        var email = document.getElementById('email').value;
+        //var department = document.getElementById("department").value;
+        var password = document.getElementById("password").value;
+        //var confirmpassword = document.getElementById("confirmpassword").value;
 
-            if (id.length == 6) {
-                signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
+        if (id.length == 6){
+          signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
 
-                    update(ref(db, 'Admin/' + id), {
-                        last_login: new Date().toLocaleString()
-                    })
+            //const dt = new Date();
+          update(ref(db, 'Admin/' + id), {
+              last_login: new Date().toLocaleString()
+          })
 
                     var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
                     successModal.show();
@@ -137,9 +147,10 @@
                     // Signed in 
                     const user = userCredential.user;
 
-                    update(ref(db, 'Student/' + id), {
-                        last_login: new Date().toLocaleString()
-                    })
+            //const dt = new Date();
+          update(ref(db, 'Student/' + id), {
+              last_login: new Date().toLocaleString()
+          })
 
                     var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
                     successModal.show();
@@ -150,6 +161,7 @@
                     alert('Log In failed!' + errorMessage);
                 });
 
+<<<<<<< HEAD
                 document.getElementById("redirectToOtherPage").addEventListener('click', function() {
                     window.location.href = '/dbms_web_sample/src/main/resources/templates/userInterface.html';
                 });
@@ -157,6 +169,16 @@
         });
     });
 </script>
+=======
+          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+            window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
+        });
+
+        }
+
+      });
+
+>>>>>>> 351b464f7062505e2de79528a6db0a5f2b201d1b
 
 
   <style>
