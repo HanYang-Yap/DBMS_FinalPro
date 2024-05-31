@@ -210,20 +210,6 @@ statusCell.textContent = "Paid";
 statusCell.style.color = "green";
 }
 
-function applyRefund() {
-currentPayButton.textContent = "Pay";
-currentPayButton.style.backgroundColor = "green";
-
-var modal = document.getElementById("paymentModal");
-modal.style.display = "none";
-
-// 更新表格中的狀態
-var row = currentPayButton.closest('tr');
-var statusCell = row.cells[4];
-statusCell.textContent = "Applying";
-statusCell.style.color = "gray";
-}
-
 // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
 document.querySelectorAll('.pay-button').forEach(button => {
 button.addEventListener('click', function() {
