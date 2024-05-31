@@ -99,15 +99,8 @@
     const db = getDatabase(app);
     const auth = getAuth();
 
-<<<<<<< HEAD
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginBtn = document.getElementById('login');
-        loginBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-=======
     login.addEventListener('click', (e) => {
         e.preventDefault();
->>>>>>> 351b464f7062505e2de79528a6db0a5f2b201d1b
 
         //var username = document.getElementById("username").value;
         var id = document.getElementById("id").value;
@@ -161,15 +154,6 @@
                     alert('Log In failed!' + errorMessage);
                 });
 
-<<<<<<< HEAD
-                document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-                    window.location.href = '/dbms_web_sample/src/main/resources/templates/userInterface.html';
-                });
-            }
-        });
-    });
-</script>
-=======
           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
             window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
         });
@@ -178,8 +162,7 @@
 
       });
 
->>>>>>> 351b464f7062505e2de79528a6db0a5f2b201d1b
-
+</script>
 
   <style>
 
