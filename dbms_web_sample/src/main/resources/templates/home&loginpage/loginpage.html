@@ -80,7 +80,6 @@
   </body>
 
   <script type="module">
-
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -95,12 +94,12 @@
       appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
     };
     
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const auth = getAuth();
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth();
 
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
         const loginBtn = document.getElementById('login');
         loginBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -118,46 +117,47 @@
                         last_login: new Date().toLocaleString()
                     })
 
-          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                successModal.show();
-          })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert('Log In failed!' + errorMessage);
-          });
+                    var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+                    successModal.show();
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert('Log In failed!' + errorMessage);
+                });
 
-          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
-        });
+                document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+                    window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
+                });
 
-        } else {
+            } else {
 
-          signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
+                signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
 
                     update(ref(db, 'Student/' + id), {
                         last_login: new Date().toLocaleString()
                     })
 
-          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                successModal.show();
-          })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert('Log In failed!' + errorMessage);
-          });
+                    var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+                    successModal.show();
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert('Log In failed!' + errorMessage);
+                });
 
-          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/dbms_web_sample/src/main/resources/templates/userInterface.html';
+                document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+                    window.location.href = '/dbms_web_sample/src/main/resources/templates/userInterface.html';
+                });
+            }
         });
-    }
+    });
+</script>
 
-
-  </script>
 
   <style>
 
@@ -219,7 +219,5 @@ hr.invinsible {
 hr.new1 {
   border-top: 1px solid;
 }
-  </style>
-  
+</style>
 </html>
-
