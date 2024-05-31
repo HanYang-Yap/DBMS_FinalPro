@@ -242,8 +242,8 @@
                     venue_id = 3;
                 } else if (venue === "游泳池") {
                     venue_id = 4;
-                } else {
-                    return 5;
+                } else if (venue === "排球場") {
+                    venue_id = 5;
                 }
                 var date = document.getElementById('date').value;
                 var time = document.getElementById('time').value;
@@ -254,8 +254,8 @@
                     timeQ = 2;
                 } else if (time === "15:00 - 18:00") {
                     timeQ = 3;
-                }else {
-                    return 4;
+                } else if (time === "18:00 - 21:00") {
+                    timeQ = 4;
                 }
                 var reason = document.getElementById('reason').value;
                 var host_id = venue_id + date + timeQ;
