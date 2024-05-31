@@ -27,7 +27,8 @@
          <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
          <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
 
-
+         <!-- FullCalendar -->
+         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 
         <style>
             /* Add your CSS styles here */
@@ -231,7 +232,7 @@
                 <!--<img src="venue.png" alt="Combined Venue Image" class="venue-image"> -->
                 </div>
                 <div class="button-container">
-                    <button type="check" class="button button-secondary">空位查看</button>
+                    <!--<button type="check" class="button button-secondary">空位查看</button>-->
                     <button type="reservation" class="button button-primary">確認預約</button>
                 </div>
             </form>
@@ -239,9 +240,19 @@
 
         <br><br>
 
+
+        <!--testtt
+        <div class="button-container">
+            <div id="reservation-container">
+                <label for="firebase00">小測：這裡應該顯示預約情況</label>
+            </div>
+        </div>-->
+        
+        <br><br>
+
         <div id='calendar' class="calendar"></div>
-            <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-            <script>
+            
+            <!-- <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -249,16 +260,16 @@
                     });
                     calendar.render();
                 });
-            </script>
-        </div>
+            </script> -->
+        <!-- </div> -->
+
 
 
         <script type="module">
             // 從 Firebase 控制台獲取的配置對象
-            // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-            import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-
+            import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    
             const firebaseConfig = {
                 apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
                 authDomain: "db-github-11ca8.firebaseapp.com",
@@ -267,18 +278,61 @@
                 storageBucket: "db-github-11ca8.appspot.com",
                 messagingSenderId: "236802727820",
                 appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-        };
-
+            };
+    
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+    
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: []
+                });
+                calendar.render();
 
-            // Get reference to database service
-            const db = getDatabase(app);            
-            // 初始化 Firebase
-            //firebase.initializeApp(firebaseConfig);
-            
-            // 初始化 Firestore
-            //const db = firebase.firestore();
+                // Reference to your reservations node in Firebase
+                const reservationsRef = ref(db, 'reservations');
+
+                const venueColors = {
+                    "羽球場": "#89eb71", 
+                    "籃球場": "#007bff",
+                    "排球場": "#ffc107"
+                };
+
+                // Function to fetch and display reservations on the calendar
+                function fetchAndDisplayReservations() {
+                    onValue(reservationsRef, (snapshot) => {
+                        const data = snapshot.val();
+                        console.log(data);
+
+                        if (data) {
+                            const events = [];
+                            for (const key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    const reservation = data[key];
+                                    const color = venueColors[reservation.venue];
+                                    events.push({
+                                        title: `${reservation.venue} ${reservation.people} ${reservation.time}`,
+                                        start: reservation.date,
+                                        //description: reservation.time
+                                        backgroundColor: color,
+                                        borderColor: color
+                                    });
+                                }
+                            }
+                            // Add events to the calendar
+                            calendar.addEventSource(events);
+                        }
+                    }, (error) => {
+                        console.error('Error fetching data:', error);
+                    });
+                }
+
+                // Fetch and display reservations when the page loads
+                fetchAndDisplayReservations();
+            });
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
@@ -321,5 +375,5 @@
         </script>
 
         
-    </body>
+</body>
 </html>

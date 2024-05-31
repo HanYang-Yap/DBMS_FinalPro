@@ -76,7 +76,7 @@
     </head>
     <body>
         <div class="title1">
-            <h1>排球場</h1><!-- 換成場地的名字 -->
+            <h1>排球場</h1>
         </div>
         <div class="wrapper">
             <div class="container">
@@ -86,14 +86,11 @@
                     <span>/</span>
                     <span class="total">10</span>
                     </div>
-                    <!-- 讀取各自數字 -->
                 </div>
             </div>
             <div class="container">
                 <h2 class="title2">最新通知</h2>
                 <div class="contentNoti">
-                    <p>通知1</p>
-                    <p>通知2</p>
                 </div>
             </div>
         </div>
@@ -101,7 +98,7 @@
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('tennisCalendar');
+                var calendarEl = document.getElementById('volleyballCalendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth'
                 });
