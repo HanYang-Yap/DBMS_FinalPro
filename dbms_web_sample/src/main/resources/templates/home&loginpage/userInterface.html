@@ -138,6 +138,18 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+<<<<<<< HEAD
+=======
+
+        firebase.initializeApp(firebaseConfig);
+        var firebaseRef = firebase.database().ref("username");
+        firebaseRef.once("value", function(snapshot){
+            var data = snapshot.val();
+            for (let i in data){
+                console.log(data[i]);
+            }
+        })
+>>>>>>> 58ba34c (..)
 
         // 从 localStorage 获取用户信息
         const user = JSON.parse(localStorage.getItem('user'));
