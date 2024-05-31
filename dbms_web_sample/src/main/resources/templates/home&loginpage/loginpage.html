@@ -118,46 +118,41 @@
                         last_login: new Date().toLocaleString()
                     })
 
-                    var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                    successModal.show();
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+                successModal.show();
+          })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert('Log In failed!' + errorMessage);
+          });
 
-                    redirectToAdminPage();
-                })
-                .catch((error) => {
-                    const errorMessage = error.message;
-                    alert('Log In failed!' + errorMessage);
-                });
-            } else {
-                signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
+          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+            window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
+        });
+
+        } else {
+
+          signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
 
                     update(ref(db, 'Student/' + id), {
                         last_login: new Date().toLocaleString()
                     })
 
-                    var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                    successModal.show();
+          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+                successModal.show();
+          })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert('Log In failed!' + errorMessage);
+          });
 
-                    redirectToUserInterfacePage();
-                })
-                .catch((error) => {
-                    const errorMessage = error.message;
-                    alert('Log In failed!' + errorMessage);
-                });
-            }
-        });
-    });
-
-    function redirectToAdminPage() {
-        document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/DBMS_FinalPro/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
-        });
-    }
-
-    function redirectToUserInterfacePage() {
-        document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/DBMS_FinalPro/dbms_web_sample/src/main/resources/templates/userInterface.html';
+          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+            window.location.href = '/dbms_web_sample/src/main/resources/templates/userInterface.html';
         });
     }
 
