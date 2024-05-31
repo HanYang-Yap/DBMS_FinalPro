@@ -14,19 +14,11 @@
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
-            </a>
-            <div class="user-info">
-                <p>Hi! Chien Starry (Student)</p>
-            </div>
-            <div class="notification-icon">
-                <a href="user_page.html" onclick="navigateToNotification()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-bell-fill notification-icon " viewBox="0 0 16 16">
-                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
-                    </svg>
-                </a>
-            </div>   
+            </a>                
+            <p>Hi! <span id="username"></span></p>
         </div> 
     </header>
+
     <main>
         <!--https://wangminggu.com/qian/qqbiaoqing/77j2xe.html-->
         <div class="buttons">
@@ -43,9 +35,9 @@
         <div class="content">
             <div class="user-details">
                 <h2>使用者資料 User Information</h2>
-                <p>名稱：Chien Starry</p>
-                <p>學號：111306031</p>
-                <p>系所：資管二甲</p>
+                <p>名稱：<span id="username"></span></p>
+                <p>學號：<span id="studentId"></span></p>
+                <p>系級：<span id="department"></span></p>
             </div>
 
             <div class="rights-history">
@@ -129,84 +121,109 @@
     </main>
     
     <script>
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-            authDomain: "db-github-11ca8.firebaseapp.com",
-            databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "db-github-11ca8",
-            storageBucket: "db-github-11ca8.appspot.com",
-            messagingSenderId: "236802727820",
-            appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-
-        // Get reference to database service
-        const db = getDatabase(app);
-    
     var currentPayButton; // 用於追蹤當前的支付按鈕
 
-        function openPayment(button) {
-    currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
+function openPayment(button) {
+    document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('username').textContent = user.username;
+                document.getElementById('studentId').textContent = user.id;
+                // 假設你有更多的用戶資料，可以根據需要設置
+            } else {
+                window.location.href = 'signup.html';
+            }
+        });
+
+currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
+var modal = document.getElementById("paymentModal");
+modal.style.display = "block";
+
+// 根據按鈕的顏色和狀態來決定顯示的按鈕
+if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
+document.getElementById("completePayment").style.display = "block";
+document.getElementById("applyRefund").style.display = "none";
+document.getElementById("cancelRefund").style.display = "none";
+} else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
+document.getElementById("completePayment").style.display = "none";
+document.getElementById("applyRefund").style.display = "block";
+document.getElementById("cancelRefund").style.display = "none";
+} else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
+document.getElementById("completePayment").style.display = "none";
+document.getElementById("applyRefund").style.display = "none";
+document.getElementById("cancelRefund").style.display = "block";
+}
+}
+
+// 取得關閉按鈕元素
+var closeBtn = document.getElementsByClassName("close")[0];
+
+// 當用戶點擊關閉按鈕時，關閉視窗
+closeBtn.onclick = function () {
     var modal = document.getElementById("paymentModal");
-    modal.style.display = "block";
-    
-     // 根據按鈕的顏色和狀態來決定顯示的按鈕
-     if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
-        document.getElementById("completePayment").style.display = "block";
-        document.getElementById("applyRefund").style.display = "none";
-        document.getElementById("cancelRefund").style.display = "none";
-    } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
-        document.getElementById("completePayment").style.display = "none";
-        document.getElementById("applyRefund").style.display = "block";
-        document.getElementById("cancelRefund").style.display = "none";
-    } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
-        document.getElementById("completePayment").style.display = "none";
-        document.getElementById("applyRefund").style.display = "none";
-        document.getElementById("cancelRefund").style.display = "block";
+    modal.style.display = "none";
+}
+
+// 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
+window.onclick = function (event) {
+    var modal = document.getElementById("paymentModal");
+    if (event.target == modal) {
+        modal.style.display = "none";
     }
 }
 
-        // 取得關閉按鈕元素
-        var closeBtn = document.getElementsByClassName("close")[0];
-
-        // 當用戶點擊關閉按鈕時，關閉視窗
-        closeBtn.onclick = function () {
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
-        }
-
-        // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
-        window.onclick = function (event) {
-            var modal = document.getElementById("paymentModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // 綁定完成繳費和申請退費按鈕的點擊事件
+// 綁定完成繳費和申請退費按鈕的點擊事件
 document.getElementById("completePayment").onclick = completePayment;
 document.getElementById("applyRefund").onclick = applyRefund;
 document.getElementById("cancelRefund").onclick = cancelRefund;
 
 function completePayment() {
-    currentPayButton.textContent = "Pay";
-    currentPayButton.style.backgroundColor = "gray";
+currentPayButton.textContent = "Pay";
+currentPayButton.style.backgroundColor = "gray";
 
-    var modal = document.getElementById("paymentModal");
-    modal.style.display = "none";
+var modal = document.getElementById("paymentModal");
+modal.style.display = "none";
 
-    // 更新表格中的狀態
-    var row = currentPayButton.closest('tr');
-    var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
-    statusCell.textContent = "Paid";
-    statusCell.style.color = "green";
+// 更新表格中的狀態
+var row = currentPayButton.closest('tr');
+var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
+statusCell.textContent = "Paid";
+statusCell.style.color = "green";
+}
+
+function applyRefund() {
+currentPayButton.textContent = "Pay";
+currentPayButton.style.backgroundColor = "green";
+
+var modal = document.getElementById("paymentModal");
+modal.style.display = "none";
+
+// 更新表格中的狀態
+var row = currentPayButton.closest('tr');
+var statusCell = row.cells[4];
+statusCell.textContent = "Applying";
+statusCell.style.color = "gray";
+}
+
+// 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+document.querySelectorAll('.pay-button').forEach(button => {
+button.addEventListener('click', function() {
+openPayment(this);
+});
+});
+
+function cancelRefund() {
+currentPayButton.textContent = "申請退費";
+currentPayButton.style.backgroundColor = "gray";
+
+var modal = document.getElementById("paymentModal");
+modal.style.display = "none";
+
+// 更新表格中的狀態
+var row = currentPayButton.closest('tr');
+var statusCell = row.cells[4];
+statusCell.textContent = "Paid";
+statusCell.style.color = "green";
 }
 
 function applyRefund() {
@@ -244,15 +261,11 @@ function cancelRefund() {
     statusCell.style.color = "green";
 }
         function goToReservation() {
-            // 跳轉至預約頁面的代碼
-        }
-
-        function navigateToSchedule() {
-            // 跳轉至查看預約頁面的代碼
+            window.location.href = "reservation1.html";
         }
 
         function navigateToUserPage() {
-            // 跳轉至使用者頁面的代碼
+            window.location.href = "userInterface.html";
         }
 
         function navigateToNotification() {

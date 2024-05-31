@@ -104,7 +104,7 @@ th, td {
 th {
     background-color: rgb(200, 233, 244);
 }
-.pay-button, .cancel-button {
+.pay-button, .cancel-button, .edit-button {
     color: white;
     border: none;
     padding: 8px 16px;
@@ -116,6 +116,9 @@ th {
 }
 .cancel-button {
     background-color: red;
+}
+.edit-button   {
+    background-color: rgb(87, 170, 229);
 }
 .modal {
     display: none;
