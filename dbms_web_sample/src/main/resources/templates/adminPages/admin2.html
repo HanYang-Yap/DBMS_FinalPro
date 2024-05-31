@@ -36,49 +36,163 @@
     </header>
     <!-- main section is here -->
     <div class="main_sec">
-      <div class="container">
-        <!-- 場地dropdown -->
-        <div class="dropdown">
-          <label for="anc_venue">欲公告場地：</label>
-          <select id="venue">
-            <option value="venue1">羽球場</option>
-            <option value="venue2">籃球場</option>
-            <option value="venue3">排球場</option>
-            <!--<option value="venue4">場地4</option>
-                    <option value="venue5">綜合球類練習區</option>
-                    <option value="venue6">六期運動場</option>-->
-          </select>
+      <form id="adminpost">
+        <div class="container">
+          <!-- 場地dropdown -->
+          <div class="dropdown">
+            <label for="anc_venue">欲公告場地：</label>
+            <select id="venue">
+              <option value="venue1">羽球場</option>
+              <option value="venue2">籃球場</option>
+              <option value="venue3">排球場</option>
+              <!--<option value="venue4">場地4</option>
+                      <option value="venue5">綜合球類練習區</option>
+                      <option value="venue6">六期運動場</option>-->
+            </select>
+          </div>
+          <!-- 欲公告日期dropdown -->
+          <div class="dropdown">
+            <label for="date">欲公告日期：</label>
+            <input type="date" id="date" />
+          </div>
+          <!-- 欲公告時間dropdown
+          <div class="dropdown">
+            <label for="time">欲公告時間：</label>
+            <input type="time" id="time" />
+          </div> -->
+
+          <!-- 欲公告文字input box -->
+          <div class="dropdown">
+            <label for="textarea">欲公告文字：</label>
+            <textarea
+              id="textarea"
+              name="textarea"
+              rows="10"
+              cols="50"
+            ></textarea>
+          </div>
+          <div class="dropdown">
+            <input type="checkbox" id="checkbox" name="checkbox" />
+            <label for="checkbox">置頂此公告</label>
+          </div>
         </div>
-        <!-- 欲公告日期dropdown -->
-        <div class="dropdown">
-          <label for="date">欲公告日期：</label>
-          <input type="date" id="date" />
+        <div class="btns">
+          <button class="abandon"><a href="./admin1.html">abandon</a></button>
+          <button type="submit" class="post">
+            <a href="./admin1.html">post</a>
+          </button>
         </div>
-        <!-- 欲公告時間dropdown -->
-        <div class="dropdown">
-          <label for="time">欲公告時間：</label>
-          <input type="time" id="time" />
-        </div>
-        <!-- 欲公告文字input box -->
-        <div class="dropdown">
-          <label for="date">欲公告文字：</label>
-          <textarea
-            id="textarea"
-            name="textarea"
-            rows="10"
-            cols="50"
-          ></textarea>
-        </div>
-        <div class="dropdown">
-          <input type="checkbox" id="checkbox" name="checkbox" />
-          <label for="checkbox">置頂此公告</label>
-        </div>
-      </div>
-      <div class="btns">
-        <button class="abandon"><a href="./admin1.html">abandon</a></button>
-        <button class="post"><a href="./admin1.html">post</a></button>
-      </div>
+      </form>
     </div>
+    <script>
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "firebase/app";
+      import { getAnalytics } from "firebase/analytics";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+        authDomain: "db-github-11ca8.firebaseapp.com",
+        databaseURL:
+          "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "db-github-11ca8",
+        storageBucket: "db-github-11ca8.appspot.com",
+        messagingSenderId: "236802727820",
+        appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+        measurementId: "G-CYR5VZ24PX",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      // Handle form submission
+      document
+        .getElementById("adminpost")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          var venue = getInputVal("venue");
+          var date = getInputVal("date");
+          var textarea = getInputVal("textarea");
+          var pin = document.getElementById("checkbox").checked;
+          var noti_id = newDataRef.key;
+
+          // 將數據存儲到 Firestore
+          // Write data to Firebase Realtime Database
+          console.log("Attempting..");
+          console.log({
+            venue: venue,
+            people: people,
+            date: date,
+            time: time,
+          });
+
+          // Write data to Firebase Realtime Database
+          set(ref(db, "notifications/" + noti_id), {
+            Venue_id: venue,
+            Date: date,
+            Context: textarea,
+            Pin: pin,
+            Noti_id: noti_id,
+          })
+            .then(() => {
+              alert("Post Successfully!");
+              window.location.href = "./admin1.html"; // Redirect to another page
+            })
+            .catch((error) => {
+              console.error("Error saving data:", error);
+            });
+        });
+    </script>
+    <!-- <script
+      // Reference to the database
+      var database = firebase.database();
+
+      // Add submit event listener to the form
+      document
+        .getElementById("adminpost")
+        .addEventListener("submit", submitForm);
+
+      function submitForm(e) {
+        e.preventDefault();
+
+        // Get values
+        var venue = getInputVal("venue");
+        var date = getInputVal("date");
+        var posttext = getInputVal("textarea");
+        var pin = document.getElementById("checkbox").checked;
+
+        // Save data to Firebase
+        saveData(venue, date, posttext, pin);
+
+        // Redirect to another page
+        window.location.href = "./admin1.html";
+      }
+
+      // Function to get form values
+      function getInputVal(id) {
+        return document.getElementById(id).value;
+      }
+
+      // Function to save data to Firebase
+      function saveData(venue, date, time, posttext, pin) {
+        var newDataRef = database.ref("notifications").push();
+        var noti_id = newDataRef.key; // Generate a unique ID for the notification
+
+        newDataRef.set({
+          // Adm_id: getElementById("username").value, // Replace with the actual admin ID
+          Venue_id: venue,
+          Date: date,
+          Context: posttext,
+          Pin: pin,
+          Noti_id: noti_id,
+        });
+      }
+    </> -->
   </body>
   <style>
     html,
