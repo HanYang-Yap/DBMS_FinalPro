@@ -143,14 +143,14 @@
 
                         notifications.forEach((notification) => {
                             const context = notification.Context;
-                            const sentDate = notification.Sent_date;
+                            const event_date = notification.Event_date;
                             const pin = notification.Pin;
 
                             contentNoti.innerHTML += `
                                 <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
                                     <span style="margin-right: 10px;">${pin ? '📌' : ''}</span>
                                     <span style="flex-grow: 1;">${context}</span>
-                                    <span style="margin-left: 10px;"><small>${sentDate}</small></span>
+                                    <span style="margin-left: 10px;"><small>${event_date}</small></span>
                                 </div>
                             `;
                         });
