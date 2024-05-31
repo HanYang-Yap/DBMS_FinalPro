@@ -5,12 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>dbmaG6_admin1</title>
     <link rel="stylesheet" href="./admin2.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        header {
+          display: flex;
+          align-content: flex-start;
+          justify-content: space-between;
+          background-color: lemonchiffon;
+          padding: 4px 16px;
+        }
+        .user_icon {
+          display: flex;
+          align-items: center;
+          padding: 0px 8px;
+        }
+
+        img {
+          height: 30px;
+          width: auto;
+          margin: 8px;
+          border-radius: 50%;
+        }
+        .main_sec {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 25px;
+          width: 85%;
+        }
+        .dropdown {
+          display: flex;
+          align-items: baseline;
+          margin: 8px;
+          padding: 8px;
+          font-weight: 600;
+        }
+
+        label,
+        select,
+        option,
+        input,
+        textarea {
+          font-size: 16px;
+          padding: 8px;
+          margin: 4px;
+          border-radius: 2px;
+        }
+        .btns {
+          display: flex;
+        }
+        button {
+          padding: 10px 16px;
+          margin: 16px;
+          border: 1px solid lightgray;
+          border-radius: 8px;
+          background-color: lemonchiffon;
+          font-weight: 500;
+          font-size: 18px;
+          border: none;
+          box-shadow: 1px 3px 5px #ccc;
+        }
+        button:hover {
+          cursor: pointer;
+          box-shadow: 2px 5px 8px #aaa;
+        }
+      }
+    </style>
   </head>
-  <!-- start of body -->
   <body>
-    <!-- header is here -->
     <header>
-      <!-- user_icon is here -->
       <div class="user_icon">
         <a href="../home&loginpage/index.html"
           ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
@@ -19,57 +85,35 @@
       </div>
 
       <div class="login_time">
-        <!-- <p id="current_date"></p>接上current time -->
         <div id="current_date" style="font-weight: bold; font-size: smaller">
           <script>
-            // Get the current date
             var currentDate = new Date().toLocaleString();
-
-            // Concatenate "Login time:" with the date string
             var dateTimeString = "(登入時間) " + currentDate;
-
-            // Set the concatenated string as the inner HTML of the div
             document.getElementById("current_date").innerHTML = dateTimeString;
           </script>
         </div>
       </div>
     </header>
-    <!-- main section is here -->
     <div class="main_sec">
       <form id="adminpost">
         <div class="container">
-          <!-- 場地dropdown -->
           <div class="dropdown">
             <label for="anc_venue">欲公告場地：</label>
             <select id="venue">
-              <option value="venue1">羽球場</option>
-              <option value="venue2">籃球場</option>
-              <option value="venue3">排球場</option>
-              <!--<option value="venue4">場地4</option>
-                      <option value="venue5">綜合球類練習區</option>
-                      <option value="venue6">六期運動場</option>-->
+              <option value="羽球場">羽球場</option>
+              <option value="籃球場">籃球場</option>
+              <option value="健身房">健身房</option>
+              <option value="游泳池">游泳池</option>
+              <option value="排球場">排球場</option>
             </select>
           </div>
-          <!-- 欲公告日期dropdown -->
           <div class="dropdown">
             <label for="date">欲公告日期：</label>
             <input type="date" id="date" />
           </div>
-          <!-- 欲公告時間dropdown
-          <div class="dropdown">
-            <label for="time">欲公告時間：</label>
-            <input type="time" id="time" />
-          </div> -->
-
-          <!-- 欲公告文字input box -->
           <div class="dropdown">
             <label for="textarea">欲公告文字：</label>
-            <textarea
-              id="textarea"
-              name="textarea"
-              rows="10"
-              cols="50"
-            ></textarea>
+            <textarea id="textarea" name="textarea" rows="10" cols="50"></textarea>
           </div>
           <div class="dropdown">
             <input type="checkbox" id="checkbox" name="checkbox" />
@@ -77,195 +121,61 @@
           </div>
         </div>
         <div class="btns">
-          <button class="abandon"><a href="./admin1.html">abandon</a></button>
-          <button type="submit" class="post">
-            <a href="./admin1.html">post</a>
-          </button>
+          <button type="button" class="abandon"><a href="./admin1.html">abandon</a></button>
+          <button type="submit" class="post">post</button>
         </div>
       </form>
     </div>
     <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "firebase/app";
-      import { getAnalytics } from "firebase/analytics";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
-
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    
       const firebaseConfig = {
-        apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-        authDomain: "db-github-11ca8.firebaseapp.com",
-        databaseURL:
-          "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "db-github-11ca8",
-        storageBucket: "db-github-11ca8.appspot.com",
-        messagingSenderId: "236802727820",
-        appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-        measurementId: "G-CYR5VZ24PX",
-      };
-
-      // Initialize Firebase
+          apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+          authDomain: "db-github-11ca8.firebaseapp.com",
+          databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "db-github-11ca8",
+          storageBucket: "db-github-11ca8.appspot.com",
+          messagingSenderId: "236802727820",
+          appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+       };
+    
       const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
+      const db = getDatabase(app);
 
-      // Handle form submission
-      document
-        .getElementById("adminpost")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+      document.getElementById('adminpost').addEventListener('submit', function (event) {
+          event.preventDefault();
 
-          var venue = getInputVal("venue");
-          var date = getInputVal("date");
-          var textarea = getInputVal("textarea");
+          var venue = document.getElementById('venue').value;
+          var venue_id = 0;
+          if (venue === "羽球場") venue_id = 1;
+          else if (venue === "籃球場") venue_id = 2;
+          else if (venue === "健身房") venue_id = 3;
+          else if (venue === "游泳池") venue_id = 4;
+          else if (venue === "排球場") venue_id = 5;
+
+          var date = document.getElementById('date').value;
+          var textarea = document.getElementById('textarea').value;
           var pin = document.getElementById("checkbox").checked;
-          var noti_id = newDataRef.key;
+          var currentDate = new Date().toISOString(); // Use ISO string to avoid special characters
+          var noti_id = venue_id + currentDate.replace(/[:.-]/g, ""); // Simplify the ID
 
-          // 將數據存儲到 Firestore
-          // Write data to Firebase Realtime Database
-          console.log("Attempting..");
-          console.log({
-            Venue_id: venue,
-            Date: date,
-            Context: textarea,
-            Pin: pin,
-            Noti_id: noti_id,
-          });
-
-          // Write data to Firebase Realtime Database
           set(ref(db, "notifications/" + noti_id), {
-            Venue_id: venue,
+            Venue: venue,
+            Venue_id: venue_id,
             Date: date,
             Context: textarea,
             Pin: pin,
             Noti_id: noti_id,
           })
-            .then(() => {
-              alert("Post Successfully!");
-              window.location.href = "./admin1.html"; // Redirect to another page
-            })
-            .catch((error) => {
-              console.error("Error saving data:", error);
-            });
-        });
+          .then(() => {
+            alert("Post Successfully!");
+            window.location.href = "./admin1.html"; // Redirect to another page
+          })
+          .catch((error) => {
+            console.error("Error saving data:", error);
+          });
+      });
     </script>
-    <!-- <script
-      // Reference to the database
-      var database = firebase.database();
-
-      // Add submit event listener to the form
-      document
-        .getElementById("adminpost")
-        .addEventListener("submit", submitForm);
-
-      function submitForm(e) {
-        e.preventDefault();
-
-        // Get values
-        var venue = getInputVal("venue");
-        var date = getInputVal("date");
-        var posttext = getInputVal("textarea");
-        var pin = document.getElementById("checkbox").checked;
-
-        // Save data to Firebase
-        saveData(venue, date, posttext, pin);
-
-        // Redirect to another page
-        window.location.href = "./admin1.html";
-      }
-
-      // Function to get form values
-      function getInputVal(id) {
-        return document.getElementById(id).value;
-      }
-
-      // Function to save data to Firebase
-      function saveData(venue, date, time, posttext, pin) {
-        var newDataRef = database.ref("notifications").push();
-        var noti_id = newDataRef.key; // Generate a unique ID for the notification
-
-        newDataRef.set({
-          // Adm_id: getElementById("username").value, // Replace with the actual admin ID
-          Venue_id: venue,
-          Date: date,
-          Context: posttext,
-          Pin: pin,
-          Noti_id: noti_id,
-        });
-      }
-    </> -->
   </body>
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      header {
-        display: flex;
-        align-content: flex-start;
-        justify-content: space-between;
-        background-color: lemonchiffon;
-        padding: 4px 16px;
-      }
-      .user_icon {
-        display: flex;
-        align-items: center;
-        padding: 0px 8px;
-      }
-
-      img {
-        height: 30px;
-        width: auto;
-        margin: 8px;
-        /* border: 1px solid black; */
-        border-radius: 50%;
-      }
-      .main_sec {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* border: 1px solid red; */
-        padding: 25px;
-        width: 85%;
-      }
-      .dropdown {
-        display: flex;
-        align-items: baseline;
-        /* border: 1px solid red; */
-        margin: 8px;
-        padding: 8px;
-        font-weight: 600;
-      }
-
-      label,
-      select,
-      option,
-      input,
-      textarea {
-        font-size: 16px;
-        /* border: 1px solid red; */
-        padding: 8px;
-        margin: 4px;
-        border-radius: 2px;
-      }
-      .btns {
-        display: flex;
-      }
-      button {
-        padding: 10px 16px;
-        margin: 16px;
-        border: 1px solid lightgray;
-        border-radius: 8px;
-        background-color: lemonchiffon;
-        font-weight: 500;
-        font-size: 18px;
-        border: none;
-        box-shadow: 1px 3px 5px #ccc;
-      }
-      button:hover {
-        cursor: pointer;
-        box-shadow: 2px 5px 8px #aaa;
-      }
-    }
-  </style>
 </html>
