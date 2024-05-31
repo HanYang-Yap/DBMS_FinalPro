@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校園場地預約與線上付費系統</title>
+    <link rel="stylesheet" href="userInterface.css">
+</head>
+<body>
+    <header>
+        <div class="user-info">
+            <a href="user_page.html" onclick="navigateToUserPage()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-circle user-icon" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                </svg>
+            </a>                
+            <p>Hi! <span id="username"></span></p>
+        </div> 
+    </header>
+
+    <main>
+        <div class="buttons">
+            <div class="button-container" onclick="goToReservation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg>
+                <div class="button-text">預約 Reserve</div>
+            </div>
+            <img src="sp2.jpg" alt="sp1" class="meme-image">
+        </div>
+
+        <div class="content">
+            <div class="user-details">
+                <h2>使用者資料 User Information</h2>
+                <p>名稱：<span id="username"></span></p>
+                <p>學號：<span id="id"></span></p>
+                <p>系級：<span id="department"></span></p>
+                <button id="logout" class="btn btn-primary">Logout</button>
+            </div>
+
+            <div class="rights-history">
+                <h2>權利瀏覽 User Rights</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>地點</th>
+                            <th>性質</th>
+                            <th>通過時間</th>
+                            <th>有效期間</th>
+                            <th>通知</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>游泳館</td>
+                            <td>月票</td>
+                            <td>2024/02/01</td>
+                            <td>2024/05/31</td>
+                            <td><button class="notification-button" onclick="toggleNotification(this)">Announce</button></td>
+                        </tr>
+                        <!-- 其他權利項目 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="reservation-history">
+            <h2>歷史資料 History Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>日期 DATE</th>
+                        <th>時間 TIME</th>
+                        <th>場地 VANUE</th>
+                        <th>預約序號 RESERVATION_NUM</th>
+                        <th>狀態 STATUS</th>
+                        <th>金額 AMOUNT</th>
+                        <th>繳費 PAYMENT</th>
+                        <th>編輯 EDIT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 預約記錄列表 -->
+                    <tr>
+                        <td>05/02/2024</td>
+                        <td>16:00-18:00</td>
+                        <td>體育館羽毛球場地</td>
+                        <td>1566VCOU8545J</td>
+                        <td style="color: red;">Unpaid</td>
+                        <td>NT$ 1,000</td>
+                        <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
+                        <td><button class="edit-button" onclick="openEdit(this)">Edit</button></td>
+                    </tr>
+                    <!-- 其他預約記錄 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 繳費彈出視窗 -->
+        <div id="paymentModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>繳費</h2>
+                <div>
+                    <p>申請序號: <span id="modalReservationNumber"></span></p>
+                    <p>金額: <span id="modalAmount"></span></p>
+                    <label>繳費方式：</label><br>
+                    <input type="radio" id="cash" name="paymentMethod" value="cash">
+                    <label for="cash">現金支付</label><br>
+                    <input type="radio" id="linePay" name="paymentMethod" value="linePay">
+                    <label for="linePay">Line Pay</label><br>
+                    <input type="radio" id="visa" name="paymentMethod" value="visa">
+                    <label for="visa">Visa 信用卡</label><br><br>
+                    <button id="completePayment" style="background-color: green; color: white;">完成繳費</button>
+                    <button id="applyRefund" style="background-color: red; color: white; display: none;">申請退費</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+          authDomain: "db-github-11ca8.firebaseapp.com",
+          databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "db-github-11ca8",
+          storageBucket: "db-github-11ca8.appspot.com",
+          messagingSenderId: "236802727820",
+          appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 从 localStorage 获取用户信息
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            document.getElementById('username').innerText = user.name || user.email; // 使用 user.name 如果有 name 字段
+            document.getElementById('email').innerText = user.email;
+            document.getElementById('id').innerText = user.id;
+        } else {
+            alert('No user found, please log in first.');
+            window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
+        }
+
+        // 处理登出
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('user'); // 移除本地存储的用户信息
+            window.location.href = 'loginpage.html'; // 跳转回登录页面
+        });
+
+        var currentPayButton; // 用於追蹤當前的支付按鈕
+
+        function openPayment(button) {
+            document.addEventListener('DOMContentLoaded', function() {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                    document.getElementById('username').textContent = user.username;
+                    document.getElementById('studentId').textContent = user.id;
+                } else {
+                    window.location.href = 'signup.html';
+                }
+            });
+
+            currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "block";
+
+            // 根據按鈕的顏色和狀態來決定顯示的按鈕
+            if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
+                document.getElementById("completePayment").style.display = "block";
+                document.getElementById("applyRefund").style.display = "none";
+                document.getElementById("cancelRefund").style.display = "none";
+            } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
+                document.getElementById("completePayment").style.display = "none";
+                document.getElementById("applyRefund").style.display = "block";
+                document.getElementById("cancelRefund").style.display = "none";
+            } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
+                document.getElementById("completePayment").style.display = "none";
+                document.getElementById("applyRefund").style.display = "none";
+                document.getElementById("cancelRefund").style.display = "block";
+            }
+        }
+
+        // 取得關閉按鈕元素
+        var closeBtn = document.getElementsByClassName("close")[0];
+
+        // 當用戶點擊關閉按鈕時，關閉視窗
+        closeBtn.onclick = function () {
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "none";
+        }
+
+        // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
+        window.onclick = function (event) {
+            var modal = document.getElementById("paymentModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // 綁定完成繳費和申請退費按鈕的點擊事件
+        document.getElementById("completePayment").onclick = completePayment;
+        document.getElementById("applyRefund").onclick = applyRefund;
+        document.getElementById("cancelRefund").onclick = cancelRefund;
+
+        function completePayment() {
+            currentPayButton.textContent = "Pay";
+            currentPayButton.style.backgroundColor = "gray";
+
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "none";
+
+            // 更新表格中的狀態
+            var row = currentPayButton.closest('tr');
+            var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
+            statusCell.textContent = "Paid";
+            statusCell.style.color = "green";
+        }
+
+        // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+        document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openPayment(this);
+            });
+        });
+
+        function cancelRefund() {
+            currentPayButton.textContent = "申請退費";
+            currentPayButton.style.backgroundColor = "gray";
+
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "none";
+
+            // 更新表格中的狀態
+            var row = currentPayButton.closest('tr');
+            var statusCell = row.cells[4];
+            statusCell.textContent = "Paid";
+            statusCell.style.color = "green";
+        }
+
+        function applyRefund() {
+            currentPayButton.textContent = "Pay";
+            currentPayButton.style.backgroundColor = "green";
+
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "none";
+
+            // 更新表格中的狀態
+            var row = currentPayButton.closest('tr');
+            var statusCell = row.cells[4];
+            statusCell.textContent = "Applying";
+            statusCell.style.color = "gray";
+        }
+
+        // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+        document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openPayment(this);
+            });
+        });
+
+        function goToReservation() {
+            window.location.href = "reservation1.html";
+        }
+
+        function navigateToUserPage() {
+            window.location.href = "userInterface.html";
+        }
+
+        function navigateToNotification() {
+            // 顯示通知的代碼
+        }
+
+        function toggleNotification(button) {
+            if (button.style.backgroundColor === 'green') {
+                alert('已完成設定');
+                button.style.backgroundColor = 'gray';
+            } else {
+                alert('已取消通知');
+                button.style.backgroundColor = 'green';
+            }
+        }
+    </script>
+</body>
+</html>

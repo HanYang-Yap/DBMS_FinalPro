@@ -5,7 +5,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>羽球場</title> 
-        
         <style>
         body {
             font-family: Arial, sans-serif;
@@ -73,6 +72,7 @@
         .notice span:last-child {
             margin-left: auto;
         }
+        
         </style>
     </head>
     <body>
@@ -92,32 +92,16 @@
             </div>
             <div class="container">
                 <h2 class="title2">最新通知</h2>
-                <div class="contentNoti" id = "contentNoti">
-                    <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
-                        <span style="margin-right: 10px;"></span>
-                        <span style="flex-grow: 1;">預設通知</span>
-                        <span style="margin-left: 10px;"><small>2024-05-23</small></span>
-                    </div>
+                <div class="contentNoti" id="contentNoti">
                 </div>
             </div>
         </div>
         <div id='badmintonCalendar' class="calendar"></div>
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var calendarEl = document.getElementById('badmintonCalendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth'
-                });
-                calendar.render();
-            });
-        </script>
         <script type="module">
-
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-            import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+            import { getDatabase, ref, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-            // Your web app's Firebase configuration
             const firebaseConfig = {
                 apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
                 authDomain: "db-github-11ca8.firebaseapp.com",
@@ -139,37 +123,34 @@
                 get(child(dbref, "notifications/"))
                 .then((snapshot) => {
                     if (snapshot.exists()) {
-                        console.log("have snapshot");
                         const notifications = [];
                         snapshot.forEach((childSnapshot) => {
                             const notification = childSnapshot.val();
                             if (notification.Venue_id === 1) {
                                 notifications.push(notification);
                             }
-                         });
+                        });
 
-                        // 將通知按照 Pin 排序，true 的排在前面
                         notifications.sort((a, b) => {
                             if (a.Pin === b.Pin) {
                                 return 0;
-                            } else if (a.Pin === true) {
+                            } else if (a.Pin) {
                                 return -1;
                             } else {
                                 return 1;
                             }
                         });
 
-                        // 將排序後的通知添加到通知區域
                         notifications.forEach((notification) => {
                             const context = notification.Context;
-                            const sentDate = notification.Sent_date;
+                            const event_date = notification.Event_date;
                             const pin = notification.Pin;
 
                             contentNoti.innerHTML += `
                                 <div class="notice" style="display: flex; align-items: center; margin-bottom: 10px;">
                                     <span style="margin-right: 10px;">${pin ? '📌' : ''}</span>
                                     <span style="flex-grow: 1;">${context}</span>
-                                    <span style="margin-left: 10px;"><small>${sentDate}</small></span>
+                                    <span style="margin-left: 10px;"><small>${event_date}</small></span>
                                 </div>
                             `;
                         });
@@ -182,7 +163,79 @@
                 });
             }
 
-            findNoti();  // 呼叫函數以便於頁面加載時顯示通知
+            document.addEventListener('DOMContentLoaded', function() {
+                findNoti();
+
+                var calendarEl = document.getElementById('badmintonCalendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth'
+                });
+                calendar.render();
+
+                const reservationsRef = ref(db, 'reservations');
+                const adminHostRef = ref(db, 'adminHost');
+
+                const venueColors = {
+                    "羽球場": "#89eb71",
+                    "籃球場": "#007bff",
+                    "排球場": "#ffc107"
+                };
+
+                function fetchAndDisplayReservations() {
+                    onValue(reservationsRef, (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            const events = [];
+                            for (const key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    const reservation = data[key];
+                                    if (reservation.venue === "羽球場") {
+                                        const color = venueColors[reservation.venue];
+                                        events.push({
+                                            title: `${reservation.venue} ${reservation.people} ${reservation.time}`,
+                                            start: reservation.date,
+                                            backgroundColor: color,
+                                            borderColor: color
+                                        });
+                                    }
+                                }
+                            }
+                            calendar.addEventSource(events);
+                        }
+                    }, (error) => {
+                        console.error('Error fetching data:', error);
+                    });
+                }
+
+                function fetchAndDisplayAdminHosts() {
+                    onValue(adminHostRef, (snapshot) => {
+                        const data = snapshot.val();
+                        if (data) {
+                            const events = [];
+                            for (const key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    const adminhost = data[key];
+                                    if (adminhost.venue === "羽球場") {
+                                        const color = 	"#FFAAD5";
+                                        events.push({
+                                            title: `${adminhost.venue} ${adminhost.reason} ${adminhost.time}`,
+                                            start: adminhost.date,
+                                            backgroundColor: color,
+                                            borderColor: color
+                                        });
+                                    }
+                                }
+                            }
+                            calendar.addEventSource(events);
+                        }
+                    }, (error) => {
+                        console.error('Error fetching data:', error);
+                    });
+                }
+
+                fetchAndDisplayReservations();
+                fetchAndDisplayAdminHosts();
+            });
         </script>
     </body>
 </html>

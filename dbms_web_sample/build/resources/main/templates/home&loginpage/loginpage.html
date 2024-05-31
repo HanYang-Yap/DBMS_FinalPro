@@ -131,7 +131,7 @@
           });
 
           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/DBMS_FinalPro/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
+            window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
         });
 
         } else {
@@ -156,7 +156,7 @@
           });
 
           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/DBMS_FinalPro/dbms_web_sample/src/main/resources/templates/userInterface.html';
+            window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
         });
 
         }
@@ -164,8 +164,36 @@
       });
 
 
+      login.addEventListener('click', (e) => {
+    e.preventDefault();
 
-  </script>
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    fetch('/api/user/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Login failed');
+        }
+        return response.json();
+    })
+    .then(user => {
+        localStorage.setItem('user', JSON.stringify(user));
+        window.location.href = 'userInterface.html';
+    })
+    .catch(error => {
+        alert('Login failed: ' + error.message);
+    });
+});
+
+
+</script>
 
   <style>
 

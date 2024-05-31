@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                                 http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="PersistenceUnit" transaction-type="RESOURCE_LOCAL">
+        <class>com.example.demo.model.User</class> <!-- 指定實體類 -->
+        <!-- 其他持久化配置 -->
+        <properties>
+            <!-- 配置數據庫連接等 -->
+            <property name="javax.persistence.jdbc.url" value="https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app"/>
+            <property name="javax.persistence.jdbc.user" value="YOUR_DATABASE_USERNAME"/>
+            <property name="javax.persistence.jdbc.password" value="YOUR_DATABASE_PASSWORD"/>
+            <property name="javax.persistence.jdbc.driver" value="YOUR_DATABASE_DRIVER"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
