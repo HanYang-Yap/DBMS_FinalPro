@@ -57,9 +57,10 @@
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
       import {
-        getDatabase,
+        get,
         ref,
-        set,
+        child,
+        getDatabase,
       } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
       const firebaseConfig = {
@@ -76,54 +77,147 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
-      // Reference to the notifications data in Firebase
-      const notificationsRef = ref(db, "notifications/" + noti_id);
+      function findNoti() {
+        console.log("page loaded!!");
+        const tableBody = document.querySelector("#tableBody");
+        tableBody.innerHTML = "";
 
-      // Listen for data changes
-      onValue(notificationsRef, (snapshot) => {
-        const data = snapshot.val();
-        updateTable(data);
-      });
+        const dbref = ref(db);
+        get(child(dbref, "notifications/"))
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const notifications = [];
+              snapshot.forEach((childSnapshot) => {
+                const notification = childSnapshot.val();
+                notifications.push(notification);
+              });
 
-      // Function to update HTML table
-      function updateTable(data) {
-        const tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = ""; // Clear the existing table data
+              notifications.sort((a, b) => {
+                return a.Pin === b.Pin ? 0 : a.Pin ? -1 : 1;
+              });
 
-        for (const id in data) {
-          const notification = data[id];
-          const row = document.createElement("tr");
+              notifications.forEach((notification) => {
+                const newRow = document.createElement("tr");
 
-          const pinCell = document.createElement("td");
-          pinCell.textContent = notification.Pin ? "v" : "";
-          row.appendChild(pinCell);
+                const pinCell = document.createElement("td");
+                notification.Pin ? (pinCell.textContent = "📌") : "";
+                const notificationCell = document.createElement("td");
+                notificationCell.textContent = notification.Context;
+                const locationCell = document.createElement("td");
+                locationCell.textContent = notification.Venue;
+                const dateCell = document.createElement("td");
+                dateCell.textContent = notification.Date;
 
-          const announcementCell = document.createElement("td");
-          announcementCell.textContent = notification.Context;
-          row.appendChild(announcementCell);
+                const editCell = document.createElement("td");
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "DELETE";
 
-          const locationCell = document.createElement("td");
-          locationCell.textContent = notification.Venue;
-          row.appendChild(locationCell);
+                // define deleteDoubleCheck function
+                function deleteDoubleCheck(action) {
+                  // console.log("confirm action activated");
+                  var result = confirm("Are you sure to delete?");
+                  if (result) {
+                    alert("已確認執行：" + action);
+                    // 在這裡執行確認後的操作
+                  } else {
+                    alert("已取消操作：" + action);
+                    // 在這裡執行取消後的操作
+                  }
+                }
+                deleteButton.addEventListener("click", () => {
+                  // console.log("你按到deletebutton了啦");
 
-          const dateCell = document.createElement("td");
-          dateCell.textContent = notification.Date.split(" ")[0];
-          row.appendChild(dateCell);
+                  // fool-proved
+                  deleteDoubleCheck();
 
-          const timeCell = document.createElement("td");
-          timeCell.textContent = notification.Date.split(" ")[1];
-          row.appendChild(timeCell);
+                  // 想要在按下某列delete時讀到該列的noti_id，然後再刪除那整筆資料
+                  const notificationId = notification.noti_id;
+                  console.log("notificationId"); //這個可以，應該是上面noti_id沒接到
+                  const notificationRef = ref(
+                    db,
+                    `notifications/${notificationId}`
+                  );
+                  remove(notificationRef)
+                    .then(() => {
+                      findNoti(); //重新載入列表
+                      console.log("Notification deleted successfully");
+                      // fool-proved
+                    })
+                    .catch((error) => {
+                      console.error("Error deleting notification:", error);
+                    });
+                });
 
-          const editCell = document.createElement("td");
-          const deleteButton = document.createElement("button");
-          deleteButton.textContent = "DELETE";
-          deleteButton.addEventListener("click", () => deleteNotification(id));
-          editCell.appendChild(deleteButton);
-          row.appendChild(editCell);
+                editCell.appendChild(deleteButton);
+                newRow.appendChild(pinCell);
+                newRow.appendChild(notificationCell);
+                newRow.appendChild(locationCell);
+                newRow.appendChild(dateCell);
+                newRow.appendChild(editCell);
 
-          tableBody.appendChild(row);
-        }
+                tableBody.appendChild(newRow);
+              });
+            } else {
+              console.log("No notifications found.");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        // console.log("Notification:", notification);
       }
+
+      document.addEventListener("DOMContentLoaded", findNoti);
+
+      //   // Reference to the notifications data in Firebase
+      //   const notificationsRef = ref(db, "notifications/" + noti_id);
+
+      //   // Listen for data changes
+      //   onValue(notificationsRef, (snapshot) => {
+      //     const data = snapshot.val();
+      //     updateTable(data);
+      //   });
+
+      //   // Function to update HTML table
+      //   function updateTable(data) {
+      //     const tableBody = document.getElementById("tableBody");
+      //     tableBody.innerHTML = ""; // Clear the existing table data
+
+      //     for (const id in data) {
+      //       const notification = data[id];
+      //       const row = document.createElement("tr");
+
+      //       const pinCell = document.createElement("td");
+      //       pinCell.textContent = notification.Pin ? "v" : "";
+      //       row.appendChild(pinCell);
+
+      //       const announcementCell = document.createElement("td");
+      //       announcementCell.textContent = notification.Context;
+      //       row.appendChild(announcementCell);
+
+      //       const locationCell = document.createElement("td");
+      //       locationCell.textContent = notification.Venue;
+      //       row.appendChild(locationCell);
+
+      //       const dateCell = document.createElement("td");
+      //       dateCell.textContent = notification.Date.split(" ")[0];
+      //       row.appendChild(dateCell);
+
+      //       const timeCell = document.createElement("td");
+      //       timeCell.textContent = notification.Date.split(" ")[1];
+      //       row.appendChild(timeCell);
+
+      //       const editCell = document.createElement("td");
+      //       const deleteButton = document.createElement("button");
+      //       deleteButton.textContent = "DELETE";
+      //       deleteButton.addEventListener("click", () => deleteNotification(id));
+      //       editCell.appendChild(deleteButton);
+      //       row.appendChild(editCell);
+
+      //       tableBody.appendChild(row);
+      //     }
+      //   }
+      //
     </script>
   </body>
   <style>
