@@ -39,7 +39,7 @@
       <div class="title">
         <h1>Posts</h1>
         <h3 class="add_btn"><a href="./admin2.html">+add Posts</a></h3>
-        <h3 class="host_btn"><a href="./adminhost.html">host</a></h3>
+        <h3 class="host_btn"><a href="./adminhost.html">host >></a></h3>
       </div>
       <table>
         <tr>
@@ -61,6 +61,7 @@
         ref,
         child,
         getDatabase,
+        remove,
       } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
       const firebaseConfig = {
@@ -111,6 +112,8 @@
                 const editCell = document.createElement("td");
                 const deleteButton = document.createElement("button");
                 deleteButton.textContent = "DELETE";
+                var currentDate = new Date().toLocaleString();
+                deleteButton.setAttribute("id", "noti_id" + currentDate);
 
                 // define deleteDoubleCheck function
                 function deleteDoubleCheck(action) {
@@ -131,17 +134,18 @@
                   deleteDoubleCheck();
 
                   // 想要在按下某列delete時讀到該列的noti_id，然後再刪除那整筆資料
-                  const notificationId = notification.noti_id;
-                  console.log("notificationId"); //這個可以，應該是上面noti_id沒接到
+                  const notificationId = notification.Noti_id;
+                  console.log(notificationId); //這個可以，應該是上面noti_id沒接到
+                  console.log("delete的" + notification); // 有讀到物件
+
                   const notificationRef = ref(
                     db,
                     `notifications/${notificationId}`
                   );
-                  remove(notificationRef)
+                  remove(notificationRef) //根據Noti_id刪掉整筆紀錄
                     .then(() => {
                       findNoti(); //重新載入列表
                       console.log("Notification deleted successfully");
-                      // fool-proved
                     })
                     .catch((error) => {
                       console.error("Error deleting notification:", error);
