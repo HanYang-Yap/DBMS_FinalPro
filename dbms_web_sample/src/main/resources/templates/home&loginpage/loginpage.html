@@ -127,6 +127,23 @@
             // 其他信息
         }));
 
+        // 从数据库中检索用户信息
+        get(ref(db, `${userType}/${id}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                const userName = userData.name;
+                const userDepartment = userData.department;
+
+                // 将用户信息更新到用户界面中
+                document.getElementById('username').innerText = userName;
+                document.getElementById('userDepartment').innerText = userDepartment;
+            } else {
+                console.log("No such user exists!");
+            }
+        }).catch((error) => {
+            console.error("Error fetching user data: ", error);
+        });
+
             var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
             successModal.show();
 

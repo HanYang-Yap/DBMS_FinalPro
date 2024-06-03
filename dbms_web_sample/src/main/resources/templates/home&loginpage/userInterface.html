@@ -15,7 +15,7 @@
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
             </a>                
-            <p>Hi! <span id="username"></span></p>
+            <p>Hi! <span id="userName"></span></p>
         </div> 
     </header>
 
@@ -120,7 +120,7 @@
             </div>
         </div>
     </main>
-    
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -142,16 +142,56 @@
         const db = getDatabase(app);
         console.log(db); // 输出Firebase数据库对象
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user) {
-                document.getElementById('username').innerText = user.name;
-                document.getElementById('userId').innerText = user.id;
-                document.getElementById('userDepartment').innerText = user.department;
+        document.addEventListener('DOMContentLoaded', function() {
+    // 获取用户信息
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        document.getElementById('userName').innerText = user.username;
+        document.getElementById('userId').innerText = user.id;
+        document.getElementById('userDepartment').innerText = user.department;
+
+        // 查询数据库以获取用户姓名和系级
+        const userRef = ref(db, 'Student/' + user.id); 
+        get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                // 更新用户界面中的用户姓名和系级
+                document.getElementById('userName').innerText = userData.username;
+                document.getElementById('userDepartment').innerText = userData.department;
             } else {
-                alert('No user found, please log in first.');
-                window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
+                console.log('No user data found in the database');
             }
+        }).catch((error) => {
+            console.error('Error getting user data:', error);
+        });
+    } else {
+        alert('No user found, please log in first.');
+        window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
+    }
+});
+
+
+
+    </script>
+
+    <script >
+        function goToReservation() {
+            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/reservation1.html";
+        }
+
+        function navigateToUserPage() {
+            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html";
+        }
+
+        function navigateToNotification() {
+            // 顯示通知的代碼
+        }
+
+         // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+         document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openPayment(this);
+            });
         });
 
         var currentPayButton; // 用於追蹤當前的支付按鈕
@@ -160,7 +200,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 const user = JSON.parse(localStorage.getItem('user'));
                 if (user) {
-                    document.getElementById('username').textContent = user.username;
+                    document.getElementById('userName').textContent = user.username;
                     document.getElementById('studentId').textContent = user.id;
                 } else {
                     window.location.href = 'signup.html';
@@ -171,8 +211,8 @@
             var modal = document.getElementById("paymentModal");
             modal.style.display = "block";
 
-// 綁定完成繳費和申請退費按鈕的點擊事件
-document.getElementById("completePayment").onclick = completePayment;
+        // 綁定完成繳費和申請退費按鈕的點擊事件
+        document.getElementById("completePayment").onclick = completePayment;
         document.getElementById("applyRefund").onclick = applyRefund;
         document.getElementById("cancelRefund").onclick = cancelRefund;
 
@@ -259,25 +299,6 @@ document.getElementById("completePayment").onclick = completePayment;
             }
         }
 
-        // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
-        document.querySelectorAll('.pay-button').forEach(button => {
-            button.addEventListener('click', function() {
-                openPayment(this);
-            });
-        });
-
-        function goToReservation() {
-            window.location.href = "reservation1.html";
-        }
-
-        function navigateToUserPage() {
-            window.location.href = "userInterface.html";
-        }
-
-        function navigateToNotification() {
-            // 顯示通知的代碼
-        }
-
         function toggleNotification(button) {
             if (button.style.backgroundColor === 'green') {
                 alert('已完成設定');
@@ -288,5 +309,6 @@ document.getElementById("completePayment").onclick = completePayment;
             }
         }
     </script>
+    
 </body>
 </html>
