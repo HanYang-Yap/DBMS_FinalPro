@@ -337,6 +337,15 @@
             // const id = urlParams.get('userId');
             // localStorage.setItem('userId', id);
 
+            const user = JSON.parse(localStorage.getItem('user')); // 从localStorage获取用户信息
+            const userId = user.id;
+
+            // 获取表单字段值
+            const venue = document.getElementById('venue').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const people = document.getElementById('people').value;
+
 
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
@@ -374,41 +383,57 @@
                 //var reason = document.getElementById('reason').value;
                 var reservation_id = venue_id + date + timeR;
 
+                // 将数据存储到 Firebase
+                set(ref(db, 'reservations/' + reservation_id), {
+                id: userId, // 保存用户ID
+                venue: venue,
+                date: date,
+                time: time,
+                people: people,
+                venue_id: venue_id,
+                reservation_id: reservation_id,
+                status: 'Unpaid'
+            }).then(() => {
+                alert('预订成功');
+            }).catch((error) => {
+                console.error('预订失败:', error);
+            });
+        });
 
             //     // 將數據存儲到 Firestore (11:24)
             //     // Write data to Firebase Realtime Database
-                console.log("Attempting..");
-                console.log({
+            //     console.log("Attempting..");
+            //     console.log({
 
-                    reservation_id: reservation_id,
-                    venue_id: venue_id,
+            //         reservation_id: reservation_id,
+            //         venue_id: venue_id,
 
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time    
-                });
+            //         venue: venue,
+            //         people: people,
+            //         date: date,
+            //         time: time    
+            //     });
 
 
 
-                set(ref(db, 'reservations/' + reservation_id), {
+            //     set(ref(db, 'reservations/' + reservation_id), {
 
-                    reservation_id: reservation_id,
-                    venue_id: venue_id,
+            //         reservation_id: reservation_id,
+            //         venue_id: venue_id,
 
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time
-                })
-                .then(() => {
-                    alert("Reserve Successfully!");
-                })
-                .catch((error) => {
-                    console.error("Error saving data:", error);
-                    alert("Error saving data: " + error.message);
-                });
-            });
+            //         venue: venue,
+            //         people: people,
+            //         date: date,
+            //         time: time
+            //     })
+            //     .then(() => {
+            //         alert("Reserve Successfully!");
+            //     })
+            //     .catch((error) => {
+            //         console.error("Error saving data:", error);
+            //         alert("Error saving data: " + error.message);
+            //     });
+            // });
         </script>
 
         
