@@ -173,7 +173,10 @@
                 calendar.render();
 
                 const reservationsRef = ref(db, 'reservations');
+<<<<<<< HEAD
                 const adminHostRef = ref(db, 'adminHost');
+=======
+>>>>>>> 55fb2b0 (commit changes)
 
                 const venueColors = {
                     "羽球場": "#89eb71",
@@ -207,6 +210,7 @@
                     });
                 }
 
+<<<<<<< HEAD
                 function fetchAndDisplayAdminHosts() {
                     onValue(adminHostRef, (snapshot) => {
                         const data = snapshot.val();
@@ -235,6 +239,9 @@
 
                 fetchAndDisplayReservations();
                 fetchAndDisplayAdminHosts();
+=======
+                fetchAndDisplayReservations();
+>>>>>>> 55fb2b0 (commit changes)
             });
         </script>
     </body>

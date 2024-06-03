@@ -87,17 +87,32 @@
                     <span>/</span>
                     <span class="total">10</span>
                     </div>
-                    <!-- 讀取各自數字 -->
                 </div>
             </div>
             <div class="container">
                 <h2 class="title2">最新通知</h2>
+<<<<<<< HEAD
                 <div class="contentNoti" id="contentNoti">
+=======
+                <div class="contentNoti">
+>>>>>>> 55fb2b0 (commit changes)
                 </div>
             </div>
         </div>
         <div id='volleyballCalendar' class="calendar"></div>
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<<<<<<< HEAD
+=======
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var calendarEl = document.getElementById('volleyballCalendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+                });
+                calendar.render();
+            });
+        </script>
+>>>>>>> 55fb2b0 (commit changes)
         <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
             import { getDatabase, ref, get, child, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
