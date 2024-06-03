@@ -68,6 +68,7 @@
                       <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="redirectToOtherPage">OK</button>
                       </div>
+                      <a href="/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html"></a>
                     </div>
                   </div>
                 </div>
@@ -110,94 +111,113 @@
         var password = document.getElementById("password").value;
         //var confirmpassword = document.getElementById("confirmpassword").value;
 
-        if (id.length == 6){
-          signInWithEmailAndPassword(auth, email, password)
+      signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            // Signed in 
             const user = userCredential.user;
+            const userType = id.length === 6 ? 'Admin' : 'Student';
 
-            //const dt = new Date();
-          update(ref(db, 'Admin/' + id), {
+            update(ref(db, `${userType} / ${id}`), {
               last_login: new Date().toLocaleString()
-          })
+            });
 
-          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                successModal.show();
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+            successModal.show();
+
+            document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+              window.location.href = userType === 'Admin' ? '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html' : '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
+            });
+
           })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert('Log In failed!' + errorMessage);
+          .catch((error) => {
+            alert('Log In failed! ' + error.message);
           });
-
-          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
-        });
-
-        } else {
-
-          signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-
-            //const dt = new Date();
-          update(ref(db, 'Student/' + id), {
-              last_login: new Date().toLocaleString()
-          })
-
-          var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-                successModal.show();
-          })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert('Log In failed!' + errorMessage);
-          });
-
-          document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-            window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
-        });
-
-        }
-
       });
 
-<<<<<<< HEAD
 
-      login.addEventListener('click', (e) => {
-    e.preventDefault();
+//         if (id.length == 6){
+//           signInWithEmailAndPassword(auth, email, password)
+//           .then((userCredential) => {
+//             // Signed in 
+//             const user = userCredential.user;
 
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+//             //const dt = new Date();
+//           update(ref(db, 'Admin/' + id), {
+//               last_login: new Date().toLocaleString()
+//           })
 
-    fetch('/api/user/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-        return response.json();
-    })
-    .then(user => {
-        localStorage.setItem('user', JSON.stringify(user));
-        window.location.href = 'userInterface.html';
-    })
-    .catch(error => {
-        alert('Login failed: ' + error.message);
-    });
-});
+//           var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+//                 successModal.show();
+//           })
+//             .catch((error) => {
+//               const errorCode = error.code;
+//               const errorMessage = error.message;
+//               alert('Log In failed!' + errorMessage);
+//           });
+
+//           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+//             window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
+//         });
+
+//         } else {
+
+//           signInWithEmailAndPassword(auth, email, password)
+//           .then((userCredential) => {
+//             // Signed in 
+//             const user = userCredential.user;
+
+//             //const dt = new Date();
+//           update(ref(db, 'Student/' + id), {
+//               last_login: new Date().toLocaleString()
+//           })
+
+//           var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+//                 successModal.show();
+//           })
+//             .catch((error) => {
+//               const errorCode = error.code;
+//               const errorMessage = error.message;
+//               alert('Log In failed!' + errorMessage);
+//           });
+
+//           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+//             window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
+//         });
+
+//         }
+
+//       });
+
+
+//       login.addEventListener('click', (e) => {
+//     e.preventDefault();
+
+//     var email = document.getElementById('email').value;
+//     var password = document.getElementById('password').value;
+
+//     fetch('/api/user/login', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({ email, password })
+//     })
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error('Login failed');
+//         }
+//         return response.json();
+//     })
+//     .then(user => {
+//         localStorage.setItem('user', JSON.stringify(user));
+//         window.location.href = 'userInterface.html';
+//     })
+//     .catch(error => {
+//         alert('Login failed: ' + error.message);
+//     });
+// });
 
 
 </script>
-=======
-  </script>
->>>>>>> 55fb2b0 (commit changes)
 
   <style>
 
