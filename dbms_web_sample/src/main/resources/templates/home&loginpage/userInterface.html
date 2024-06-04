@@ -72,17 +72,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- 預約記錄列表 -->
-                     <!-- <tr>
-                        <td>05/02/2024</td>
-                        <td>16:00-18:00</td>
-                        <td>體育館羽毛球場地</td>
-                        <td>1566VCOU8545J</td>
-                        <td style="color: red;">Unpaid</td>
-                        <td>NT$ 1,000</td>
-                        <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
-                        <td><button class="edit-button" onclick="openEdit(this)">Edit</button></td>
-                    </tr> -->
+                    <!-- 預約記錄列表 (javascript) -->
                  </tbody>
             </table>
         </div>
@@ -146,7 +136,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get, orderByChild, onChildAdded, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, get, orderByChild, onChildAdded, update, query, equalTo } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
@@ -173,9 +163,9 @@
             var modal = document.getElementById("editModal");
             modal.style.display = "block";
 
-            // 获取当前行的预订序号 row-column
+            // 获取当前行的预订序号
             var column = button.closest('tr');
-            var reservationIdCell = column.cells[3]; // 假设预订序号是第四列（索引为3）
+            var reservationIdCell = column.cells[3]; // 假设预订序号是第四行（索引为3）
             currentEditReservationId = reservationIdCell.textContent;
 
             // 初始化选择框
@@ -228,8 +218,8 @@
             document.getElementById('userId').innerText = user.id;
             document.getElementById('userDepartment').innerText = user.department;
 
-        // 查询数据库以获取用户预约记录并显示
-        fetchAndDisplayReservations();
+        // 查询数据库以获取用户预约记录并显示 新增user.id
+        fetchAndDisplayReservations(user.id);
 
         // 查询数据库以获取用户姓名和系级
         const userRef = ref(db, 'Student/' + user.id); 
@@ -264,54 +254,96 @@
     }
 });
 
-            const reservationsRef = ref(db, 'reservations');
-            //const reservationsRef = query(ref(db, 'reservations'), orderByChild('user_id'), equalTo(userId));
-            get(reservationsRef).then((snapshot) => {
-                const data = snapshot.val();
-                const tbody = document.querySelector('.reservation-history tbody');
-                tbody.innerHTML = ''; // 清空表格内容
+            // const reservationsRef = ref(db, 'reservations');
+            // //const reservationsRef = query(ref(db, 'reservations'), orderByChild('user_id'), equalTo(userId));
+            // get(reservationsRef).then((snapshot) => {
+            //     const data = snapshot.val();
+            //     const tbody = document.querySelector('.reservation-history tbody');
+            //     tbody.innerHTML = ''; // 清空表格内容
 
-                if (data) {
-                    for (const key in data) {
-                        if (data.hasOwnProperty(key)) {
-                            const reservation = data[key];
-                            getAmountByVenueId(reservation.venue_id, (amount) => {
-                                const tr = document.createElement('tr');
-                                tr.innerHTML = `
-                                    <td>${reservation.date}</td>
-                                    <td>${reservation.time}</td>
-                                    <td>${reservation.venue}</td>
-                                    <td>${reservation.reservation_id}</td>
-                                    <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
-                                    <td>NT$ ${amount}</td>
-                                    <td><button class="pay-button">Pay</button></td>
-                                    <td><button class="edit-button">Edit</button></td>
-                                `;
-                                tbody.appendChild(tr);
+            //     if (data) {
+            //         for (const key in data) {
+            //             if (data.hasOwnProperty(key)) {
+            //                 const reservation = data[key];
+            //                 getAmountByVenueId(reservation.venue_id, (amount) => {
+            //                     const tr = document.createElement('tr');
+            //                     tr.innerHTML = `
+            //                         <td>${reservation.date}</td>
+            //                         <td>${reservation.time}</td>
+            //                         <td>${reservation.venue}</td>
+            //                         <td>${reservation.reservation_id}</td>
+            //                         <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
+            //                         <td>NT$ ${amount}</td>
+            //                         <td><button class="pay-button">Pay</button></td>
+            //                         <td><button class="edit-button">Edit</button></td>
+            //                     `;
+            //                     tbody.appendChild(tr);
 
-                                // Attach event listeners after appending the row to the table
-                                tr.querySelector('.pay-button').addEventListener('click', function() {
-                                    openPayment(this);
-                                });
-                                tr.querySelector('.edit-button').addEventListener('click', function() {
-                                    openEdit(this);
-                                });
+            //                     // Attach event listeners after appending the row to the table
+            //                     tr.querySelector('.pay-button').addEventListener('click', function() {
+            //                         openPayment(this);
+            //                     });
+            //                     tr.querySelector('.edit-button').addEventListener('click', function() {
+            //                         openEdit(this);
+            //                     });
 
-                            });
-                        }
-                    }
+            //                 });
+            //             }
+            //         }
+            //     }
+            // }).catch((error) => {
+            //     console.error('Error getting reservations:', error);
+            // });
+
+            function fetchAndDisplayReservations(userId) {
+    const reservationsRef = query(ref(db, 'reservations'), orderByChild('id'), equalTo(userId));
+    get(reservationsRef).then((snapshot) => {
+        const data = snapshot.val();
+        const tbody = document.querySelector('.reservation-history tbody');
+        tbody.innerHTML = ''; // 清空表格内容
+
+        if (data) {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const reservation = data[key];
+                    getAmountByVenueId(reservation.Venue_id, (amount) => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${reservation.date}</td>
+                            <td>${reservation.time}</td>
+                            <td>${reservation.venue}</td>
+                            <td>${reservation.reservation_id}</td>
+                            <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
+                            <td>NT$ ${amount}</td>
+                            <td><button class="pay-button">Pay</button></td>
+                            <td><button class="edit-button">Edit</button></td>
+                        `;
+                        tbody.appendChild(tr);
+
+                        // Attach event listeners after appending the row to the table
+                        tr.querySelector('.pay-button').addEventListener('click', function() {
+                            openPayment(this);
+                        });
+                        tr.querySelector('.edit-button').addEventListener('click', function() {
+                            openEdit(this);
+                        });
+
+                    });
                 }
-            }).catch((error) => {
-                console.error('Error getting reservations:', error);
-            });
+            }
+        }
+    }).catch((error) => {
+        console.error('Error getting reservations:', error);
+    });
+}
 
 
-            function getAmountByVenueId(venue_id, callback) {
-                const venuesRef = ref(db, `Venue/${venue_id}`);
+            function getAmountByVenueId(Venue_id, callback) {
+                const venuesRef = ref(db, `Venue/${Venue_id}`);
                 get(venuesRef).then((snapshot) => {
                     const venueData = snapshot.val();
                     if (venueData) {
-                        callback(venueData.Fee_Amount);
+                        callback(venueData.Fee);
                     } else {
                         callback(0);
                     }
@@ -346,9 +378,6 @@
             }
             const userId = user.id;
         }
-
-
-            
 
         function navigateToUserPage() {
             window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html";
