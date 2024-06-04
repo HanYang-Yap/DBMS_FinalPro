@@ -1,295 +1,309 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>場地時間設定</title>
-        <style>
-            /* Add your CSS styles here */
-            body {
-                font-family: Arial, sans-serif;
-                margin-bottom: 20px; 
-                padding-bottom: 20px;
-            }
-            .container {
-                align-items: flex-start;
-                margin-top: 20px;
-            }
-            .dropdown-container {
-                flex: 1;
-                padding: 1.5%;
-            }
-            .dropdown {
-                color: black;
-                font-weight: bold;
-            }
-            .dropdown label {
-                display: block;
-                margin-bottom: 5px;
-                background-color: lemonchiffon;
-                padding: 5px;
-                border-radius: 2px;
-            }
-            .dropdown select {
-                width: calc(100% - 16px); /* 使用 calc() 函數計算寬度，並減去預期的內邊距 */
-                padding: 8px;
-                border-radius: 5px;
-                border: 1px solid #ccc;
-            }
-            .people-selection {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background-color: lemonchiffon;
-                padding: 5px;
-                border-radius: 5px;
-            }
-            .people-selection button {
-                background-color: transparent;
-                border: none;
-                cursor: pointer;
-                font-size: 16px;
-                font-weight: bold;
-            }
-            .venue-image {
-                width: 100%; 
-                
-            }
-            @media (max-width: 768px) {
-            .venue-image {
-            width: 80%; /* Adjust the width for smaller screens */
-            }
-            }
-            .button-container {
-                width: 100%;
-                margin-top: 20px;
-                text-align: center;
-            }
-            .button {
-                padding: 10px 20px;
-                margin: 0 10px;
-                font-size: 16px;
-                cursor: pointer;
-                background-color: lemonchiffon; /* 背景色 */
-                color: black; /* 文字顏色 */
-                border: none;
-                font-weight: bold; /* 粗體 */
-                box-shadow: 3px 3px 3px rgba(0,0,0,0.3); /* 淺陰影 */
-                border-radius: 7px; /* 使用百分比值設定圓角，將按鈕變成圓形 */
-            }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>場地時間設定</title>
+    <style>
+      /* Add your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+      .container {
+        align-items: flex-start;
+        margin-top: 20px;
+      }
+      .dropdown-container {
+        flex: 1;
+        padding: 1.5%;
+      }
+      .dropdown {
+        color: black;
+        font-weight: bold;
+      }
+      .dropdown label {
+        display: block;
+        margin-bottom: 5px;
+        background-color: lemonchiffon;
+        padding: 5px;
+        border-radius: 2px;
+      }
+      .dropdown select {
+        width: calc(
+          100% - 16px
+        ); /* 使用 calc() 函數計算寬度，並減去預期的內邊距 */
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .people-selection {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: lemonchiffon;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .people-selection button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .venue-image {
+        width: 100%;
+      }
+      @media (max-width: 768px) {
+        .venue-image {
+          width: 80%; /* Adjust the width for smaller screens */
+        }
+      }
+      .button-container {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+      }
+      .button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: lemonchiffon; /* 背景色 */
+        color: black; /* 文字顏色 */
+        border: none;
+        font-weight: bold; /* 粗體 */
+        box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3); /* 淺陰影 */
+        border-radius: 7px; /* 使用百分比值設定圓角，將按鈕變成圓形 */
+      }
 
-            .calendar {
-                width:80%;
-                margin: 0 auto;
-            }
+      .calendar {
+        width: 80%;
+        margin: 0 auto;
+      }
 
-            .title2 {
-                text-align: center;
-                margin-top: 5px;
-                margin-bottom: 5px;
-                color: black;
-            }
-            
-            .contentRTQ {
-                text-align: center;
-                height: 210px;
-                margin-top: 40px;
-                overflow: auto;
-                font-size: 70px;
-                color: black;
-            }
-            .contentNoti {
-                height: 210px;
-                overflow: auto;
-                float: left;
-                margin: 0 25px;
-            }
-            .contentNoti p {
-                line-height: 0.9;
-            }
-            header {
-                display: flex;
-                align-content: flex-start;
-                justify-content: space-between;
-                background-color: lemonchiffon;
-                padding: 4px 16px;
-            }
-            .user_icon {
-                display: flex;
-                align-items: center;
-                padding: 0px 8px;
-            }
+      .title2 {
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        color: black;
+      }
 
-            img {
-                height: 30px;
-                width: auto;
-                margin: 8px;
-                /* border: 1px solid black; */
-                border-radius: 50%;
-            }
-        </style>
-    </head>
-    <body>
-        <header>
-            <!-- user_icon is here -->
-            <div class="user_icon">
-              <a href="../home&loginpage/index.html"
-                ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
-              /></a>
-              <h3>Hi! 123456 (admin)</h3>
-            </div>
-      
-            <div class="login_time">
-              <!-- <p id="current_date"></p>接上current time -->
-              <div id="current_date" style="font-weight: bold; font-size: smaller">
-                <script>
-                  // Get the current date
-                  var currentDate = new Date().toLocaleString();
-      
-                  // Concatenate "Login time:" with the date string
-                  var dateTimeString = "(登入時間) " + currentDate;
-      
-                  // Set the concatenated string as the inner HTML of the div
-                  document.getElementById("current_date").innerHTML = dateTimeString;
-                </script>
-              </div>
-            </div>
-          </header>
-        
-        <div class="container">
-            <form id="reservation-form">
-                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->                    
-                    <div class="dropdown">
-                        <label for="venue">活動場地：</label>
-                        <select id="venue" required>
-                            <option value="羽球場">羽球場</option>
-                            <option value="籃球場">籃球場</option>
-                            <option value="健身房">健身房</option>
-                            <option value="游泳池">游泳池</option>
-                            <option value="排球場">排球場</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->
-                    <div class="dropdown">
-                        <label for="date">活動日期：</label>
-                        <input type="date" id="date">
-                    </div>
-                </div>
-                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->              
-                    <div class="dropdown">
-                        <label for="time">活動時間：</label>
-                        <select id="time"  required>
-                            <option value="9:00 - 12:00">9:00 - 12:00</option>
-                            <option value="12:00 - 15:00">12:00 - 15:00</option>
-                            <option value="15:00 - 18:00">15:00 - 18:00</option>
-                            <option value="18:00 - 21:00">18:00 - 21:00</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="dropdown-container"> <!-- 使用 margin-left:auto; 使其置右 -->              
-                    <div class="dropdown">
-                        <label for="reason">活動內容：</label>
-                        <select id="reason"  required>
-                            <option value="比賽">比賽</option>
-                            <option value="課程">課程</option>
-                            <option value="校外租借">校外租借</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="button-container">
-                    <button type="reservation" class="button button-primary">確認活動</button>
-                </div>
-            </form>
+      .contentRTQ {
+        text-align: center;
+        height: 210px;
+        margin-top: 40px;
+        overflow: auto;
+        font-size: 70px;
+        color: black;
+      }
+      .contentNoti {
+        height: 210px;
+        overflow: auto;
+        float: left;
+        margin: 0 25px;
+      }
+      .contentNoti p {
+        line-height: 0.9;
+      }
+      header {
+        display: flex;
+        align-content: flex-start;
+        justify-content: space-between;
+        background-color: lemonchiffon;
+        padding: 4px 16px;
+      }
+      .user_icon {
+        display: flex;
+        align-items: center;
+        padding: 0px 8px;
+      }
+
+      img {
+        height: 30px;
+        width: auto;
+        margin: 8px;
+        /* border: 1px solid black; */
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- user_icon is here -->
+      <div class="user_icon">
+        <a href="../home&loginpage/index.html"
+          ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
+        /></a>
+        <h3>Hi!</h3>
+      </div>
+
+      <div class="login_time">
+        <!-- <p id="current_date"></p>接上current time -->
+        <div id="current_date" style="font-weight: bold; font-size: smaller">
+          <script>
+            // Get the current date
+            var currentDate = new Date().toLocaleString();
+
+            // Concatenate "Login time:" with the date string
+            var dateTimeString = "(登入時間) " + currentDate;
+
+            // Set the concatenated string as the inner HTML of the div
+            document.getElementById("current_date").innerHTML = dateTimeString;
+          </script>
         </div>
+      </div>
+    </header>
 
-        <br><br>
-        
-        <br><br>
+    <div class="container">
+      <form id="reservation-form">
+        <div class="dropdown-container">
+          <!-- 使用 margin-left:auto; 使其置右 -->
+          <div class="dropdown">
+            <label for="venue">活動場地：</label>
+            <select id="venue" required>
+              <option value="羽球場">羽球場</option>
+              <option value="籃球場">籃球場</option>
+              <option value="健身房">健身房</option>
+              <option value="游泳池">游泳池</option>
+              <option value="排球場">排球場</option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-container">
+          <!-- 使用 margin-left:auto; 使其置右 -->
+          <div class="dropdown">
+            <label for="date">活動日期：</label>
+            <input type="date" id="date" />
+          </div>
+        </div>
+        <div class="dropdown-container">
+          <!-- 使用 margin-left:auto; 使其置右 -->
+          <div class="dropdown">
+            <label for="time">活動時間：</label>
+            <select id="time" required>
+              <option value="9:00 - 12:00">9:00 - 12:00</option>
+              <option value="12:00 - 15:00">12:00 - 15:00</option>
+              <option value="15:00 - 18:00">15:00 - 18:00</option>
+              <option value="18:00 - 21:00">18:00 - 21:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="dropdown-container">
+          <!-- 使用 margin-left:auto; 使其置右 -->
+          <div class="dropdown">
+            <label for="reason">活動內容：</label>
+            <select id="reason" required>
+              <option value="比賽">比賽</option>
+              <option value="課程">課程</option>
+              <option value="校外租借">校外租借</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+        </div>
+        <div class="button-container">
+          <button type="reservation" class="button button-primary">
+            確認活動
+          </button>
+        </div>
+      </form>
+    </div>
 
-        <script type="module">
-            // 從 Firebase 控制台獲取的配置對象
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-            import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-    
-            const firebaseConfig = {
-                apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-                authDomain: "db-github-11ca8.firebaseapp.com",
-                databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-                projectId: "db-github-11ca8",
-                storageBucket: "db-github-11ca8.appspot.com",
-                messagingSenderId: "236802727820",
-                appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-            };
-    
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getDatabase(app);
+    <br /><br />
 
-            // 預約表單提交事件
-            document.getElementById('reservation-form').addEventListener('submit', function (event) {
-                event.preventDefault();
+    <br /><br />
 
-                // 獲取表單字段值
-                var venue = document.getElementById('venue').value;
-                var venue_id = 0;
-                if (venue === "羽球場") {
-                    venue_id = 1;
-                } else if (venue === "籃球場") {
-                    venue_id = 2;
-                } else if (venue === "健身房") {
-                    venue_id = 3;
-                } else if (venue === "游泳池") {
-                    venue_id = 4;
-                } else if (venue === "排球場") {
-                    venue_id = 5;
-                }
-                var date = document.getElementById('date').value;
-                var time = document.getElementById('time').value;
-                var timeQ = 0;
-                if (time === "9:00 - 12:00") {
-                    timeQ = 1;
-                } else if (time === "12:00 - 15:00") {
-                    timeQ = 2;
-                } else if (time === "15:00 - 18:00") {
-                    timeQ = 3;
-                } else if (time === "18:00 - 21:00") {
-                    timeQ = 4;
-                }
-                var reason = document.getElementById('reason').value;
-                var host_id = venue_id + date + timeQ;
+    <script type="module">
+      // 從 Firebase 控制台獲取的配置對象
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        onValue,
+        set,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-                // 將數據存儲到 Firestore
-                // Write data to Firebase Realtime Database
-                console.log("Attempting..");
-                console.log({
-                    host_id: host_id,
-                    venue: venue,
-                    venue_id: venue_id,
-                    date: date,
-                    time: time,
-                    reason: reason,               
-                });
+      const firebaseConfig = {
+        apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+        authDomain: "db-github-11ca8.firebaseapp.com",
+        databaseURL:
+          "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "db-github-11ca8",
+        storageBucket: "db-github-11ca8.appspot.com",
+        messagingSenderId: "236802727820",
+        appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+      };
 
-                set(ref(db, 'adminHost/' + host_id), {
-                    host_id: host_id,
-                    venue: venue,
-                    venue_id: venue_id,
-                    date: date,
-                    time: time,
-                    reason: reason,  
-                })
-                .then(() => {
-                    alert("Reserve Successfully!");
-                    window.location.href = "./admin1.html";
-                })
-                .catch((error) => {
-                    console.error("Error saving data:", error);
-                    alert("Error saving data: " + error.message);
-                });
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      // 預約表單提交事件
+      document
+        .getElementById("reservation-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // 獲取表單字段值
+          var venue = document.getElementById("venue").value;
+          var venue_id = 0;
+          if (venue === "羽球場") {
+            venue_id = 1;
+          } else if (venue === "籃球場") {
+            venue_id = 2;
+          } else if (venue === "健身房") {
+            venue_id = 3;
+          } else if (venue === "游泳池") {
+            venue_id = 4;
+          } else if (venue === "排球場") {
+            venue_id = 5;
+          }
+          var date = document.getElementById("date").value;
+          var time = document.getElementById("time").value;
+          var timeQ = 0;
+          if (time === "9:00 - 12:00") {
+            timeQ = 1;
+          } else if (time === "12:00 - 15:00") {
+            timeQ = 2;
+          } else if (time === "15:00 - 18:00") {
+            timeQ = 3;
+          } else if (time === "18:00 - 21:00") {
+            timeQ = 4;
+          }
+          var reason = document.getElementById("reason").value;
+          var host_id = venue_id + date + timeQ;
+
+          // 將數據存儲到 Firestore
+          // Write data to Firebase Realtime Database
+          console.log("Attempting..");
+          console.log({
+            host_id: host_id,
+            venue: venue,
+            venue_id: venue_id,
+            date: date,
+            time: time,
+            reason: reason,
+          });
+
+          set(ref(db, "adminHost/" + host_id), {
+            host_id: host_id,
+            venue: venue,
+            venue_id: venue_id,
+            date: date,
+            time: time,
+            reason: reason,
+          })
+            .then(() => {
+              alert("Reserve Successfully!");
+              window.location.href = "./admin1.html";
+            })
+            .catch((error) => {
+              console.error("Error saving data:", error);
+              alert("Error saving data: " + error.message);
             });
-        </script>
-
-</body>
+        });
+    </script>
+  </body>
 </html>
