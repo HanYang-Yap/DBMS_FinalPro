@@ -87,6 +87,30 @@
             </table>
         </div>
 
+        <!-- 修改人數彈出視窗 -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close-edit">&times;</span>
+                <h2>修改人數</h2>
+                <label for="peopleSelect">選擇人數：</label>
+                <select id="peopleSelect">
+                    <option value="1">1人</option>
+                    <option value="2">2人</option>
+                    <option value="3">3人</option>
+                    <option value="4">4人</option>
+                    <option value="5">5人</option>
+                    <option value="6">6人</option>
+                    <option value="7">7人</option>
+                    <option value="8">8人</option>
+                    <option value="9">9人</option>
+                    <option value="10">10人</option>
+                </select>
+                <button id="savePeopleButton">完成修改</button>
+            </div>
+        </div>
+
+
+
         <div class="buttons">
             <div class="button-container" onclick="goToReservation()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
@@ -103,8 +127,8 @@
                 <span class="close">&times;</span>
                 <h2>繳費</h2>
                 <div>
-                    <p>申請序號: <span id="modalReservationNumber"></span></p>
-                    <p>金額: <span id="modalAmount"></span></p>
+                    <!-- <p>申請序號: <span id="modalReservationNumber"></span></p>
+                    <p>金額: <span id="modalAmount"></span></p> -->
                     <label>繳費方式：</label><br>
                     <input type="radio" id="cash" name="paymentMethod" value="cash">
                     <label for="cash">現金支付</label><br>
@@ -122,7 +146,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get, orderByChild, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+        import { getDatabase, ref, get, orderByChild, onChildAdded, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
@@ -140,6 +164,60 @@
         console.log(app); // 输出Firebase应用程序对象
         const db = getDatabase(app);
         console.log(db); // 输出Firebase数据库对象
+
+
+        // 当前编辑的预订 ID
+        let currentEditReservationId = null;
+
+        function openEdit(button) {
+            var modal = document.getElementById("editModal");
+            modal.style.display = "block";
+
+            // 获取当前行的预订序号 row-column
+            var column = button.closest('tr');
+            var reservationIdCell = column.cells[3]; // 假设预订序号是第四列（索引为3）
+            currentEditReservationId = reservationIdCell.textContent;
+
+            // 初始化选择框
+            var peopleSelect = document.getElementById("peopleSelect");
+            peopleSelect.value = "1"; // 默认值
+        }
+
+        // 关闭编辑模态框
+        var closeEditBtn = document.getElementsByClassName("close-edit")[0];
+        closeEditBtn.onclick = function () {
+            var modal = document.getElementById("editModal");
+            modal.style.display = "none";
+        };
+
+        // 点击完成修改按钮时
+        document.getElementById("savePeopleButton").onclick = function () {
+            var peopleSelect = document.getElementById("peopleSelect");
+            var selectedPeople = peopleSelect.value;
+
+            // 更新数据库中的预订人数
+            if (currentEditReservationId) {
+                const reservationRef = ref(db, `reservations/${currentEditReservationId}`);
+                update(reservationRef, {
+                    people: selectedPeople
+                }).then(() => {
+                    alert("完成修改");
+                    var modal = document.getElementById("editModal");
+                    modal.style.display = "none";
+                }).catch((error) => {
+                    console.error('Error updating people:', error);
+                });
+            }
+        };
+
+        // 点击模态框外部关闭
+        window.onclick = function (event) {
+            var modal = document.getElementById("editModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
 
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -167,6 +245,19 @@
         }).catch((error) => {
             console.error('Error getting user data:', error);
         });
+
+        document.querySelectorAll('.pay-button').forEach(button => {
+                        button.addEventListener('click', function() {
+                            openPayment(this);
+                        });
+                    });
+
+                    document.querySelectorAll('.edit-button').forEach(button => {
+                        button.addEventListener('click', function() {
+                            openEdit(this);
+                        });
+                    });
+
     } else {
         alert('No user found, please log in first.');
         window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
@@ -174,6 +265,7 @@
 });
 
             const reservationsRef = ref(db, 'reservations');
+            //const reservationsRef = query(ref(db, 'reservations'), orderByChild('user_id'), equalTo(userId));
             get(reservationsRef).then((snapshot) => {
                 const data = snapshot.val();
                 const tbody = document.querySelector('.reservation-history tbody');
@@ -192,10 +284,19 @@
                                     <td>${reservation.reservation_id}</td>
                                     <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
                                     <td>NT$ ${amount}</td>
-                                    <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
-                                    <td><button class="edit-button" onclick="openEdit(this)">Edit</button></td>
+                                    <td><button class="pay-button">Pay</button></td>
+                                    <td><button class="edit-button">Edit</button></td>
                                 `;
                                 tbody.appendChild(tr);
+
+                                // Attach event listeners after appending the row to the table
+                                tr.querySelector('.pay-button').addEventListener('click', function() {
+                                    openPayment(this);
+                                });
+                                tr.querySelector('.edit-button').addEventListener('click', function() {
+                                    openEdit(this);
+                                });
+
                             });
                         }
                     }
@@ -206,30 +307,21 @@
 
 
             function getAmountByVenueId(venue_id, callback) {
-    const venuesRef = ref(db, `Venue/${venue_id}`);
-    // 使用 `get` 函數來從 Firebase 中取得資料
-    get(venuesRef).then((snapshot) => {
-        const venueData = snapshot.val();
-        if (venueData) {
-            callback(venueData.Fee_Amount);
-        } else {
-            callback(0);
-        }
-    }).catch((error) => {
-        console.error('Error getting venue data:', error);
-        callback(0); // 出現錯誤時，回傳預設值 0
-    });
-}
+                const venuesRef = ref(db, `Venue/${venue_id}`);
+                get(venuesRef).then((snapshot) => {
+                    const venueData = snapshot.val();
+                    if (venueData) {
+                        callback(venueData.Fee_Amount);
+                    } else {
+                        callback(0);
+                    }
+                }).catch((error) => {
+                    console.error('Error getting venue data:', error);
+                    callback(0); // 出現錯誤時，回傳預設值 0
+                });
+            }
 
 
-
-        function openPayment(button) {
-            // 实现支付功能
-        }
-
-        function openEdit(button) {
-            // 实现编辑功能
-        }
 
     </script>
 
@@ -254,6 +346,7 @@
             }
             const userId = user.id;
         }
+
 
             
 

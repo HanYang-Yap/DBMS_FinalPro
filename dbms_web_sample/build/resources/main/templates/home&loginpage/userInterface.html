@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>校園場地預約與線上付費系統</title>
     <link rel="stylesheet" href="userInterface.css">
+
 </head>
 <body>
     <header>
@@ -15,32 +16,22 @@
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
             </a>                
-            <p>Hi! <span id="username"></span></p>
+            <p>Welcome!</p>
         </div> 
     </header>
 
     <main>
-        <div class="buttons">
-            <div class="button-container" onclick="goToReservation()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                </svg>
-                <div class="button-text">預約 Reserve</div>
-            </div>
-            <img src="sp2.jpg" alt="sp1" class="meme-image">
-        </div>
 
         <div class="content">
             <div class="user-details">
                 <h2>使用者資料 User Information</h2>
-                <p>名稱：<span id="username"></span></p>
-                <p>學號：<span id="id"></span></p>
-                <p>系級：<span id="department"></span></p>
-                <button id="logout" class="btn btn-primary">Logout</button>
+                <p>名稱：<span id="userName"></span></p>
+                <p>學號：<span id="userId"></span></p>
+                <p>系級：<span id="userDepartment"></span></p>
+                <!-- <button id="logout" class="btn btn-primary">Logout</button> -->
             </div>
 
-            <div class="rights-history">
+            <!-- <div class="rights-history">
                 <h2>權利瀏覽 User Rights</h2>
                 <table>
                     <thead>
@@ -60,10 +51,9 @@
                             <td>2024/05/31</td>
                             <td><button class="notification-button" onclick="toggleNotification(this)">Announce</button></td>
                         </tr>
-                        <!-- 其他權利項目 -->
                     </tbody>
                 </table>
-            </div>
+            </div> -->
         </div>
 
         <div class="reservation-history">
@@ -83,7 +73,7 @@
                 </thead>
                 <tbody>
                     <!-- 預約記錄列表 -->
-                    <tr>
+                     <!-- <tr>
                         <td>05/02/2024</td>
                         <td>16:00-18:00</td>
                         <td>體育館羽毛球場地</td>
@@ -92,10 +82,19 @@
                         <td>NT$ 1,000</td>
                         <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
                         <td><button class="edit-button" onclick="openEdit(this)">Edit</button></td>
-                    </tr>
-                    <!-- 其他預約記錄 -->
-                </tbody>
+                    </tr> -->
+                 </tbody>
             </table>
+        </div>
+
+        <div class="buttons">
+            <div class="button-container" onclick="goToReservation()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                </svg> 
+                <a href="javascript:void(0)" onclick="navigateToReservation()">去預約</a>            </div>
+            <!-- <img src="sp2.jpg" alt="sp1" class="meme-image"> -->
         </div>
 
         <!-- 繳費彈出視窗 -->
@@ -115,58 +114,162 @@
                     <label for="visa">Visa 信用卡</label><br><br>
                     <button id="completePayment" style="background-color: green; color: white;">完成繳費</button>
                     <button id="applyRefund" style="background-color: red; color: white; display: none;">申請退費</button>
+                    <button id="cancelRefund" style="background-color: blue; color: white; display: none;">取消退費</button>
                 </div>
             </div>
         </div>
     </main>
-    
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-      
+        import { getDatabase, ref, get, orderByChild, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
         const firebaseConfig = {
-          apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-          authDomain: "db-github-11ca8.firebaseapp.com",
-          databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "db-github-11ca8",
-          storageBucket: "db-github-11ca8.appspot.com",
-          messagingSenderId: "236802727820",
-          appId: "1:236802727820:web:27b36c651eb849c1ed40a9"
+            apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+            authDomain: "db-github-11ca8.firebaseapp.com",
+            databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "db-github-11ca8",
+            storageBucket: "db-github-11ca8.appspot.com",
+            messagingSenderId: "236802727820",
+            appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+            measurementId: "G-CYR5VZ24PX"
         };
-        
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        console.log(app); // 输出Firebase应用程序对象
         const db = getDatabase(app);
-<<<<<<< HEAD
-=======
+        console.log(db); // 输出Firebase数据库对象
 
-        firebase.initializeApp(firebaseConfig);
-        var firebaseRef = firebase.database().ref("username");
-        firebaseRef.once("value", function(snapshot){
-            var data = snapshot.val();
-            for (let i in data){
-                console.log(data[i]);
-            }
-        })
->>>>>>> 58ba34c (..)
 
-        // 从 localStorage 获取用户信息
+        document.addEventListener('DOMContentLoaded', function() {
+        // 获取用户信息
         const user = JSON.parse(localStorage.getItem('user'));
-
         if (user) {
-            document.getElementById('username').innerText = user.name || user.email; // 使用 user.name 如果有 name 字段
-            document.getElementById('email').innerText = user.email;
-            document.getElementById('id').innerText = user.id;
+            document.getElementById('userName').innerText = user.username;
+            document.getElementById('userId').innerText = user.id;
+            document.getElementById('userDepartment').innerText = user.department;
+
+        // 查询数据库以获取用户预约记录并显示
+        fetchAndDisplayReservations();
+
+        // 查询数据库以获取用户姓名和系级
+        const userRef = ref(db, 'Student/' + user.id); 
+        get(userRef).then((snapshot) => {
+            if (snapshot.exists()) {
+                const userData = snapshot.val();
+                // 更新用户界面中的用户姓名和系级
+                document.getElementById('userName').innerText = userData.username;
+                document.getElementById('userDepartment').innerText = userData.department;
+            } else {
+                console.log('No user data found in the database');
+            }
+        }).catch((error) => {
+            console.error('Error getting user data:', error);
+        });
+    } else {
+        alert('No user found, please log in first.');
+        window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
+    }
+});
+
+            const reservationsRef = ref(db, 'reservations');
+            get(reservationsRef).then((snapshot) => {
+                const data = snapshot.val();
+                const tbody = document.querySelector('.reservation-history tbody');
+                tbody.innerHTML = ''; // 清空表格内容
+
+                if (data) {
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const reservation = data[key];
+                            getAmountByVenueId(reservation.venue_id, (amount) => {
+                                const tr = document.createElement('tr');
+                                tr.innerHTML = `
+                                    <td>${reservation.date}</td>
+                                    <td>${reservation.time}</td>
+                                    <td>${reservation.venue}</td>
+                                    <td>${reservation.reservation_id}</td>
+                                    <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
+                                    <td>NT$ ${amount}</td>
+                                    <td><button class="pay-button" onclick="openPayment(this)">Pay</button></td>
+                                    <td><button class="edit-button" onclick="openEdit(this)">Edit</button></td>
+                                `;
+                                tbody.appendChild(tr);
+                            });
+                        }
+                    }
+                }
+            }).catch((error) => {
+                console.error('Error getting reservations:', error);
+            });
+
+
+            function getAmountByVenueId(venue_id, callback) {
+    const venuesRef = ref(db, `Venue/${venue_id}`);
+    // 使用 `get` 函數來從 Firebase 中取得資料
+    get(venuesRef).then((snapshot) => {
+        const venueData = snapshot.val();
+        if (venueData) {
+            callback(venueData.Fee_Amount);
         } else {
-            alert('No user found, please log in first.');
-            window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
+            callback(0);
+        }
+    }).catch((error) => {
+        console.error('Error getting venue data:', error);
+        callback(0); // 出現錯誤時，回傳預設值 0
+    });
+}
+
+
+
+        function openPayment(button) {
+            // 实现支付功能
         }
 
-        // 处理登出
-        document.getElementById('logout').addEventListener('click', () => {
-            localStorage.removeItem('user'); // 移除本地存储的用户信息
-            window.location.href = 'loginpage.html'; // 跳转回登录页面
+        function openEdit(button) {
+            // 实现编辑功能
+        }
+
+    </script>
+
+    <script >
+        function goToReservation() {
+            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/re.html";
+        }
+
+        function navigateToReservation() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user && user.id) {
+            window.location.href = `re.html?userId=${user.id}`;
+        } else {
+            console.error('User ID not found');
+        }
+    }
+    function fetchAndDisplayReservations() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                console.error('User ID not found');
+                return;
+            }
+            const userId = user.id;
+        }
+
+            
+
+        function navigateToUserPage() {
+            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html";
+        }
+
+        function navigateToNotification() {
+            // 顯示通知的代碼
+        }
+
+         // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+         document.querySelectorAll('.pay-button').forEach(button => {
+            button.addEventListener('click', function() {
+                openPayment(this);
+            });
         });
 
         var currentPayButton; // 用於追蹤當前的支付按鈕
@@ -175,7 +278,7 @@
             document.addEventListener('DOMContentLoaded', function() {
                 const user = JSON.parse(localStorage.getItem('user'));
                 if (user) {
-                    document.getElementById('username').textContent = user.username;
+                    document.getElementById('userName').textContent = user.username;
                     document.getElementById('studentId').textContent = user.id;
                 } else {
                     window.location.href = 'signup.html';
@@ -185,39 +288,6 @@
             currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
             var modal = document.getElementById("paymentModal");
             modal.style.display = "block";
-
-            // 根據按鈕的顏色和狀態來決定顯示的按鈕
-            if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
-                document.getElementById("completePayment").style.display = "block";
-                document.getElementById("applyRefund").style.display = "none";
-                document.getElementById("cancelRefund").style.display = "none";
-            } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
-                document.getElementById("completePayment").style.display = "none";
-                document.getElementById("applyRefund").style.display = "block";
-                document.getElementById("cancelRefund").style.display = "none";
-            } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
-                document.getElementById("completePayment").style.display = "none";
-                document.getElementById("applyRefund").style.display = "none";
-                document.getElementById("cancelRefund").style.display = "block";
-            }
-        }
-
-        // 取得關閉按鈕元素
-        var closeBtn = document.getElementsByClassName("close")[0];
-
-        // 當用戶點擊關閉按鈕時，關閉視窗
-        closeBtn.onclick = function () {
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
-        }
-
-        // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
-        window.onclick = function (event) {
-            var modal = document.getElementById("paymentModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
 
         // 綁定完成繳費和申請退費按鈕的點擊事件
         document.getElementById("completePayment").onclick = completePayment;
@@ -273,23 +343,38 @@
             statusCell.style.color = "gray";
         }
 
-        // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
-        document.querySelectorAll('.pay-button').forEach(button => {
-            button.addEventListener('click', function() {
-                openPayment(this);
-            });
-        });
 
-        function goToReservation() {
-            window.location.href = "reservation1.html";
+            // 根據按鈕的顏色和狀態來決定顯示的按鈕
+            if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
+                document.getElementById("completePayment").style.display = "block";
+                document.getElementById("applyRefund").style.display = "none";
+                document.getElementById("cancelRefund").style.display = "none";
+            } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
+                document.getElementById("completePayment").style.display = "none";
+                document.getElementById("applyRefund").style.display = "block";
+                document.getElementById("cancelRefund").style.display = "none";
+            } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
+                document.getElementById("completePayment").style.display = "none";
+                document.getElementById("applyRefund").style.display = "none";
+                document.getElementById("cancelRefund").style.display = "block";
+            }
         }
 
-        function navigateToUserPage() {
-            window.location.href = "userInterface.html";
+        // 取得關閉按鈕元素
+        var closeBtn = document.getElementsByClassName("close")[0];
+
+        // 當用戶點擊關閉按鈕時，關閉視窗
+        closeBtn.onclick = function () {
+            var modal = document.getElementById("paymentModal");
+            modal.style.display = "none";
         }
 
-        function navigateToNotification() {
-            // 顯示通知的代碼
+        // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
+        window.onclick = function (event) {
+            var modal = document.getElementById("paymentModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
         function toggleNotification(button) {
@@ -302,5 +387,6 @@
             }
         }
     </script>
+    
 </body>
 </html>

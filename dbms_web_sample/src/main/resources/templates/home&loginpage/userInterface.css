@@ -150,3 +150,40 @@ th {
     text-decoration: none;
     cursor: pointer;
 }
+
+.close-edit {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus, .close-edit:hover, .close-edit:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 完成修改按鈕 */
+#savePeopleButton {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#savePeopleButton:hover {
+    background-color: darkblue;
+}
+
+/* 下拉選單樣式 */
+#peopleSelect {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
