@@ -17,7 +17,7 @@
         <a href="../home&loginpage/index.html"
           ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
         /></a>
-        <h3>Hi! 123456 (admin)</h3>
+        <h3>Hi!</h3>
       </div>
       <div class="login_time">
         <!-- <p id="current_date"></p>接上current time -->
@@ -39,44 +39,31 @@
       <div class="title">
         <h1>Posts</h1>
         <h3 class="add_btn"><a href="./admin2.html">+add Posts</a></h3>
-        <h3 class="host_btn"><a href="./adminhost.html">host</a></h3>
+        <h3 class="host_btn"><a href="./adminhost.html">host >></a></h3>
       </div>
       <table>
         <tr>
           <th>Pin</th>
-          <th>Announcement</th>
+          <th>Notification</th>
           <th>Location</th>
           <th>Date</th>
-          <th>Time</th>
           <th>Edit</th>
         </tr>
-        <tr>
-          <td>v</td>
-          <td>端午連假健身房開放時間公告！</td>
-          <td>Gym</td>
-          <td></td>
-          <td></td>
-          <td><button>DELETE</button></td>
-        </tr>
-        <!-- <tr>
-          <td>v</td>
-          <td>端午連假健身房開放時間公告！</td>
-          <td>Gym</td>
-          <td></td>
-          <td></td>
-          <td><button>DELETE</button></td>
-        </tr> -->
+        <tbody id="tableBody">
+          <!-- Table rows will be inserted here by JavaScript -->
+        </tbody>
       </table>
     </div>
-    <script>
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "firebase/app";
-      import { getAnalytics } from "firebase/analytics";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        get,
+        ref,
+        child,
+        getDatabase,
+        remove,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
       const firebaseConfig = {
         apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
         authDomain: "db-github-11ca8.firebaseapp.com",
@@ -86,12 +73,155 @@
         storageBucket: "db-github-11ca8.appspot.com",
         messagingSenderId: "236802727820",
         appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-        measurementId: "G-CYR5VZ24PX",
       };
 
-      // Initialize Firebase
       const app = initializeApp(firebaseConfig);
-      const analytics = getAnalytics(app);
+      const db = getDatabase(app);
+
+      function findNoti() {
+        console.log("page loaded!!");
+        const tableBody = document.querySelector("#tableBody");
+        tableBody.innerHTML = "";
+
+        const dbref = ref(db);
+        get(child(dbref, "notifications/"))
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const notifications = [];
+              snapshot.forEach((childSnapshot) => {
+                const notification = childSnapshot.val();
+                notifications.push(notification);
+              });
+
+              notifications.sort((a, b) => {
+                return a.Pin === b.Pin ? 0 : a.Pin ? -1 : 1;
+              });
+
+              notifications.forEach((notification) => {
+                const newRow = document.createElement("tr");
+
+                const pinCell = document.createElement("td");
+                notification.Pin ? (pinCell.textContent = "📌") : "";
+                const notificationCell = document.createElement("td");
+                notificationCell.textContent = notification.Context;
+                const locationCell = document.createElement("td");
+                locationCell.textContent = notification.Venue;
+                const dateCell = document.createElement("td");
+                dateCell.textContent = notification.Date;
+
+                const editCell = document.createElement("td");
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "DELETE";
+                var currentDate = new Date().toLocaleString();
+                deleteButton.setAttribute("id", "noti_id" + currentDate);
+
+                // define deleteDoubleCheck function
+                function deleteDoubleCheck(action) {
+                  // console.log("confirm action activated");
+                  var result = confirm("Are you sure to delete?");
+                  if (result) {
+                    alert("已確認執行：" + action);
+                    // 在這裡執行確認後的操作
+                  } else {
+                    alert("已取消操作：" + action);
+                    // 在這裡執行取消後的操作
+                  }
+                }
+                deleteButton.addEventListener("click", () => {
+                  // console.log("你按到deletebutton了啦");
+
+                  // fool-proved
+                  deleteDoubleCheck();
+
+                  // 想要在按下某列delete時讀到該列的noti_id，然後再刪除那整筆資料
+                  const notificationId = notification.Noti_id;
+                  console.log(notificationId); //這個可以，應該是上面noti_id沒接到
+                  console.log("delete的" + notification); // 有讀到物件
+
+                  const notificationRef = ref(
+                    db,
+                    `notifications/${notificationId}`
+                  );
+                  remove(notificationRef) //根據Noti_id刪掉整筆紀錄
+                    .then(() => {
+                      findNoti(); //重新載入列表
+                      console.log("Notification deleted successfully");
+                    })
+                    .catch((error) => {
+                      console.error("Error deleting notification:", error);
+                    });
+                });
+
+                editCell.appendChild(deleteButton);
+                newRow.appendChild(pinCell);
+                newRow.appendChild(notificationCell);
+                newRow.appendChild(locationCell);
+                newRow.appendChild(dateCell);
+                newRow.appendChild(editCell);
+
+                tableBody.appendChild(newRow);
+              });
+            } else {
+              console.log("No notifications found.");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        // console.log("Notification:", notification);
+      }
+
+      document.addEventListener("DOMContentLoaded", findNoti);
+
+      //   // Reference to the notifications data in Firebase
+      //   const notificationsRef = ref(db, "notifications/" + noti_id);
+
+      //   // Listen for data changes
+      //   onValue(notificationsRef, (snapshot) => {
+      //     const data = snapshot.val();
+      //     updateTable(data);
+      //   });
+
+      //   // Function to update HTML table
+      //   function updateTable(data) {
+      //     const tableBody = document.getElementById("tableBody");
+      //     tableBody.innerHTML = ""; // Clear the existing table data
+
+      //     for (const id in data) {
+      //       const notification = data[id];
+      //       const row = document.createElement("tr");
+
+      //       const pinCell = document.createElement("td");
+      //       pinCell.textContent = notification.Pin ? "v" : "";
+      //       row.appendChild(pinCell);
+
+      //       const announcementCell = document.createElement("td");
+      //       announcementCell.textContent = notification.Context;
+      //       row.appendChild(announcementCell);
+
+      //       const locationCell = document.createElement("td");
+      //       locationCell.textContent = notification.Venue;
+      //       row.appendChild(locationCell);
+
+      //       const dateCell = document.createElement("td");
+      //       dateCell.textContent = notification.Date.split(" ")[0];
+      //       row.appendChild(dateCell);
+
+      //       const timeCell = document.createElement("td");
+      //       timeCell.textContent = notification.Date.split(" ")[1];
+      //       row.appendChild(timeCell);
+
+      //       const editCell = document.createElement("td");
+      //       const deleteButton = document.createElement("button");
+      //       deleteButton.textContent = "DELETE";
+      //       deleteButton.addEventListener("click", () => deleteNotification(id));
+      //       editCell.appendChild(deleteButton);
+      //       row.appendChild(editCell);
+
+      //       tableBody.appendChild(row);
+      //     }
+      //   }
+      //
     </script>
   </body>
   <style>
@@ -99,69 +229,67 @@
     body {
       margin: 0;
       padding: 0;
-      header {
-        display: flex;
-        align-content: flex-start;
-        justify-content: space-between;
-        background-color: lemonchiffon;
-        padding: 4px 16px;
-      }
-      .user_icon {
-        display: flex;
-        align-items: center;
-        padding: 0px 8px;
-      }
+    }
+    header {
+      display: flex;
+      align-content: flex-start;
+      justify-content: space-between;
+      background-color: lemonchiffon;
+      padding: 4px 16px;
+    }
+    .user_icon {
+      display: flex;
+      align-items: center;
+      padding: 0px 8px;
+    }
 
-      img {
-        height: 30px;
-        width: auto;
-        margin: 8px;
-        /* border: 1px solid black; */
-        border-radius: 50%;
-      }
-      .main_sec {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .title {
-        width: 90%;
-        display: flex;
-        justify-content: space-between;
-        align-items: end;
-      }
-      h2,
-      h3 {
-        margin: 16px;
-      }
-      h3.add_btn,
-      h3.host_btn {
-        padding: 4px 8px;
-        /* border: 1px solid lightgray; */
-        border-radius: 5px;
-        background-color: lemonchiffon;
-        box-shadow: 1px 3px 5px #ccc;
-      }
-      h3.add_btn,
-      h3.host_btn:hover {
-        cursor: pointer;
-        box-shadow: 2px 5px 8px #aaa;
-      }
-      table {
-        border-collapse: collapse; /* 合并边框 */
-        width: 90%;
-      }
+    img {
+      height: 30px;
+      width: auto;
+      margin: 8px;
+      border-radius: 50%;
+    }
+    .main_sec {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .title {
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+    }
+    h2,
+    h3 {
+      margin: 16px;
+    }
+    h3.add_btn,
+    h3.host_btn {
+      padding: 4px 8px;
+      border-radius: 5px;
+      background-color: lemonchiffon;
+      box-shadow: 1px 3px 5px #ccc;
+    }
+    h3.add_btn,
+    h3.host_btn:hover {
+      cursor: pointer;
+      box-shadow: 2px 5px 8px #aaa;
+    }
+    table {
+      border-collapse: collapse; /* 合并边框 */
+      width: 90%;
+    }
 
-      table,
-      th,
-      td {
-        border: 1px solid #aaa;
-        padding: 8px;
-      }
+    table,
+    th,
+    td {
+      border: 1px solid #aaa;
+      padding: 8px;
+    }
 
-      th {
-        background-color: lemonchiffon;
-      }
+    th {
+      background-color: lemonchiffon;
     }
   </style>
 </html>

@@ -119,6 +119,7 @@
             update(ref(db, `${userType} / ${id}`), {
               last_login: new Date().toLocaleString()
             });
+<<<<<<< HEAD
 
             // 将用户信息存储到 localStorage 中
             localStorage.setItem('user', JSON.stringify({
@@ -151,6 +152,16 @@
               window.location.href = userType === 'Admin' ? '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html' : '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
             });
 
+=======
+
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
+            successModal.show();
+
+            document.getElementById("redirectToOtherPage").addEventListener('click', function() {
+              window.location.href = userType === 'Admin' ? '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html' : '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
+            });
+
+>>>>>>> 1f6acc1 (106pm)
           })
           .catch((error) => {
             alert('Log In failed! ' + error.message);

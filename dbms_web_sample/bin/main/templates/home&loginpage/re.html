@@ -170,7 +170,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <span class="navbar-text ms-auto">
-                            <a href="HanYang-Yap/DBMS_FinalPro/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html">User <span id="user-nickname"></span></a>
+                            <a href="\dbms_web_sample\src\main\resources\templates\home&loginpage\index.html">Home<span id="user-nickname"></span></a>
                     </span>
                 </div>
             </div>
@@ -183,12 +183,9 @@
                     <div class="dropdown">
                         <label for="venue">預約場地：</label>
                         <select id="venue" required>
-                            <option id="1" value="羽球場">羽球場</option>
-                            <option id="2" value="籃球場">籃球場</option>
-                            <option id="5" value="排球場">排球場</option>
-                            <!--<option value="venue4">場地4</option>
-                            <option value="venue5">綜合球類練習區</option>
-                            <option value="venue6">六期運動場</option>-->
+                            <option value="羽球場">羽球場</option>
+                            <option value="籃球場">籃球場</option>
+                            <option value="排球場">排球場</option>
                         </select>
                     </div>
                 </div>
@@ -334,44 +331,109 @@
                 fetchAndDisplayReservations();
             });
 
+
+            // // 获取 URL 中的参数***
+            // const urlParams = new URLSearchParams(window.location.search);
+            // const id = urlParams.get('userId');
+            // localStorage.setItem('userId', id);
+
+            const user = JSON.parse(localStorage.getItem('user')); // 从localStorage获取用户信息
+            const userId = user.id;
+
+            // 获取表单字段值
+            const venue = document.getElementById('venue').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const people = document.getElementById('people').value;
+
+
             // 預約表單提交事件
             document.getElementById('reservation-form').addEventListener('submit', function (event) {
                 event.preventDefault();
 
                 // 獲取表單字段值
+                //var venue = document.getElementById('venue').value;
+                //var people = document.getElementById('people').value;
+                //var date = document.getElementById('date').value;
+                //var time = document.getElementById('time').value;
+
+                // 獲取表單字段值
                 var venue = document.getElementById('venue').value;
-                var people = document.getElementById('people').value;
+                var venue_id = 0;
+                if (venue === "羽球場") {
+                    venue_id = 1;
+                } else if (venue === "籃球場") {
+                    venue_id = 2;
+                } else {
+                    venue_id = 5;
+                }
                 var date = document.getElementById('date').value;
+                var people = document.getElementById('people').value;
                 var time = document.getElementById('time').value;
+                var timeR = 0;
+                if (time === "9:00 - 12:00") {
+                    timeR = 1;
+                } else if (time === "12:00 - 15:00") {
+                    timeR = 2;
+                } else if (time === "15:00 - 18:00") {
+                    timeR = 3;
+                } else if (time === "18:00 - 21:00") {
+                    timeR = 4;
+                }
+                //var reason = document.getElementById('reason').value;
+                var reservation_id = venue_id + date + timeR;
 
-                
-
-                // 將數據存儲到 Firestore
-                // Write data to Firebase Realtime Database
-                console.log("Attempting..");
-                console.log({
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time                    
-                });
-
-
-
-                set(ref(db, 'reservations/' + venue), {
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time
-                })
-                .then(() => {
-                    alert("Reserve Successfully!");
-                })
-                .catch((error) => {
-                    console.error("Error saving data:", error);
-                    alert("Error saving data: " + error.message);
-                });
+                // 将数据存储到 Firebase
+                set(ref(db, 'reservations/' + reservation_id), {
+                id: userId, // 保存用户ID
+                venue: venue,
+                date: date,
+                time: time,
+                people: people,
+                venue_id: venue_id,
+                reservation_id: reservation_id,
+                status: 'Unpaid'
+            }).then(() => {
+                alert('预订成功');
+            }).catch((error) => {
+                console.error('预订失败:', error);
             });
+        });
+
+            //     // 將數據存儲到 Firestore (11:24)
+            //     // Write data to Firebase Realtime Database
+            //     console.log("Attempting..");
+            //     console.log({
+
+            //         reservation_id: reservation_id,
+            //         venue_id: venue_id,
+
+            //         venue: venue,
+            //         people: people,
+            //         date: date,
+            //         time: time    
+            //     });
+
+
+
+            //     set(ref(db, 'reservations/' + reservation_id), {
+
+            //         reservation_id: reservation_id,
+            //         venue_id: venue_id,
+
+            //         venue: venue,
+            //         people: people,
+            //         date: date,
+            //         time: time
+            //     })
+            //     .then(() => {
+            //         alert("Reserve Successfully!");
+            //     })
+            //     .catch((error) => {
+            //         console.error("Error saving data:", error);
+            //         alert("Error saving data: " + error.message);
+            //     });
+            // });
         </script>
 
         

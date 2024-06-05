@@ -36,21 +36,9 @@
             </form>
         </div>
     </div>
-    
-    <!-- <label>Name</label> <input id="Namebox" type="text" required>
-    <label>RollNo</label> <input id="Rollbox" type="text" required>
-    <label>Section</label> <input id="Secbox" type="text" required>
-    <label>Name</label>
-    <select id="Genbox">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-    </select>
 
-    <hr>
-    <button id="Insbtn"></button>INSERT</button> 
-    <button id="Selbtn"></button> SELECT</button> 
-    <button id="Undbtn"></button>UPDATE</button>
-    <button id="Delbtn" ></button>DELETE</button> -->
+    <h1>Firebase Data</h1>
+    <div id = "data-container"></div>
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -74,31 +62,6 @@
         // Get reference to database service
         const db = getDatabase(app);
 
-
-        // var namebox = document. getelementById ( "NameBox");
-        // var rollbox = document. getElementById("Rollbox");
-        // var secbox = document. getelementById("Secbox");
-        // var genbox = document. getElementById ("Genbox");
-        // var insBtn = document. getElementById("Insbtn");
-        // var selBtn = document. getelementById("Selbtn");
-        // var updBtn = document. getElementById ("Updbtn");
-        // var delBtn = document. getElementById("Delbtn");
-
-        // function InsertData(){
-        //     set(ref(db,"Thestudents/"+ rollbox.value), {
-        //         NameofStd: namebox. value,
-        //         RollNo: rollbox. value,
-        //         Section: secbox. value,
-        //         Gender: genbox.value
-        //     })
-        //     .then ( ()=>{
-        //         alert ("data stored successfully");
-        //     })
-        //     .catch ((error) =>{
-        //         alert ("unsuccessful, error" + error);
-        //     });
-        // }
-
         // Handle form submission
         document.getElementById("loginForm").addEventListener('submit', function(e) {
             e.preventDefault();
@@ -121,6 +84,47 @@
             });
         });
 
+        // firebase.database().ref().child("users").orderByChild("username").equalTo("").once("value", function(snapshot) {
+        //     snapshot.forEach(function(childSnapshot) {
+        //         var username = childSnapshot.val().username;
+        //         var email = childSnapshot.child("email").val();
+        //         var phone = childSnapshot.child("phone").val();
+
+        //         $("#table_body1").append("<tr><td>" + username + "</td><td>" + email + "</td><td>" + phone + "</td></tr>" + con);
+        //     });
+
+            
+        // });
+
+        // Function to fetch and display data
+        function fetchData() {
+            const dbRef = database.ref('users'); // 'users' is your data node
+            dbRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                displayData(data);
+            });
+        }
+
+        // Function to display data
+        function displayData(data) {
+            const container = document.getElementById('data-container');
+            container.innerHTML = ''; // Clear previous data
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const item = data[key];
+                    const div = document.createElement('div');
+                    div.innerHTML = `<strong>${key}</strong><br>
+                                     Username: ${item.username}<br>
+                                     Email: ${item.email}<br>
+                                     Phone: ${item.phone}<br><br>`;
+                    container.appendChild(div);
+                }
+            }
+        }
+
+        // Call fetchData on page load
+        window.onload = fetchData;
         
 
 
