@@ -51,8 +51,35 @@
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
-                  <input type="text" id="department" name="department" required class="form-control form-control-lg" style="background-color: rgb(238, 246, 251);"/>
-                  <label class="form-label" for="department">Department</label>
+                  <!-- <input type="text" id="department" name="department" required class="form-select" aria-label="Default select example" style="background-color: rgb(238, 246, 251);"/>
+                  <label class="form-label" for="department">Department</label> -->
+
+                  <select class="form-select form-select-lg mb-1" id="department" name="department" aria-label="Default select example" style="background-color: rgb(238, 246, 251);">
+                    <option selected disabled class="default-option">Choose Your Department</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Management Information System">Management Information System</option>
+                    <option value="Business Administration">Business Administration</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Accounting">Accounting</option>
+                    <option value="International Business">International Business</option>
+                    <option value="Statistics">Statistics</option>
+                    <option value="Economics">Economics</option>
+                    <option value="Law">Law</option> 
+                    <option value="Mass Communication">Mass Communication</option>
+                    <option value="Foreign Languages and Literature">Foreign Languages and Literature</option>
+                    <option value="Chinese Literature">Chinese Literature</option>
+                    <option value="History">History</option>
+                    <option value="Philosophy">Philosophy</option>
+                    <option value="Sociology">Sociology</option>
+                    <option value="Psychology">Psychology</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Education">Education</option>
+                    <option value="Korean Language and Culture">Korean Language and Culture</option>
+                    <option value="Japanese Language and Culture">Japanese Language and Culture</option>
+                    <option value="Diplomacy">Diplomacy</option>
+                    <option value="English">English</option>
+                  </select>
+                  <label class="form-label" for="department" >Department</label> 
                 </div>
 
                 <div data-mdb-input-init class="form-outline mb-4">
@@ -312,6 +339,10 @@
       height: 100vh;
     }
 
+    .default-option {
+    color: gray;
+    }
+
     .fixed-screen {
       width: 100%;
       height: 100%;
@@ -358,6 +389,10 @@
 
     hr.new1 {
       border-top: 1px solid;
+    }
+
+    .grey-text {
+      color: grey;
     }
   </style>
 </body>
