@@ -10,12 +10,10 @@
 <body>
     <header>
         <div class="user-info">
-            <a href="user_page.html" onclick="navigateToUserPage()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-circle user-icon" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                 </svg>
-            </a>                
             <p>Welcome!</p>
         </div> 
     </header>
@@ -28,34 +26,20 @@
                 <p>名稱：<span id="userName"></span></p>
                 <p>學號：<span id="userId"></span></p>
                 <p>系級：<span id="userDepartment"></span></p>
-                <!-- <button id="logout" class="btn btn-primary">Logout</button> -->
             </div>
 
-            <!-- <div class="rights-history">
-                <h2>權利瀏覽 User Rights</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>地點</th>
-                            <th>性質</th>
-                            <th>通過時間</th>
-                            <th>有效期間</th>
-                            <th>通知</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>游泳館</td>
-                            <td>月票</td>
-                            <td>2024/02/01</td>
-                            <td>2024/05/31</td>
-                            <td><button class="notification-button" onclick="toggleNotification(this)">Announce</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div> -->
+            <div class="payment-rules">
+                <h2>繳費規則 Payment Rules</h2>
+                <ol>
+                    <li>點選 <span class="color-green">Pay</span> 按鈕，可以進行線上繳費。</li>
+                    <li>當選取繳費方式並按下 "<span class="color-green">完成繳費</span>" 按鈕，該條預約紀錄狀態顯示 "<span class="color-green">Paid</span>"。</li>
+                    <li>再次點選 <span class="color-gray">Pay</span> 按鈕，可以按下 "<span class="color-red">申請退費</span>" 按鈕，該條預約紀錄狀態顯示 "<span class="color-gray">Applying</span>"。</li>
+                    <li>待管理人確認退費申請，將撤回該條預約紀錄。</li>
+                </ol>
+            </div>
+    
         </div>
-
+   
         <div class="reservation-history">
             <h2>歷史資料 History Records</h2>
             <table>
@@ -75,6 +59,15 @@
                     <!-- 預約記錄列表 (javascript) -->
                  </tbody>
             </table>
+            <div class="buttons">
+                <div class="button-container" onclick="goToReservation()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg> 
+                    <a href="javascript:void(0)" onclick="navigateToReservation()">去預約</a>            
+                </div>
+            </div>
         </div>
 
         <!-- 修改人數彈出視窗 -->
@@ -99,17 +92,7 @@
             </div>
         </div>
 
-
-
-        <div class="buttons">
-            <div class="button-container" onclick="goToReservation()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
-                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                </svg> 
-                <a href="javascript:void(0)" onclick="navigateToReservation()">去預約</a>            </div>
-            <!-- <img src="sp2.jpg" alt="sp1" class="meme-image"> -->
-        </div>
+        
 
         <!-- 繳費彈出視窗 -->
         <div id="paymentModal" class="modal">
@@ -248,112 +231,82 @@
                         });
                     });
 
-    } else {
-        alert('No user found, please log in first.');
-        window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
-    }
-});
-
-            // const reservationsRef = ref(db, 'reservations');
-            // //const reservationsRef = query(ref(db, 'reservations'), orderByChild('user_id'), equalTo(userId));
-            // get(reservationsRef).then((snapshot) => {
-            //     const data = snapshot.val();
-            //     const tbody = document.querySelector('.reservation-history tbody');
-            //     tbody.innerHTML = ''; // 清空表格内容
-
-            //     if (data) {
-            //         for (const key in data) {
-            //             if (data.hasOwnProperty(key)) {
-            //                 const reservation = data[key];
-            //                 getAmountByVenueId(reservation.venue_id, (amount) => {
-            //                     const tr = document.createElement('tr');
-            //                     tr.innerHTML = `
-            //                         <td>${reservation.date}</td>
-            //                         <td>${reservation.time}</td>
-            //                         <td>${reservation.venue}</td>
-            //                         <td>${reservation.reservation_id}</td>
-            //                         <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
-            //                         <td>NT$ ${amount}</td>
-            //                         <td><button class="pay-button">Pay</button></td>
-            //                         <td><button class="edit-button">Edit</button></td>
-            //                     `;
-            //                     tbody.appendChild(tr);
-
-            //                     // Attach event listeners after appending the row to the table
-            //                     tr.querySelector('.pay-button').addEventListener('click', function() {
-            //                         openPayment(this);
-            //                     });
-            //                     tr.querySelector('.edit-button').addEventListener('click', function() {
-            //                         openEdit(this);
-            //                     });
-
-            //                 });
-            //             }
-            //         }
-            //     }
-            // }).catch((error) => {
-            //     console.error('Error getting reservations:', error);
-            // });
-
-            function fetchAndDisplayReservations(userId) {
-    const reservationsRef = query(ref(db, 'reservations'), orderByChild('id'), equalTo(userId));
-    get(reservationsRef).then((snapshot) => {
-        const data = snapshot.val();
-        const tbody = document.querySelector('.reservation-history tbody');
-        tbody.innerHTML = ''; // 清空表格内容
-
-        if (data) {
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const reservation = data[key];
-                    getAmountByVenueId(reservation.Venue_id, (amount) => {
-                        const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td>${reservation.date}</td>
-                            <td>${reservation.time}</td>
-                            <td>${reservation.venue}</td>
-                            <td>${reservation.reservation_id}</td>
-                            <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
-                            <td>NT$ ${amount}</td>
-                            <td><button class="pay-button">Pay</button></td>
-                            <td><button class="edit-button">Edit</button></td>
-                        `;
-                        tbody.appendChild(tr);
-
-                        // Attach event listeners after appending the row to the table
-                        tr.querySelector('.pay-button').addEventListener('click', function() {
-                            openPayment(this);
-                        });
-                        tr.querySelector('.edit-button').addEventListener('click', function() {
-                            openEdit(this);
-                        });
-
-                    });
-                }
+            } else {
+                alert('No user found, please log in first.');
+                window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
             }
-        }
-    }).catch((error) => {
-        console.error('Error getting reservations:', error);
-    });
-}
+        });
 
+        function fetchAndDisplayReservations(userId) {
+            // 查询 reservations 表，获取指定 userId 的记录
+            const reservationsRef = query(ref(db, 'reservations'), orderByChild('id'), equalTo(userId));
+            get(reservationsRef).then((snapshot) => {
+                const data = snapshot.val();
+                const tbody = document.querySelector('.reservation-history tbody');
+                tbody.innerHTML = ''; // 清空表格内容
 
-            function getAmountByVenueId(Venue_id, callback) {
-                const venuesRef = ref(db, `Venue/${Venue_id}`);
-                get(venuesRef).then((snapshot) => {
-                    const venueData = snapshot.val();
-                    if (venueData) {
-                        callback(venueData.Fee);
-                    } else {
-                        callback(0);
+                if (data) {
+                    const venueMapping = {
+                        1: 'Badminton',
+                        2: 'Basketball',
+                        3: 'Gym',
+                        4: 'SwimmingPool',
+                        5: 'Volleyball'
+                    };
+
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            const reservation = data[key];
+                            const venueName = venueMapping[reservation.venue_id];
+                            if (venueName) {
+                                getAmountByVenueName(venueName, (amount) => {
+                                    const tr = document.createElement('tr');
+                                    tr.innerHTML = `
+                                        <td>${reservation.date}</td>
+                                        <td>${reservation.time}</td>
+                                        <td>${reservation.venue}</td>
+                                        <td>${reservation.reservation_id}</td>
+                                        <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
+                                        <td>NT$ ${amount}</td>
+                                        <td><button class="pay-button">Pay</button></td>
+                                        <td><button class="edit-button">Edit</button></td>
+                                    `;
+                                    tbody.appendChild(tr);
+
+                                    // Attach event listeners after appending the row to the table
+                                    tr.querySelector('.pay-button').addEventListener('click', function() {
+                                        openPayment(this);
+                                    });
+                                    tr.querySelector('.edit-button').addEventListener('click', function() {
+                                        openEdit(this);
+                                    });
+                                });
+                            } else {
+                                console.warn('No mapping found for venue_id:', reservation.venue_id);
+                            }
+                        }
                     }
-                }).catch((error) => {
-                    console.error('Error getting venue data:', error);
-                    callback(0); // 出現錯誤時，回傳預設值 0
-                });
-            }
+                }
+            }).catch((error) => {
+                console.error('Error getting reservations:', error);
+            });
+        }
 
-
+        function getAmountByVenueName(venue_name, callback) {
+            const venuesRef = ref(db, `Venue/${venue_name}`);
+            get(venuesRef).then((snapshot) => {
+                const venueData = snapshot.val();
+                if (venueData) {
+                    callback(venueData.Fee_Amount);
+                } else {
+                    console.warn('No data found for venue:', venue_name);
+                    callback(0);
+                }
+            }).catch((error) => {
+                console.error('Error getting venue data:', error);
+                callback(0); // 出现错误时，回传预设值 0
+            });
+        }
 
     </script>
 
@@ -379,12 +332,8 @@
             const userId = user.id;
         }
 
-        function navigateToUserPage() {
-            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html";
-        }
-
-        function navigateToNotification() {
-            // 顯示通知的代碼
+        function navigateToLoginPage() {
+            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/loginpage.html";
         }
 
          // 當用戶點擊 Pay 按鈕時，彈出繳費視窗

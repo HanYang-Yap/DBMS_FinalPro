@@ -8,7 +8,6 @@ body {
 .user-info {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     background-color: rgb(225, 239, 243);
     width: 98%;
     height: 50px;
@@ -18,17 +17,7 @@ body {
     width: 25px;
     height: 25px;
     margin-left: 20px;
-}
-.notification-icon {
-    float: right;
-    width: 25px;
-    height: 25px;
     margin-right: 10px;
-}
-
-.meme-image {
-    width: 250px;  /* 設置圖片寬度 */
-    height: auto;  /* 讓高度自動調整，保持圖片比例 */
 }
 
 .buttons {
@@ -56,6 +45,7 @@ body {
     width: 30px;
     height: 30px;
     margin-left: 10px;
+    margin-right: 10px;
 }
 .user-details {
     margin-left: 40px;
@@ -69,6 +59,22 @@ body {
     margin-top: 20px; /* 可以根據需要調整上邊距 */
 }
 
+.action {
+    font-weight: bold;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-gray {
+    color: gray;
+}
+
+.color-red {
+    color: red;
+}
+
 .rights-history {
     margin-top: 20px;
     height: 200px; /* 設定表格區域的高度，使其可以滾動 */
@@ -76,18 +82,10 @@ body {
     margin: 0 auto; /* 使用 margin 屬性來水平置中 */
     width: 50%; /* 設置表格寬度，可以根據需要進行調整 */
 }
-.notification-button {
-    background-color: green;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    border-radius: 4px;
-}
 
 .reservation-history {
     margin-top: 20px;
-    height: 200px; /* 設定表格區域的高度，使其可以滾動 */
+    height: 400px; /* 設定表格區域的高度，使其可以滾動 */
     overflow-y: auto; /* 允許垂直滾動 */
     margin: 0 auto; /* 使用 margin 屬性來水平置中 */
     width: 95%; /* 設置表格寬度，可以根據需要進行調整 */

@@ -390,7 +390,7 @@
                 date: date,
                 time: time,
                 people: people,
-                Venue_id: venue_id,
+                venue_id: venue_id,
                 reservation_id: reservation_id,
                 status: 'Unpaid'
             }).then(() => {
@@ -400,40 +400,6 @@
             });
         });
 
-            //     // 將數據存儲到 Firestore (11:24)
-            //     // Write data to Firebase Realtime Database
-            //     console.log("Attempting..");
-            //     console.log({
-
-            //         reservation_id: reservation_id,
-            //         venue_id: venue_id,
-
-            //         venue: venue,
-            //         people: people,
-            //         date: date,
-            //         time: time    
-            //     });
-
-
-
-            //     set(ref(db, 'reservations/' + reservation_id), {
-
-            //         reservation_id: reservation_id,
-            //         venue_id: venue_id,
-
-            //         venue: venue,
-            //         people: people,
-            //         date: date,
-            //         time: time
-            //     })
-            //     .then(() => {
-            //         alert("Reserve Successfully!");
-            //     })
-            //     .catch((error) => {
-            //         console.error("Error saving data:", error);
-            //         alert("Error saving data: " + error.message);
-            //     });
-            // });
         </script>
 
         
