@@ -116,10 +116,9 @@
             const user = userCredential.user;
             const userType = id.length === 6 ? 'Admin' : 'Student';
 
-            update(ref(db, `${userType} / ${id}`), {
-              last_login: new Date().toLocaleString()
-            });
-<<<<<<< HEAD
+            // update(ref(db, `${userType} / ${id}`), {     
+            //   last_login: new Date().toLocaleString()
+            // }); 
 
             // 将用户信息存储到 localStorage 中
             localStorage.setItem('user', JSON.stringify({
@@ -152,104 +151,11 @@
               window.location.href = userType === 'Admin' ? '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html' : '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
             });
 
-=======
-
-            var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-            successModal.show();
-
-            document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-              window.location.href = userType === 'Admin' ? '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html' : '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
-            });
-
->>>>>>> 1f6acc1 (106pm)
           })
           .catch((error) => {
             alert('Log In failed! ' + error.message);
           });
       });
-
-
-//         if (id.length == 6){
-//           signInWithEmailAndPassword(auth, email, password)
-//           .then((userCredential) => {
-//             // Signed in 
-//             const user = userCredential.user;
-
-//             //const dt = new Date();
-//           update(ref(db, 'Admin/' + id), {
-//               last_login: new Date().toLocaleString()
-//           })
-
-//           var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-//                 successModal.show();
-//           })
-//             .catch((error) => {
-//               const errorCode = error.code;
-//               const errorMessage = error.message;
-//               alert('Log In failed!' + errorMessage);
-//           });
-
-//           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-//             window.location.href = '/dbms_web_sample/src/main/resources/templates/adminPages/admin1.html';
-//         });
-
-//         } else {
-
-//           signInWithEmailAndPassword(auth, email, password)
-//           .then((userCredential) => {
-//             // Signed in 
-//             const user = userCredential.user;
-
-//             //const dt = new Date();
-//           update(ref(db, 'Student/' + id), {
-//               last_login: new Date().toLocaleString()
-//           })
-
-//           var successModal = new bootstrap.Modal(document.getElementById('successModal'), {});
-//                 successModal.show();
-//           })
-//             .catch((error) => {
-//               const errorCode = error.code;
-//               const errorMessage = error.message;
-//               alert('Log In failed!' + errorMessage);
-//           });
-
-//           document.getElementById("redirectToOtherPage").addEventListener('click', function() {
-//             window.location.href = '/dbms_web_sample/src/main/resources/templates/home&loginpage/userInterface.html';
-//         });
-
-//         }
-
-//       });
-
-
-//       login.addEventListener('click', (e) => {
-//     e.preventDefault();
-
-//     var email = document.getElementById('email').value;
-//     var password = document.getElementById('password').value;
-
-//     fetch('/api/user/login', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({ email, password })
-//     })
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Login failed');
-//         }
-//         return response.json();
-//     })
-//     .then(user => {
-//         localStorage.setItem('user', JSON.stringify(user));
-//         window.location.href = 'userInterface.html';
-//     })
-//     .catch(error => {
-//         alert('Login failed: ' + error.message);
-//     });
-// });
 
 
 </script>
