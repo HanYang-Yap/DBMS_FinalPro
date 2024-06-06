@@ -1,364 +1,467 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>校園場地預約與線上付費系統</title>
-    <link rel="stylesheet" href="userInterface.css">
-
-</head>
-<body>
+    <link rel="stylesheet" href="userInterface.css" />
+  </head>
+  <body>
     <header>
-        <div class="user-info">
-                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-person-circle user-icon" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
-            <p>Welcome!</p>
-        </div> 
+      <div
+        class="user-info"
+        style="display: flex; justify-content: space-between"
+      >
+        <div style="display: flex; align-items: center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="bi bi-person-circle user-icon"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+            <path
+              fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+            />
+          </svg>
+          <p>Welcome!</p>
+        </div>
+        <div id="current_date" style="font-weight: bold; font-size: smaller">
+          <script>
+            // Get the current date
+            var currentDate = new Date().toLocaleString();
+
+            // Concatenate "Login time:" with the date string
+            var dateTimeString = "登入時間 " + currentDate;
+
+            // Set the concatenated string as the inner HTML of the div
+            document.getElementById("current_date").innerHTML = dateTimeString;
+          </script>
+        </div>
+      </div>
     </header>
 
     <main>
-
-        <div class="content">
-            <div class="user-details">
-                <h2>使用者資料 User Information</h2>
-                <p>名稱：<span id="userName"></span></p>
-                <p>學號：<span id="userId"></span></p>
-                <p>系級：<span id="userDepartment"></span></p>
-            </div>
-
-            <div class="payment-rules">
-                <h2>繳費規則 Payment Rules</h2>
-                <ol>
-                    <li>點選 <span class="color-green">Pay</span> 按鈕，可以進行線上繳費。</li>
-                    <li>當選取繳費方式並按下 "<span class="color-green">完成繳費</span>" 按鈕，該條預約紀錄狀態顯示 "<span class="color-green">Paid</span>"。</li>
-                    <li>再次點選 <span class="color-gray">Pay</span> 按鈕，可以按下 "<span class="color-red">申請退費</span>" 按鈕，該條預約紀錄狀態顯示 "<span class="color-gray">Applying</span>"。</li>
-                    <li>待管理人確認退費申請，將撤回該條預約紀錄。</li>
-                </ol>
-            </div>
-    
-        </div>
-   
-        <div class="reservation-history">
-            <h2>歷史資料 History Records</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>日期 DATE</th>
-                        <th>時間 TIME</th>
-                        <th>場地 VANUE</th>
-                        <th>預約序號 RESERVATION_NUM</th>
-                        <th>狀態 STATUS</th>
-                        <th>金額 AMOUNT</th>
-                        <th>繳費 PAYMENT</th>
-                        <th>編輯 EDIT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 預約記錄列表 (javascript) -->
-                 </tbody>
-            </table>
-            <div class="buttons">
-                <div class="button-container" onclick="goToReservation()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square button-icon" viewBox="0 0 16 16">
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                    </svg> 
-                    <a href="javascript:void(0)" onclick="navigateToReservation()">去預約</a>            
-                </div>
-            </div>
+      <div class="content">
+        <div class="user-details">
+          <h2>使用者資料 User Information</h2>
+          <p>名稱：<span id="userName"></span></p>
+          <p>學號：<span id="userId"></span></p>
+          <p>系級：<span id="userDepartment"></span></p>
         </div>
 
-        <!-- 修改人數彈出視窗 -->
-        <div id="editModal" class="modal">
-            <div class="modal-content">
-                <span class="close-edit">&times;</span>
-                <h2>修改人數</h2>
-                <label for="peopleSelect">選擇人數：</label>
-                <select id="peopleSelect">
-                    <option value="1">1人</option>
-                    <option value="2">2人</option>
-                    <option value="3">3人</option>
-                    <option value="4">4人</option>
-                    <option value="5">5人</option>
-                    <option value="6">6人</option>
-                    <option value="7">7人</option>
-                    <option value="8">8人</option>
-                    <option value="9">9人</option>
-                    <option value="10">10人</option>
-                </select>
-                <button id="savePeopleButton">完成修改</button>
-            </div>
+        <div class="payment-rules">
+          <h2>繳費規則 Payment Rules</h2>
+          <ol>
+            <li>
+              點選 <span class="color-green">Pay</span> 按鈕，可以進行線上繳費。
+            </li>
+            <li>
+              當選取繳費方式並按下 "<span class="color-green">完成繳費</span>"
+              按鈕，該條預約紀錄狀態顯示 "<span class="color-green">Paid</span
+              >"。
+            </li>
+            <li>
+              再次點選 <span class="color-gray">Pay</span> 按鈕，可以按下 "<span
+                class="color-red"
+                >申請退費</span
+              >" 按鈕，該條預約紀錄狀態顯示 "<span class="color-gray"
+                >Applying</span
+              >"。
+            </li>
+            <li>待管理人確認退費申請，將撤回該條預約紀錄。</li>
+          </ol>
         </div>
+      </div>
 
-        
+      <div class="reservation-history">
+        <h2>歷史資料 History Records</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>日期 DATE</th>
+              <th>時間 TIME</th>
+              <th>場地 VANUE</th>
+              <th>預約序號 RESERVATION_NUM</th>
+              <th>狀態 STATUS</th>
+              <th>金額 AMOUNT</th>
+              <th>繳費 PAYMENT</th>
+              <th>編輯 EDIT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 預約記錄列表 (javascript) -->
+          </tbody>
+        </table>
+        <div class="buttons">
+          <div class="button-container" onclick="goToReservation()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-pencil-square button-icon"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+              />
+            </svg>
+            <a href="javascript:void(0)" onclick="navigateToReservation()"
+              >去預約</a
+            >
+          </div>
+        </div>
+      </div>
 
-        <!-- 繳費彈出視窗 -->
-        <div id="paymentModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>繳費</h2>
-                <div>
-                    <!-- <p>申請序號: <span id="modalReservationNumber"></span></p>
+      <!-- 修改人數彈出視窗 -->
+      <div id="editModal" class="modal">
+        <div class="modal-content">
+          <span class="close-edit">&times;</span>
+          <h2>修改人數</h2>
+          <label for="peopleSelect">選擇人數：</label>
+          <select id="peopleSelect">
+            <option value="1">1人</option>
+            <option value="2">2人</option>
+            <option value="3">3人</option>
+            <option value="4">4人</option>
+            <option value="5">5人</option>
+            <option value="6">6人</option>
+            <option value="7">7人</option>
+            <option value="8">8人</option>
+            <option value="9">9人</option>
+            <option value="10">10人</option>
+          </select>
+          <button id="savePeopleButton">完成修改</button>
+        </div>
+      </div>
+
+      <!-- 繳費彈出視窗 -->
+      <div id="paymentModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>繳費</h2>
+          <div>
+            <!-- <p>申請序號: <span id="modalReservationNumber"></span></p>
                     <p>金額: <span id="modalAmount"></span></p> -->
-                    <label>繳費方式：</label><br>
-                    <input type="radio" id="cash" name="paymentMethod" value="cash">
-                    <label for="cash">現金支付</label><br>
-                    <input type="radio" id="linePay" name="paymentMethod" value="linePay">
-                    <label for="linePay">Line Pay</label><br>
-                    <input type="radio" id="visa" name="paymentMethod" value="visa">
-                    <label for="visa">Visa 信用卡</label><br><br>
-                    <button id="completePayment" style="background-color: green; color: white;">完成繳費</button>
-                    <button id="applyRefund" style="background-color: red; color: white; display: none;">申請退費</button>
-                    <button id="cancelRefund" style="background-color: blue; color: white; display: none;">取消退費</button>
-                </div>
-            </div>
+            <label>繳費方式：</label><br />
+            <input type="radio" id="cash" name="paymentMethod" value="cash" />
+            <label for="cash">現金支付</label><br />
+            <input
+              type="radio"
+              id="linePay"
+              name="paymentMethod"
+              value="linePay"
+            />
+            <label for="linePay">Line Pay</label><br />
+            <input type="radio" id="visa" name="paymentMethod" value="visa" />
+            <label for="visa">Visa 信用卡</label><br /><br />
+            <button
+              id="completePayment"
+              style="background-color: green; color: white"
+            >
+              完成繳費
+            </button>
+            <button
+              id="applyRefund"
+              style="background-color: red; color: white; display: none"
+            >
+              申請退費
+            </button>
+            <button
+              id="cancelRefund"
+              style="background-color: blue; color: white; display: none"
+            >
+              取消退費
+            </button>
+          </div>
         </div>
+      </div>
     </main>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, get, orderByChild, onChildAdded, update, query, equalTo } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+        orderByChild,
+        onChildAdded,
+        update,
+        query,
+        equalTo,
+      } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
-            authDomain: "db-github-11ca8.firebaseapp.com",
-            databaseURL: "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "db-github-11ca8",
-            storageBucket: "db-github-11ca8.appspot.com",
-            messagingSenderId: "236802727820",
-            appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
-            measurementId: "G-CYR5VZ24PX"
-        };
+      const firebaseConfig = {
+        apiKey: "AIzaSyANq5gccfu7i5d6JVNUE8Uw8YSKIvJUZko",
+        authDomain: "db-github-11ca8.firebaseapp.com",
+        databaseURL:
+          "https://db-github-11ca8-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "db-github-11ca8",
+        storageBucket: "db-github-11ca8.appspot.com",
+        messagingSenderId: "236802727820",
+        appId: "1:236802727820:web:27b36c651eb849c1ed40a9",
+        measurementId: "G-CYR5VZ24PX",
+      };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        console.log(app); // 输出Firebase应用程序对象
-        const db = getDatabase(app);
-        console.log(db); // 输出Firebase数据库对象
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      console.log(app); // 输出Firebase应用程序对象
+      const db = getDatabase(app);
+      console.log(db); // 输出Firebase数据库对象
 
+      // 当前编辑的预订 ID
+      let currentEditReservationId = null;
 
-        // 当前编辑的预订 ID
-        let currentEditReservationId = null;
+      function openEdit(button) {
+        var modal = document.getElementById("editModal");
+        modal.style.display = "block";
 
-        function openEdit(button) {
-            var modal = document.getElementById("editModal");
-            modal.style.display = "block";
+        // 获取当前行的预订序号
+        var column = button.closest("tr");
+        var reservationIdCell = column.cells[3]; // 假设预订序号是第四行（索引为3）
+        currentEditReservationId = reservationIdCell.textContent;
 
-            // 获取当前行的预订序号
-            var column = button.closest('tr');
-            var reservationIdCell = column.cells[3]; // 假设预订序号是第四行（索引为3）
-            currentEditReservationId = reservationIdCell.textContent;
+        // 初始化选择框
+        var peopleSelect = document.getElementById("peopleSelect");
+        peopleSelect.value = "1"; // 默认值
+      }
 
-            // 初始化选择框
-            var peopleSelect = document.getElementById("peopleSelect");
-            peopleSelect.value = "1"; // 默认值
+      // 关闭编辑模态框
+      var closeEditBtn = document.getElementsByClassName("close-edit")[0];
+      closeEditBtn.onclick = function () {
+        var modal = document.getElementById("editModal");
+        modal.style.display = "none";
+      };
+
+      // 点击完成修改按钮时
+      document.getElementById("savePeopleButton").onclick = function () {
+        var peopleSelect = document.getElementById("peopleSelect");
+        var selectedPeople = peopleSelect.value;
+
+        // 更新数据库中的预订人数
+        if (currentEditReservationId) {
+          const reservationRef = ref(
+            db,
+            `reservations/${currentEditReservationId}`
+          );
+          update(reservationRef, {
+            people: selectedPeople,
+          })
+            .then(() => {
+              alert("完成修改");
+              var modal = document.getElementById("editModal");
+              modal.style.display = "none";
+            })
+            .catch((error) => {
+              console.error("Error updating people:", error);
+            });
         }
+      };
 
-        // 关闭编辑模态框
-        var closeEditBtn = document.getElementsByClassName("close-edit")[0];
-        closeEditBtn.onclick = function () {
-            var modal = document.getElementById("editModal");
-            modal.style.display = "none";
-        };
+      // 点击模态框外部关闭
+      window.onclick = function (event) {
+        var modal = document.getElementById("editModal");
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
 
-        // 点击完成修改按钮时
-        document.getElementById("savePeopleButton").onclick = function () {
-            var peopleSelect = document.getElementById("peopleSelect");
-            var selectedPeople = peopleSelect.value;
-
-            // 更新数据库中的预订人数
-            if (currentEditReservationId) {
-                const reservationRef = ref(db, `reservations/${currentEditReservationId}`);
-                update(reservationRef, {
-                    people: selectedPeople
-                }).then(() => {
-                    alert("完成修改");
-                    var modal = document.getElementById("editModal");
-                    modal.style.display = "none";
-                }).catch((error) => {
-                    console.error('Error updating people:', error);
-                });
-            }
-        };
-
-        // 点击模态框外部关闭
-        window.onclick = function (event) {
-            var modal = document.getElementById("editModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        };
-
-
-
-        document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // 获取用户信息
-        const user = JSON.parse(localStorage.getItem('user'));
+        const user = JSON.parse(localStorage.getItem("user"));
         if (user) {
-            document.getElementById('userName').innerText = user.username;
-            document.getElementById('userId').innerText = user.id;
-            document.getElementById('userDepartment').innerText = user.department;
+          document.getElementById("userName").innerText = user.username;
+          document.getElementById("userId").innerText = user.id;
+          document.getElementById("userDepartment").innerText = user.department;
 
-        // 查询数据库以获取用户预约记录并显示 新增user.id
-        fetchAndDisplayReservations(user.id);
+          // 查询数据库以获取用户预约记录并显示 新增user.id
+          fetchAndDisplayReservations(user.id);
 
-        // 查询数据库以获取用户姓名和系级
-        const userRef = ref(db, 'Student/' + user.id); 
-        get(userRef).then((snapshot) => {
-            if (snapshot.exists()) {
+          // 查询数据库以获取用户姓名和系级
+          const userRef = ref(db, "Student/" + user.id);
+          get(userRef)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
                 const userData = snapshot.val();
                 // 更新用户界面中的用户姓名和系级
-                document.getElementById('userName').innerText = userData.username;
-                document.getElementById('userDepartment').innerText = userData.department;
-            } else {
-                console.log('No user data found in the database');
-            }
-        }).catch((error) => {
-            console.error('Error getting user data:', error);
-        });
+                document.getElementById("userName").innerText =
+                  userData.username;
+                document.getElementById("userDepartment").innerText =
+                  userData.department;
+              } else {
+                console.log("No user data found in the database");
+              }
+            })
+            .catch((error) => {
+              console.error("Error getting user data:", error);
+            });
 
-        document.querySelectorAll('.pay-button').forEach(button => {
-                        button.addEventListener('click', function() {
-                            openPayment(this);
-                        });
-                    });
+          document.querySelectorAll(".pay-button").forEach((button) => {
+            button.addEventListener("click", function () {
+              openPayment(this);
+            });
+          });
 
-                    document.querySelectorAll('.edit-button').forEach(button => {
-                        button.addEventListener('click', function() {
-                            openEdit(this);
-                        });
-                    });
+          document.querySelectorAll(".edit-button").forEach((button) => {
+            button.addEventListener("click", function () {
+              openEdit(this);
+            });
+          });
+        } else {
+          alert("No user found, please log in first.");
+          window.location.href = "loginpage.html"; // 如果未找到用户信息，跳转回登录页面
+        }
+      });
 
-            } else {
-                alert('No user found, please log in first.');
-                window.location.href = 'loginpage.html'; // 如果未找到用户信息，跳转回登录页面
-            }
-        });
+      function fetchAndDisplayReservations(userId) {
+        // 查询 reservations 表，获取指定 userId 的记录
+        const reservationsRef = query(
+          ref(db, "reservations"),
+          orderByChild("id"),
+          equalTo(userId)
+        );
+        get(reservationsRef)
+          .then((snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.querySelector(".reservation-history tbody");
+            tbody.innerHTML = ""; // 清空表格内容
 
-        function fetchAndDisplayReservations(userId) {
-            // 查询 reservations 表，获取指定 userId 的记录
-            const reservationsRef = query(ref(db, 'reservations'), orderByChild('id'), equalTo(userId));
-            get(reservationsRef).then((snapshot) => {
-                const data = snapshot.val();
-                const tbody = document.querySelector('.reservation-history tbody');
-                tbody.innerHTML = ''; // 清空表格内容
+            if (data) {
+              const venueMapping = {
+                1: "Badminton",
+                2: "Basketball",
+                3: "Gym",
+                4: "SwimmingPool",
+                5: "Volleyball",
+              };
 
-                if (data) {
-                    const venueMapping = {
-                        1: 'Badminton',
-                        2: 'Basketball',
-                        3: 'Gym',
-                        4: 'SwimmingPool',
-                        5: 'Volleyball'
-                    };
-
-                    for (const key in data) {
-                        if (data.hasOwnProperty(key)) {
-                            const reservation = data[key];
-                            const venueName = venueMapping[reservation.venue_id];
-                            if (venueName) {
-                                getAmountByVenueName(venueName, (amount) => {
-                                    const tr = document.createElement('tr');
-                                    tr.innerHTML = `
+              for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                  const reservation = data[key];
+                  const venueName = venueMapping[reservation.venue_id];
+                  if (venueName) {
+                    getAmountByVenueName(venueName, (amount) => {
+                      const tr = document.createElement("tr");
+                      tr.innerHTML = `
                                         <td>${reservation.date}</td>
                                         <td>${reservation.time}</td>
                                         <td>${reservation.venue}</td>
                                         <td>${reservation.reservation_id}</td>
-                                        <td style="color: ${reservation.status === 'paid' ? 'green' : 'red'};">${reservation.status}</td>
+                                        <td style="color: ${
+                                          reservation.status === "paid"
+                                            ? "green"
+                                            : "red"
+                                        };">${reservation.status}</td>
                                         <td>NT$ ${amount}</td>
                                         <td><button class="pay-button">Pay</button></td>
                                         <td><button class="edit-button">Edit</button></td>
                                     `;
-                                    tbody.appendChild(tr);
+                      tbody.appendChild(tr);
 
-                                    // Attach event listeners after appending the row to the table
-                                    tr.querySelector('.pay-button').addEventListener('click', function() {
-                                        openPayment(this);
-                                    });
-                                    tr.querySelector('.edit-button').addEventListener('click', function() {
-                                        openEdit(this);
-                                    });
-                                });
-                            } else {
-                                console.warn('No mapping found for venue_id:', reservation.venue_id);
-                            }
+                      // Attach event listeners after appending the row to the table
+                      tr.querySelector(".pay-button").addEventListener(
+                        "click",
+                        function () {
+                          openPayment(this);
                         }
-                    }
+                      );
+                      tr.querySelector(".edit-button").addEventListener(
+                        "click",
+                        function () {
+                          openEdit(this);
+                        }
+                      );
+                    });
+                  } else {
+                    console.warn(
+                      "No mapping found for venue_id:",
+                      reservation.venue_id
+                    );
+                  }
                 }
-            }).catch((error) => {
-                console.error('Error getting reservations:', error);
-            });
-        }
+              }
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting reservations:", error);
+          });
+      }
 
-        function getAmountByVenueName(venue_name, callback) {
-            const venuesRef = ref(db, `Venue/${venue_name}`);
-            get(venuesRef).then((snapshot) => {
-                const venueData = snapshot.val();
-                if (venueData) {
-                    callback(venueData.Fee_Amount);
-                } else {
-                    console.warn('No data found for venue:', venue_name);
-                    callback(0);
-                }
-            }).catch((error) => {
-                console.error('Error getting venue data:', error);
-                callback(0); // 出现错误时，回传预设值 0
-            });
-        }
-
+      function getAmountByVenueName(venue_name, callback) {
+        const venuesRef = ref(db, `Venue/${venue_name}`);
+        get(venuesRef)
+          .then((snapshot) => {
+            const venueData = snapshot.val();
+            if (venueData) {
+              callback(venueData.Fee_Amount);
+            } else {
+              console.warn("No data found for venue:", venue_name);
+              callback(0);
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting venue data:", error);
+            callback(0); // 出现错误时，回传预设值 0
+          });
+      }
     </script>
 
-    <script >
-        function goToReservation() {
-            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/re.html";
-        }
+    <script>
+      function goToReservation() {
+        window.location.href =
+          "/dbms_web_sample/src/main/resources/templates/home&loginpage/re.html";
+      }
 
-        function navigateToReservation() {
-        const user = JSON.parse(localStorage.getItem('user'));
+      function navigateToReservation() {
+        const user = JSON.parse(localStorage.getItem("user"));
         if (user && user.id) {
-            window.location.href = `re.html?userId=${user.id}`;
+          window.location.href = `re.html?userId=${user.id}`;
         } else {
-            console.error('User ID not found');
+          console.error("User ID not found");
         }
-    }
-    function fetchAndDisplayReservations() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user || !user.id) {
-                console.error('User ID not found');
-                return;
-            }
-            const userId = user.id;
+      }
+      function fetchAndDisplayReservations() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || !user.id) {
+          console.error("User ID not found");
+          return;
         }
+        const userId = user.id;
+      }
 
-        function navigateToLoginPage() {
-            window.location.href = "/dbms_web_sample/src/main/resources/templates/home&loginpage/loginpage.html";
-        }
+      function navigateToLoginPage() {
+        window.location.href =
+          "/dbms_web_sample/src/main/resources/templates/home&loginpage/loginpage.html";
+      }
 
-         // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
-         document.querySelectorAll('.pay-button').forEach(button => {
-            button.addEventListener('click', function() {
-                openPayment(this);
-            });
+      // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
+      document.querySelectorAll(".pay-button").forEach((button) => {
+        button.addEventListener("click", function () {
+          openPayment(this);
+        });
+      });
+
+      var currentPayButton; // 用於追蹤當前的支付按鈕
+
+      function openPayment(button) {
+        document.addEventListener("DOMContentLoaded", function () {
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user) {
+            document.getElementById("userName").textContent = user.username;
+            document.getElementById("studentId").textContent = user.id;
+          } else {
+            window.location.href = "signup.html";
+          }
         });
 
-        var currentPayButton; // 用於追蹤當前的支付按鈕
-
-        function openPayment(button) {
-            document.addEventListener('DOMContentLoaded', function() {
-                const user = JSON.parse(localStorage.getItem('user'));
-                if (user) {
-                    document.getElementById('userName').textContent = user.username;
-                    document.getElementById('studentId').textContent = user.id;
-                } else {
-                    window.location.href = 'signup.html';
-                }
-            });
-
-            currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "block";
+        currentPayButton = button; // 將當前按鈕賦值給 currentPayButton
+        var modal = document.getElementById("paymentModal");
+        modal.style.display = "block";
 
         // 綁定完成繳費和申請退費按鈕的點擊事件
         document.getElementById("completePayment").onclick = completePayment;
@@ -366,98 +469,105 @@
         document.getElementById("cancelRefund").onclick = cancelRefund;
 
         function completePayment() {
-            currentPayButton.textContent = "Pay";
-            currentPayButton.style.backgroundColor = "gray";
+          currentPayButton.textContent = "Pay";
+          currentPayButton.style.backgroundColor = "gray";
 
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
+          var modal = document.getElementById("paymentModal");
+          modal.style.display = "none";
 
-            // 更新表格中的狀態
-            var row = currentPayButton.closest('tr');
-            var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
-            statusCell.textContent = "Paid";
-            statusCell.style.color = "green";
+          // 更新表格中的狀態
+          var row = currentPayButton.closest("tr");
+          var statusCell = row.cells[4]; // 假設狀態列是第五列（索引為4）
+          statusCell.textContent = "Paid";
+          statusCell.style.color = "green";
         }
 
         // 當用戶點擊 Pay 按鈕時，彈出繳費視窗
-        document.querySelectorAll('.pay-button').forEach(button => {
-            button.addEventListener('click', function() {
-                openPayment(this);
-            });
+        document.querySelectorAll(".pay-button").forEach((button) => {
+          button.addEventListener("click", function () {
+            openPayment(this);
+          });
         });
 
         function cancelRefund() {
-            currentPayButton.textContent = "申請退費";
-            currentPayButton.style.backgroundColor = "gray";
+          currentPayButton.textContent = "申請退費";
+          currentPayButton.style.backgroundColor = "gray";
 
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
+          var modal = document.getElementById("paymentModal");
+          modal.style.display = "none";
 
-            // 更新表格中的狀態
-            var row = currentPayButton.closest('tr');
-            var statusCell = row.cells[4];
-            statusCell.textContent = "Paid";
-            statusCell.style.color = "green";
+          // 更新表格中的狀態
+          var row = currentPayButton.closest("tr");
+          var statusCell = row.cells[4];
+          statusCell.textContent = "Paid";
+          statusCell.style.color = "green";
         }
 
         function applyRefund() {
-            currentPayButton.textContent = "Pay";
-            currentPayButton.style.backgroundColor = "green";
+          currentPayButton.textContent = "Pay";
+          currentPayButton.style.backgroundColor = "green";
 
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
+          var modal = document.getElementById("paymentModal");
+          modal.style.display = "none";
 
-            // 更新表格中的狀態
-            var row = currentPayButton.closest('tr');
-            var statusCell = row.cells[4];
-            statusCell.textContent = "Applying";
-            statusCell.style.color = "gray";
+          // 更新表格中的狀態
+          var row = currentPayButton.closest("tr");
+          var statusCell = row.cells[4];
+          statusCell.textContent = "Applying";
+          statusCell.style.color = "gray";
         }
 
-
-            // 根據按鈕的顏色和狀態來決定顯示的按鈕
-            if (button.style.backgroundColor === 'green' && button.textContent === "Pay") {
-                document.getElementById("completePayment").style.display = "block";
-                document.getElementById("applyRefund").style.display = "none";
-                document.getElementById("cancelRefund").style.display = "none";
-            } else if (button.style.backgroundColor === 'gray' && button.textContent === "Pay") {
-                document.getElementById("completePayment").style.display = "none";
-                document.getElementById("applyRefund").style.display = "block";
-                document.getElementById("cancelRefund").style.display = "none";
-            } else if (button.style.backgroundColor === 'green' && button.textContent === "申請退費") {
-                document.getElementById("completePayment").style.display = "none";
-                document.getElementById("applyRefund").style.display = "none";
-                document.getElementById("cancelRefund").style.display = "block";
-            }
+        // 根據按鈕的顏色和狀態來決定顯示的按鈕
+        if (
+          button.style.backgroundColor === "green" &&
+          button.textContent === "Pay"
+        ) {
+          document.getElementById("completePayment").style.display = "block";
+          document.getElementById("applyRefund").style.display = "none";
+          document.getElementById("cancelRefund").style.display = "none";
+        } else if (
+          button.style.backgroundColor === "gray" &&
+          button.textContent === "Pay"
+        ) {
+          document.getElementById("completePayment").style.display = "none";
+          document.getElementById("applyRefund").style.display = "block";
+          document.getElementById("cancelRefund").style.display = "none";
+        } else if (
+          button.style.backgroundColor === "green" &&
+          button.textContent === "申請退費"
+        ) {
+          document.getElementById("completePayment").style.display = "none";
+          document.getElementById("applyRefund").style.display = "none";
+          document.getElementById("cancelRefund").style.display = "block";
         }
+      }
 
-        // 取得關閉按鈕元素
-        var closeBtn = document.getElementsByClassName("close")[0];
+      // 取得關閉按鈕元素
+      var closeBtn = document.getElementsByClassName("close")[0];
 
-        // 當用戶點擊關閉按鈕時，關閉視窗
-        closeBtn.onclick = function () {
-            var modal = document.getElementById("paymentModal");
-            modal.style.display = "none";
+      // 當用戶點擊關閉按鈕時，關閉視窗
+      closeBtn.onclick = function () {
+        var modal = document.getElementById("paymentModal");
+        modal.style.display = "none";
+      };
+
+      // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
+      window.onclick = function (event) {
+        var modal = document.getElementById("paymentModal");
+        if (event.target == modal) {
+          modal.style.display = "none";
         }
+      };
 
-        // 當用戶點擊任何位置時，如果是在彈出視窗之外的地方，關閉視窗
-        window.onclick = function (event) {
-            var modal = document.getElementById("paymentModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
+      function toggleNotification(button) {
+        if (button.style.backgroundColor === "green") {
+          alert("已完成設定");
+          button.style.backgroundColor = "gray";
+        } else {
+          alert("已取消通知");
+          button.style.backgroundColor = "green";
         }
-
-        function toggleNotification(button) {
-            if (button.style.backgroundColor === 'green') {
-                alert('已完成設定');
-                button.style.backgroundColor = 'gray';
-            } else {
-                alert('已取消通知');
-                button.style.backgroundColor = 'green';
-            }
-        }
+      }
     </script>
-    
-</body>
+  </body>
 </html>

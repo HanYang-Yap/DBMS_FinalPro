@@ -77,22 +77,29 @@
   </head>
   <body>
     <header>
+      <!-- user_icon is here -->
       <div class="user_icon">
         <a href="../home&loginpage/index.html"
           ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
         /></a>
-        <h3>Hi!</h3>
-      </div>
+        <div class="login_time">
+          <!-- <p id="current_date"></p>接上current time -->
+          <div id="current_date" style="font-weight: bold; font-size: smaller">
+            <script>
+              // Get the current date
+              var currentDate = new Date().toLocaleString();
 
-      <div class="login_time">
-        <div id="current_date" style="font-weight: bold; font-size: smaller">
-          <script>
-            var currentDate = new Date().toLocaleString();
-            var dateTimeString = "(登入時間) " + currentDate;
-            document.getElementById("current_date").innerHTML = dateTimeString;
-          </script>
+              // Concatenate "Login time:" with the date string
+              var dateTimeString = "登入時間 " + currentDate;
+
+              // Set the concatenated string as the inner HTML of the div
+              document.getElementById("current_date").innerHTML =
+                dateTimeString;
+            </script>
+          </div>
         </div>
       </div>
+      <h3>Hi, admin!</h3>
     </header>
     <div class="main_sec">
       <form id="adminpost">
