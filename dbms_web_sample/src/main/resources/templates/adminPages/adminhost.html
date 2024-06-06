@@ -7,6 +7,8 @@
     <style>
       /* Add your CSS styles here */
       body {
+        margin: 0;
+        padding: 0;
         font-family: Arial, sans-serif;
         margin-bottom: 20px;
         padding-bottom: 20px;
@@ -137,24 +139,24 @@
         <a href="../home&loginpage/index.html"
           ><img src="/Image/NCCU_logo.png" alt="admin頭貼"
         /></a>
-        <h3>Hi!</h3>
-      </div>
+        <div class="login_time">
+          <!-- <p id="current_date"></p>接上current time -->
+          <div id="current_date" style="font-weight: bold">
+            <script>
+              // Get the current date
+              var currentDate = new Date().toLocaleString();
 
-      <div class="login_time">
-        <!-- <p id="current_date"></p>接上current time -->
-        <div id="current_date" style="font-weight: bold; font-size: smaller">
-          <script>
-            // Get the current date
-            var currentDate = new Date().toLocaleString();
+              // Concatenate "Login time:" with the date string
+              var dateTimeString = "登入時間 " + currentDate;
 
-            // Concatenate "Login time:" with the date string
-            var dateTimeString = "(登入時間) " + currentDate;
-
-            // Set the concatenated string as the inner HTML of the div
-            document.getElementById("current_date").innerHTML = dateTimeString;
-          </script>
+              // Set the concatenated string as the inner HTML of the div
+              document.getElementById("current_date").innerHTML =
+                dateTimeString;
+            </script>
+          </div>
         </div>
       </div>
+      <h3>Hi, admin!</h3>
     </header>
 
     <div class="container">
