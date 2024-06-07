@@ -267,16 +267,9 @@
             </form>
         </div>
 
-        <br><br><br><br><br><br>
+        <br><br>
 
 
-        <!--testtt
-        <div class="button-container">
-            <div id="reservation-container">
-                <label for="firebase00">小測：這裡應該顯示預約情況</label>
-            </div>
-        </div>-->
-        
         <div class="container2">
             <div class="color-block">
                 <div class="block red"></div>
@@ -295,7 +288,9 @@
                 <div class="label">【籃球場預約】</div>
             </div>
         </div>
-        
+
+        <br><br>
+
         <div id='calendar' class="calendar"></div>
             
             <!-- <script>
@@ -331,8 +326,7 @@
             const db = getDatabase(app);
             const adminHostRef = ref(db, 'adminHost');
             const reservationsRef = ref(db, 'reservations');
-
-            
+    
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
                 var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -342,6 +336,7 @@
                 calendar.render();
 
                 // Reference to your reservations node in Firebase
+                const reservationsRef = ref(db, 'reservations');
 
                 const venueColors = {
                     "羽球場": "#89eb71", 
@@ -354,6 +349,7 @@
                     onValue(reservationsRef, (snapshot) => {
                         const data = snapshot.val();
                         console.log(data);
+
                         if (data) {
                             const events = [];
                             for (const key in data) {
@@ -407,13 +403,20 @@
                 fetchAndDisplayAdminHost();
             });
 
-            
-
 
             // // 获取 URL 中的参数***
             // const urlParams = new URLSearchParams(window.location.search);
             // const id = urlParams.get('userId');
             // localStorage.setItem('userId', id);
+
+            const user = JSON.parse(localStorage.getItem('user')); // 从localStorage获取用户信息
+            const userId = user.id;
+
+            // 获取表单字段值
+            const venue = document.getElementById('venue').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const people = document.getElementById('people').value;
 
 
             // 預約表單提交事件
@@ -452,38 +455,28 @@
                 //var reason = document.getElementById('reason').value;
                 var reservation_id = venue_id + date + timeR;
 
-
-                //將數據存儲到 Firestore (11:24)
-                //Write data to Firebase Realtime Database
-                console.log("Attempting..");
-                console.log({
-                    reservation_id: reservation_id,
-                    venue_id: venue_id,
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time    
-                });
-
+                // 将数据存储到 Firebase
                 set(ref(db, 'reservations/' + reservation_id), {
+                id: userId, // 保存用户ID
+                venue: venue,
 
-                    reservation_id: reservation_id,
-                    venue_id: venue_id,
+                venue_id: venue_id,
 
-                    venue: venue,
-                    people: people,
-                    date: date,
-                    time: time
-                })
-                .then(() => {
-                    alert("Reserve Successfully!");
-                    window.location.href = "./reservation.html";
-                })
-                .catch((error) => {
-                    console.error("Error saving data:", error);
-                    alert("Error saving data: " + error.message);
-                });
+                date: date,
+                time: time,
+                people: people,
+                venue_id: venue_id,
+                reservation_id: reservation_id,
+                status: 'Unpaid'
+            }).then(() => {
+                alert('Reserve Successfully!');
+                window.location.href = "./reservation.html";
+            }).catch((error) => {
+                console.error('Error saving data:', error);
+                alert("Error saving data: " + error.message);
             });
+        });
+
         </script>
 
         

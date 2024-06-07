@@ -414,13 +414,13 @@
     <script>
       function goToReservation() {
         window.location.href =
-          "/dbms_web_sample/src/main/resources/templates/home&loginpage/re.html";
+          "/dbms_web_sample/src/main/resources/templates/home&loginpage/reservation.html";
       }
 
       function navigateToReservation() {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user && user.id) {
-          window.location.href = `re.html?userId=${user.id}`;
+          window.location.href = `reservation.html?userId=${user.id}`;
         } else {
           console.error("User ID not found");
         }
