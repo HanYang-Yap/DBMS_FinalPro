@@ -141,6 +141,38 @@
                 line-height: 0.9;
             }
 
+            .container2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            } 
+            .color-block {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 10px;
+            }
+            .block {
+                width: 100px;
+                height: 15px;
+            }
+            .red {
+                background-color: #FFAAD5;
+            }
+            .orange {
+                background-color: #89eb71;
+            }
+            .yellow {
+                background-color: #007bff;
+            }
+            .green {
+                background-color: #ffc107;
+            }
+            .label {
+                margin-top: 4px;
+                font-size: 15px;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -148,7 +180,20 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 
-                
+                <a class="navbar-brand" href="#">
+                    <div id="current_date" style="font-weight: bold; font-size: smaller;">
+                        <script>
+                            // Get the current date
+                            var currentDate = new Date().toLocaleString();
+                            
+                            // Concatenate "Login time:" with the date string
+                            var dateTimeString = "(登入時間) " + currentDate;
+                            
+                            // Set the concatenated string as the inner HTML of the div
+                            document.getElementById("current_date").innerHTML = dateTimeString;
+                        </script>
+                    </div>
+                </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -160,22 +205,6 @@
                             <a href="\dbms_web_sample\src\main\resources\templates\home&loginpage\index.html">Home<span id="user-nickname"></span></a>
                     </span>
                 </div>
-
-                <a class="navbar-brand" href="#">
-                    <div id="current_date" style="font-weight: bold; font-size: smaller;">
-                        <script>
-                            // Get the current date
-                            var currentDate = new Date().toLocaleString();
-                            
-                            // Concatenate "Login time:" with the date string
-                            var dateTimeString = "登入時間" + currentDate;
-                            
-                            // Set the concatenated string as the inner HTML of the div
-                            document.getElementById("current_date").innerHTML = dateTimeString;
-                        </script>
-                    </div>
-                </a>
-
             </div>
         </nav>
         
@@ -241,13 +270,25 @@
         <br><br>
 
 
-        <!--testtt
-        <div class="button-container">
-            <div id="reservation-container">
-                <label for="firebase00">小測：這裡應該顯示預約情況</label>
+        <div class="container2">
+            <div class="color-block">
+                <div class="block red"></div>
+                <div class="label">【體育館公告】</div>
             </div>
-        </div>-->
-        
+            <div class="color-block">
+                <div class="block orange"></div>
+                <div class="label">【羽球場預約】</div>
+            </div>
+            <div class="color-block">
+                <div class="block yellow"></div>
+                <div class="label">【排球場預約】</div>
+            </div>
+            <div class="color-block">
+                <div class="block green"></div>
+                <div class="label">【籃球場預約】</div>
+            </div>
+        </div>
+
         <br><br>
 
         <div id='calendar' class="calendar"></div>
@@ -283,6 +324,8 @@
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
+            const adminHostRef = ref(db, 'adminHost');
+            const reservationsRef = ref(db, 'reservations');
     
             document.addEventListener('DOMContentLoaded', function() {
                 var calendarEl = document.getElementById('calendar');
@@ -330,8 +373,34 @@
                     });
                 }
 
+                function fetchAndDisplayAdminHost() {
+                    onValue(adminHostRef, (snapshot) => {
+                        const data = snapshot.val();
+                        console.log("Admin hosts data:", data);
+                        if (data) {
+                            const events = [];
+                            for (const key in data) {
+                                if (data.hasOwnProperty(key)) {
+                                    const adminhost = data[key];
+                                    const color = "#FFAAD5";
+                                    events.push({
+                                        title: `${adminhost.venue} ${adminhost.reason} ${adminhost.time}`,
+                                        start: adminhost.date,
+                                        backgroundColor: color,
+                                        borderColor: color
+                                    });                                  
+                                }
+                            }
+                            calendar.addEventSource(events);
+                        }
+                    }, (error) => {
+                        console.error('Error fetching data:', error);
+                    });
+                    
+                }
                 // Fetch and display reservations when the page loads
                 fetchAndDisplayReservations();
+                fetchAndDisplayAdminHost();
             });
 
 
@@ -390,6 +459,9 @@
                 set(ref(db, 'reservations/' + reservation_id), {
                 id: userId, // 保存用户ID
                 venue: venue,
+
+                venue_id: venue_id,
+
                 date: date,
                 time: time,
                 people: people,
@@ -397,9 +469,11 @@
                 reservation_id: reservation_id,
                 status: 'Unpaid'
             }).then(() => {
-                alert('预订成功');
+                alert('Reserve Successfully!');
+                window.location.href = "./reservation.html";
             }).catch((error) => {
-                console.error('预订失败:', error);
+                console.error('Error saving data:', error);
+                alert("Error saving data: " + error.message);
             });
         });
 
